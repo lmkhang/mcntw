@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
+
+Route::get('/logout', 'HomeController@logout');
+
+//http://ntw.himovies.net/apps/register
+Route::get('/apps/register', 'HomeController@callback');
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +32,5 @@ Route::get('/', function () {
 Route::group(['middleware' => ['web']], function () {
     //
 });
+
+
