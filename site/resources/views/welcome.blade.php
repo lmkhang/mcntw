@@ -36,15 +36,10 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="content">
-        <div class=" btn-group">
-            @if($data['logged']==false)
-                <button type="button" class="btn btn-default" onclick="window.location='{{$data['url_join']}}'">Join us</button>
-            @else
-                <button type="button" class="btn btn-default" onclick="window.location='{{$data['url_logout']}}'">Logout</button>
-            @endif
-        </div>
-    </div>
+@if(isset($messages))
+    @foreach ($messages->all() as $message)
+        <p class="error">{{ $message }}</p>
+    @endforeach
+@endif
 </body>
 </html>

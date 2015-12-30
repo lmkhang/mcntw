@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="{{URL::asset('assets/css/reset.css')}}">
     <link rel="stylesheet" href="{{URL::asset('assets/css/style.css')}}">
     <link rel="stylesheet" href="{{URL::asset('assets/css/mobile.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('assets/css/us_normalize.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('assets/css/us_style.css')}}">
 
     <!-- Skin CSS -->
     <link rel="stylesheet" href="{{URL::asset('assets/css/skin/cool-gray.css')}}">
@@ -112,7 +114,7 @@
 
 
     <!-- Begin social section -->
-    @include('templates.socialntw')
+    @include('templates.socialntw', ['socialntw' => $socialntw])
     <!-- End social section -->
 
 
@@ -131,6 +133,10 @@
 <!-- body ends -->
 
 
+<!-- Modal -->
+@include('user.reg_log', ['refer'=>$site['refer']])
+<!-- End Modal -->
+
 <!-- Plugins JS -->
 <script src="{{URL::asset('assets/inc/jquery/jquery-1.11.1.min.js')}}"></script>
 <script src="{{URL::asset('assets/inc/bootstrap/js/bootstrap.min.js')}}"></script>
@@ -144,8 +150,15 @@
 <script src="{{URL::asset('assets/inc/jquery.counterup.min.js')}}"></script>
 <script src="{{URL::asset('assets/inc/smoothscroll.js')}}"></script>
 
+<!-- Form validation -->
+<script src="{{URL::asset('assets/js/lib/jquery.mockjax.js')}}"></script>
+<script src="{{URL::asset('assets/js/lib/jquery.form.js')}}"></script>
+<script src="{{URL::asset('assets/js/lib/jquery.validate.js')}}"></script>
+
 <!-- Theme JS -->
 <script src="{{URL::asset('assets/js/theme.js')}}"></script>
+<script src="{{URL::asset('assets/js/events.js')}}"></script>
+<script src="{{URL::asset('assets/js/us_index.js')}}"></script>
 
 </body>
 

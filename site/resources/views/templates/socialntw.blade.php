@@ -15,15 +15,15 @@
 
     <div class="container">
         <ul class="social-list">
-            <li><a target="_blank" href="https://join.skype.com/t5flexE0PVAH" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.6s"><span
+            <li><a target="_blank" href="{{$socialntw['skype']}}" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.6s"><span
                             class="rotate-box-icon"><i class="fa fa-skype"></i></span></a></li>
-            <li><a target="_blank" href="https://www.facebook.com/mcenterntw/" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.3s"><span
+            <li><a target="_blank" href="{{$socialntw['fb']}}" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.3s"><span
                             class="rotate-box-icon"><i class="fa fa-facebook"></i></span></a></li>
             {{--<li><a href="#" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.4s"><span--}}
                             {{--class="rotate-box-icon"><i class="fa fa-twitter"></i></span></a></li>--}}
-            <li><a target="_blank" href="https://plus.google.com/u/2/114898032833350678488" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.5s"><span
+            <li><a target="_blank" href="{{$socialntw['google']}}" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.5s"><span
                             class="rotate-box-icon"><i class="fa fa-google-plus"></i></span></a></li>
-            <li><a target="_blank" href="https://www.pinterest.com/mediacenternetw/" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.6s"><span
+            <li><a target="_blank" href="{{$socialntw['pinterest']}}" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.6s"><span
                             class="rotate-box-icon"><i class="fa fa-pinterest-p"></i></span></a></li>
             {{--<li><a href="#" class="rotate-box-1 square-icon text-center wow zoomIn" data-wow-delay="0.7s"><span--}}
                             {{--class="rotate-box-icon"><i class="fa fa-tumblr"></i></span></a></li>--}}

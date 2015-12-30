@@ -24,9 +24,9 @@
                     <li><a class="page-scroll" href="#services-section">Services</a></li>
                     <li><a class="page-scroll" href="#contact-section">Contact</a></li>
                     @if($joinus['logged']==false)
-                        <li><a class="page-scroll" href="{{$joinus['url_join']}}">Join us</a></li>
+                        <li><a class="joinus" href="#">Login</a></li>
                     @else
-                        <li><a class="page-scroll" href="{{$joinus['url_logout']}}">Logout</a></li>
+                        <li><a class="" href="{{$joinus['url_logout']}}">Logout</a></li>
                     @endif
                 </ul>
             </div><!-- /.navbar-collapse -->

@@ -16,6 +16,9 @@ Route::get('/', 'HomeController@index');
 //Send mail
 Route::post('/sendmail', 'Common@sendmail');
 
+//Register
+Route::post('/register', 'Common@register');
+
 //Logout
 Route::get('/logout', 'HomeController@logout');
 

@@ -7,9 +7,9 @@
             <div id="owl-intro-text" class="owl-carousel">
                 <div class="item">
                     @if($joinus['logged']==false)
-                    <a class="page-scroll" href="{{$joinus['url_join']}}"><h1>Join with us</h1></a>
+                    <a class="joinus" href="#"><h1>Join with us</h1></a>
                     @else
-                        <a class="page-scroll" href="#"><h1>My Dashboard</h1></a>
+                        <a class="" href="#"><h1>My Dashboard</h1></a>
                     @endif
 
 
