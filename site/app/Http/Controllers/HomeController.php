@@ -11,17 +11,34 @@ use Redirect;
 
 class HomeController extends Controller
 {
+
     /**
-     * Display a listing of the resource.
+     * @author: lmkhang (skype)
+     * @date: 2015-12-26
      *
-     * @return Response
+     * Home - Master
      */
+
     public function index()
     {
-        $data = [
+        //Preparing link for JOINING US
+        $joinus = [
             'logged' => false,
             'url_join' => '',
             'url_logout' => '/logout',
+        ];
+        //get Info of Site
+        $description = \App\Config::where(['prefix' => 'site', 'name' => 'description', 'del_flg' => 1])->get()[0]['value'];
+        $keywords = \App\Config::where(['prefix' => 'site', 'name' => 'keywords', 'del_flg' => 1])->get()[0]['value'];
+        $skype = \App\Config::where(['prefix' => 'site', 'name' => 'skype', 'del_flg' => 1])->get()[0]['value'];
+        $contact_email = \App\Config::where(['prefix' => 'site', 'name' => 'contact_email', 'del_flg' => 1])->get()[0]['value'];
+
+        $site = [
+            'description' => $description,
+            'keywords' => $keywords,
+            'skype' => $skype,
+            'contact_email' => $contact_email,
+            'urlhome' => config('app.url'),
         ];
 
         //get Info of API
@@ -35,15 +52,24 @@ class HomeController extends Controller
         //Check Logged
         $logged = false;
         if ($session->has('daily_access_token') && $session->has('daily_refresh_token') && $session->has('daily_uid')) {
-            $data['logged'] = true;
+            $joinus['logged'] = true;
         } else {
-            $data['url_join'] = str_replace(array('{API_KEY}', '{URL_CALLBACK}'), array($api_key, $urlHome . $url_callback), $url_oauth);
+            $joinus['url_join'] = str_replace(array('{API_KEY}', '{URL_CALLBACK}'), array($api_key, $urlHome . $url_callback), $url_oauth);
         }
 
-        return view('welcome')->with('data', $data);
+        return view('home.index')->with(
+            [
+                'joinus' => $joinus,
+                'site' => $site
+            ]
+        );
     }
 
-
+    /**
+     * @author: lmkhang - skype
+     * @date: 2015-12-28
+     * Logout
+     */
     public function logout()
     {
         $session = new \Symfony\Component\HttpFoundation\Session\Session();
@@ -62,6 +88,12 @@ class HomeController extends Controller
         return Redirect::intended('/')->with('message', 'Back Home!');
     }
 
+    /**
+     * @author: lmkhang - skype
+     * @date: 2015-12-28
+     * Getting and Processing registration from Daily API
+     *
+     */
     public function callback(Request $request)
     {
         $get = $request->all();
