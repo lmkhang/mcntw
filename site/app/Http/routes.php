@@ -18,12 +18,13 @@ Route::post('/sendmail', 'Common@sendmail');
 
 //Register
 Route::post('/register', 'Common@register');
+Route::post('/user/checking', 'Ajax@checkRegister');
 
 //Logout
 Route::get('/logout', 'HomeController@logout');
 
 //Callback From Daily API
-Route::get('/apps/register', 'HomeController@callback');
+Route::get('/dailymotion/register', 'HomeController@callback_daily');
 
 /*
 |--------------------------------------------------------------------------

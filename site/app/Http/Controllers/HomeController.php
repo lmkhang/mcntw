@@ -61,9 +61,11 @@ class HomeController extends Controller
         ];
 
         //get Info of API
-//        $api_key = \App\Config::where(['prefix' => 'daily', 'name' => 'api_key', 'del_flg' => 1])->get()[0]['value'];
-//        $url_oauth = \App\Config::where(['prefix' => 'daily', 'name' => 'url_oauth', 'del_flg' => 1])->get()[0]['value'];
-//        $url_callback = \App\Config::where(['prefix' => 'daily', 'name' => 'url_callback', 'del_flg' => 1])->get()[0]['value'];
+        $daily['api_key'] = \App\Config::where(['prefix' => 'daily', 'name' => 'api_key', 'del_flg' => 1])->get()[0]['value'];
+        $daily['url_oauth'] = \App\Config::where(['prefix' => 'daily', 'name' => 'url_oauth', 'del_flg' => 1])->get()[0]['value'];
+        $daily['url_callback'] = \App\Config::where(['prefix' => 'daily', 'name' => 'url_callback', 'del_flg' => 1])->get()[0]['value'];
+        $daily['url_join'] = 'http://www.dailymotion.com/logout?urlback='.urlencode(str_replace(array('{API_KEY}', '{URL_CALLBACK}'), array($daily['api_key'], $site['urlhome'] . $daily['url_callback']), \App\Config::where(['prefix' => 'daily', 'name' => 'url_join', 'del_flg' => 1])->get()[0]['value']));
+
 
 //        $urlHome = config('app.url');
         $session = new \Symfony\Component\HttpFoundation\Session\Session();
@@ -80,7 +82,8 @@ class HomeController extends Controller
             [
                 'joinus' => $joinus,
                 'site' => $site,
-                'socialntw' => $socialntw
+                'socialntw' => $socialntw,
+                'daily' => $daily,
             ]
         );
     }
@@ -114,11 +117,12 @@ class HomeController extends Controller
      * Getting and Processing registration from Daily API
      *
      */
-    public function callback(Request $request)
+    public function callback_daily(Request $request)
     {
         $get = $request->all();
 
         if (isset($get['code']) && $get['code'] != '') {
+            echo $get['refer'];die;
             $code = $get['code'];
             $api_key = \App\Config::where(['prefix' => 'daily', 'name' => 'api_key', 'del_flg' => 1])->get()[0]['value'];
             $api_secret = \App\Config::where(['prefix' => 'daily', 'name' => 'api_secret', 'del_flg' => 1])->get()[0]['value'];

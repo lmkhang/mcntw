@@ -161,6 +161,18 @@ html {
   vertical-align: middle;
   text-align: center;
 }
+.connect.dailymotion {
+  background: #5E98DB;
+  color: #FFF;
+}
+.connect.dailymotion a {
+  color: #FFF;
+}
+.connect.dailymotion .connect__icon {
+  background: #0066DC;
+  background: url("/assets/img/logo/dailymotion.png");
+}
+
 .connect.facebook {
   background: #3b5998;
   color: #FFF;
@@ -194,7 +206,7 @@ html {
   content: "";
   display: table;
 }
-.simform__actions .sumbit {
+.simform__actions .submit {
   height: 48px;
   float: right;
   color: #FFF;
@@ -204,7 +216,7 @@ html {
   background: #4CAF50;
   margin-top: 7px;
 }
-.simform__actions .sumbit::after {
+.simform__actions .submit::after {
   clear: both;
   content: "";
   display: table;
@@ -312,7 +324,7 @@ html {
   font-family: "Lato", sans-serif;
 }
 
-.btn, .simform__actions .sumbit {
+.btn, .simform__actions .submit {
   display: inline-block;
   line-height: normal;
   white-space: nowrap;
@@ -328,27 +340,27 @@ html {
   min-width: 90px;
   padding: 10px 14px;
 }
-.btn.full, .simform__actions .full.sumbit {
+.btn.full, .simform__actions .full.submit {
   width: 100%;
 }
-.btn.lg, .simform__actions .lg.sumbit {
+.btn.lg, .simform__actions .lg.submit {
   min-width: 125px;
   padding: 17px 14px;
   font-size: 22px;
   line-height: 1.3;
 }
-.btn.sm, .simform__actions .sm.sumbit {
+.btn.sm, .simform__actions .sm.submit {
   min-width: 65px;
   padding: 4px 12px;
   font-size: 14px;
 }
-.btn.xs, .simform__actions .xs.sumbit {
+.btn.xs, .simform__actions .xs.submit {
   min-width: 45px;
   padding: 2px 10px;
   font-size: 10px;
   line-height: 1.5;
 }
-.btn.circle, .simform__actions .circle.sumbit {
+.btn.circle, .simform__actions .circle.submit {
   overflow: hidden;
   width: 56px;
   height: 56px;
@@ -357,214 +369,214 @@ html {
   padding: 0;
   border-radius: 50%;
 }
-.btn.circle.lg, .simform__actions .circle.lg.sumbit {
+.btn.circle.lg, .simform__actions .circle.lg.submit {
   width: 78px;
   height: 78px;
   min-width: 78px;
 }
-.btn.circle.sm, .simform__actions .circle.sm.sumbit {
+.btn.circle.sm, .simform__actions .circle.sm.submit {
   width: 40px;
   height: 40px;
   min-width: 40px;
 }
-.btn.circle.xs, .simform__actions .circle.xs.sumbit {
+.btn.circle.xs, .simform__actions .circle.xs.submit {
   width: 30px;
   height: 30px;
   min-width: 30px;
 }
-.btn:focus, .simform__actions .sumbit:focus, .btn:active, .simform__actions .sumbit:active, .btn.active, .simform__actions .active.sumbit, .btn:active:focus, .simform__actions .sumbit:active:focus, .btn.active:focus, .simform__actions .active.sumbit:focus {
+.btn:focus, .simform__actions .submit:focus, .btn:active, .simform__actions .submit:active, .btn.active, .simform__actions .active.submit, .btn:active:focus, .simform__actions .submit:active:focus, .btn.active:focus, .simform__actions .active.submit:focus {
   outline: 0;
   outline-offset: 0;
   box-shadow: none;
 }
-.btn.red, .simform__actions .red.sumbit {
+.btn.red, .simform__actions .red.submit {
   background: #f44336;
   color: #FFF;
 }
-.btn.red:active, .simform__actions .red.sumbit:active, .btn.red:focus, .simform__actions .red.sumbit:focus {
+.btn.red:active, .simform__actions .red.submit:active, .btn.red:focus, .simform__actions .red.submit:focus {
   background-color: #ef1d0d;
 }
-.btn.red:hover, .simform__actions .red.sumbit:hover {
+.btn.red:hover, .simform__actions .red.submit:hover {
   background-color: #f32c1e;
 }
-.btn.pink, .simform__actions .pink.sumbit {
+.btn.pink, .simform__actions .pink.submit {
   background: #E91E63;
   color: #FFF;
 }
-.btn.pink:active, .simform__actions .pink.sumbit:active, .btn.pink:focus, .simform__actions .pink.sumbit:focus {
+.btn.pink:active, .simform__actions .pink.submit:active, .btn.pink:focus, .simform__actions .pink.submit:focus {
   background-color: #c61350;
 }
-.btn.pink:hover, .simform__actions .pink.sumbit:hover {
+.btn.pink:hover, .simform__actions .pink.submit:hover {
   background-color: #d81558;
 }
-.btn.purple, .simform__actions .purple.sumbit {
+.btn.purple, .simform__actions .purple.submit {
   background: #9C27B0;
   color: #FFF;
 }
-.btn.purple:active, .simform__actions .purple.sumbit:active, .btn.purple:focus, .simform__actions .purple.sumbit:focus {
+.btn.purple:active, .simform__actions .purple.submit:active, .btn.purple:focus, .simform__actions .purple.submit:focus {
   background-color: #7b1f8a;
 }
-.btn.purple:hover, .simform__actions .purple.sumbit:hover {
+.btn.purple:hover, .simform__actions .purple.submit:hover {
   background-color: #89229b;
 }
-.btn.deep-purple, .simform__actions .deep-purple.sumbit {
+.btn.deep-purple, .simform__actions .deep-purple.submit {
   background: #673AB7;
   color: #FFF;
 }
-.btn.deep-purple:active, .simform__actions .deep-purple.sumbit:active, .btn.deep-purple:focus, .simform__actions .deep-purple.sumbit:focus {
+.btn.deep-purple:active, .simform__actions .deep-purple.submit:active, .btn.deep-purple:focus, .simform__actions .deep-purple.submit:focus {
   background-color: #532f94;
 }
-.btn.deep-purple:hover, .simform__actions .deep-purple.sumbit:hover {
+.btn.deep-purple:hover, .simform__actions .deep-purple.submit:hover {
   background-color: #5c34a4;
 }
-.btn.indigo, .simform__actions .indigo.sumbit {
+.btn.indigo, .simform__actions .indigo.submit {
   background: #3F51B5;
   color: #FFF;
 }
-.btn.indigo:active, .simform__actions .indigo.sumbit:active, .btn.indigo:focus, .simform__actions .indigo.sumbit:focus {
+.btn.indigo:active, .simform__actions .indigo.submit:active, .btn.indigo:focus, .simform__actions .indigo.submit:focus {
   background-color: #334293;
 }
-.btn.indigo:hover, .simform__actions .indigo.sumbit:hover {
+.btn.indigo:hover, .simform__actions .indigo.submit:hover {
   background-color: #3849a2;
 }
-.btn.blue, .simform__actions .blue.sumbit {
+.btn.blue, .simform__actions .blue.submit {
   background: #2196F3;
   color: #FFF;
 }
-.btn.blue:active, .simform__actions .blue.sumbit:active, .btn.blue:focus, .simform__actions .blue.sumbit:focus {
+.btn.blue:active, .simform__actions .blue.submit:active, .btn.blue:focus, .simform__actions .blue.submit:focus {
   background-color: #0c7fda;
 }
-.btn.blue:hover, .simform__actions .blue.sumbit:hover {
+.btn.blue:hover, .simform__actions .blue.submit:hover {
   background-color: #0d8aee;
 }
-.btn.light-blue, .simform__actions .light-blue.sumbit {
+.btn.light-blue, .simform__actions .light-blue.submit {
   background: #03A9F4;
   color: #FFF;
 }
-.btn.light-blue:active, .simform__actions .light-blue.sumbit:active, .btn.light-blue:focus, .simform__actions .light-blue.sumbit:focus {
+.btn.light-blue:active, .simform__actions .light-blue.submit:active, .btn.light-blue:focus, .simform__actions .light-blue.submit:focus {
   background-color: #028ac7;
 }
-.btn.light-blue:hover, .simform__actions .light-blue.sumbit:hover {
+.btn.light-blue:hover, .simform__actions .light-blue.submit:hover {
   background-color: #0398db;
 }
-.btn.cyan, .simform__actions .cyan.sumbit {
+.btn.cyan, .simform__actions .cyan.submit {
   background: #00BCD4;
   color: #FFF;
 }
-.btn.cyan:active, .simform__actions .cyan.sumbit:active, .btn.cyan:focus, .simform__actions .cyan.sumbit:focus {
+.btn.cyan:active, .simform__actions .cyan.submit:active, .btn.cyan:focus, .simform__actions .cyan.submit:focus {
   background-color: #0093a6;
 }
-.btn.cyan:hover, .simform__actions .cyan.sumbit:hover {
+.btn.cyan:hover, .simform__actions .cyan.submit:hover {
   background-color: #00a5bb;
 }
-.btn.teal, .simform__actions .teal.sumbit {
+.btn.teal, .simform__actions .teal.submit {
   background: #009688;
   color: #FFF;
 }
-.btn.teal:active, .simform__actions .teal.sumbit:active, .btn.teal:focus, .simform__actions .teal.sumbit:focus {
+.btn.teal:active, .simform__actions .teal.submit:active, .btn.teal:focus, .simform__actions .teal.submit:focus {
   background-color: #00685e;
 }
-.btn.teal:hover, .simform__actions .teal.sumbit:hover {
+.btn.teal:hover, .simform__actions .teal.submit:hover {
   background-color: #007d71;
 }
-.btn.green, .simform__actions .green.sumbit {
+.btn.green, .simform__actions .green.submit {
   background: #4CAF50;
   color: #FFF;
 }
-.btn.green:active, .simform__actions .green.sumbit:active, .btn.green:focus, .simform__actions .green.sumbit:focus {
+.btn.green:active, .simform__actions .green.submit:active, .btn.green:focus, .simform__actions .green.submit:focus {
   background-color: #3e8f41;
 }
-.btn.green:hover, .simform__actions .green.sumbit:hover {
+.btn.green:hover, .simform__actions .green.submit:hover {
   background-color: #449d48;
 }
-.btn.light-green, .simform__actions .light-green.sumbit {
+.btn.light-green, .simform__actions .light-green.submit {
   background: #8BC34A;
   color: #FFF;
 }
-.btn.light-green:active, .simform__actions .light-green.sumbit:active, .btn.light-green:focus, .simform__actions .light-green.sumbit:focus {
+.btn.light-green:active, .simform__actions .light-green.submit:active, .btn.light-green:focus, .simform__actions .light-green.submit:focus {
   background-color: #74a838;
 }
-.btn.light-green:hover, .simform__actions .light-green.sumbit:hover {
+.btn.light-green:hover, .simform__actions .light-green.submit:hover {
   background-color: #7eb73d;
 }
-.btn.lime, .simform__actions .lime.sumbit {
+.btn.lime, .simform__actions .lime.submit {
   background: #CDDC39;
   color: #FFF;
 }
-.btn.lime:active, .simform__actions .lime.sumbit:active, .btn.lime:focus, .simform__actions .lime.sumbit:focus {
+.btn.lime:active, .simform__actions .lime.submit:active, .btn.lime:focus, .simform__actions .lime.submit:focus {
   background-color: #b6c423;
 }
-.btn.lime:hover, .simform__actions .lime.sumbit:hover {
+.btn.lime:hover, .simform__actions .lime.submit:hover {
   background-color: #c6d626;
 }
-.btn.yellow, .simform__actions .yellow.sumbit {
+.btn.yellow, .simform__actions .yellow.submit {
   background: #FFEB3B;
   color: #FFF;
 }
-.btn.yellow:active, .simform__actions .yellow.sumbit:active, .btn.yellow:focus, .simform__actions .yellow.sumbit:focus {
+.btn.yellow:active, .simform__actions .yellow.submit:active, .btn.yellow:focus, .simform__actions .yellow.submit:focus {
   background-color: #ffe60d;
 }
-.btn.yellow:hover, .simform__actions .yellow.sumbit:hover {
+.btn.yellow:hover, .simform__actions .yellow.submit:hover {
   background-color: #ffe822;
 }
-.btn.amber, .simform__actions .amber.sumbit {
+.btn.amber, .simform__actions .amber.submit {
   background: #FFC107;
   color: #FFF;
 }
-.btn.amber:active, .simform__actions .amber.sumbit:active, .btn.amber:focus, .simform__actions .amber.sumbit:focus {
+.btn.amber:active, .simform__actions .amber.submit:active, .btn.amber:focus, .simform__actions .amber.submit:focus {
   background-color: #d8a200;
 }
-.btn.amber:hover, .simform__actions .amber.sumbit:hover {
+.btn.amber:hover, .simform__actions .amber.submit:hover {
   background-color: #edb100;
 }
-.btn.orange, .simform__actions .orange.sumbit {
+.btn.orange, .simform__actions .orange.submit {
   background: #FF9800;
   color: #FFF;
 }
-.btn.orange:active, .simform__actions .orange.sumbit:active, .btn.orange:focus, .simform__actions .orange.sumbit:focus {
+.btn.orange:active, .simform__actions .orange.submit:active, .btn.orange:focus, .simform__actions .orange.submit:focus {
   background-color: #d17d00;
 }
-.btn.orange:hover, .simform__actions .orange.sumbit:hover {
+.btn.orange:hover, .simform__actions .orange.submit:hover {
   background-color: #e68900;
 }
-.btn.deep-orange, .simform__actions .deep-orange.sumbit {
+.btn.deep-orange, .simform__actions .deep-orange.submit {
   background: #FF5722;
   color: #FFF;
 }
-.btn.deep-orange:active, .simform__actions .deep-orange.sumbit:active, .btn.deep-orange:focus, .simform__actions .deep-orange.sumbit:focus {
+.btn.deep-orange:active, .simform__actions .deep-orange.submit:active, .btn.deep-orange:focus, .simform__actions .deep-orange.submit:focus {
   background-color: #f33a00;
 }
-.btn.deep-orange:hover, .simform__actions .deep-orange.sumbit:hover {
+.btn.deep-orange:hover, .simform__actions .deep-orange.submit:hover {
   background-color: #ff4409;
 }
-.btn.brown, .simform__actions .brown.sumbit {
+.btn.brown, .simform__actions .brown.submit {
   background: #795548;
   color: #FFF;
 }
-.btn.brown:active, .simform__actions .brown.sumbit:active, .btn.brown:focus, .simform__actions .brown.sumbit:focus {
+.btn.brown:active, .simform__actions .brown.submit:active, .btn.brown:focus, .simform__actions .brown.submit:focus {
   background-color: #5c4137;
 }
-.btn.brown:hover, .simform__actions .brown.sumbit:hover {
+.btn.brown:hover, .simform__actions .brown.submit:hover {
   background-color: #694a3e;
 }
-.btn.grey, .simform__actions .grey.sumbit {
+.btn.grey, .simform__actions .grey.submit {
   background: #9E9E9E;
   color: #FFF;
 }
-.btn.grey:active, .simform__actions .grey.sumbit:active, .btn.grey:focus, .simform__actions .grey.sumbit:focus {
+.btn.grey:active, .simform__actions .grey.submit:active, .btn.grey:focus, .simform__actions .grey.submit:focus {
   background-color: #878787;
 }
-.btn.grey:hover, .simform__actions .grey.sumbit:hover {
+.btn.grey:hover, .simform__actions .grey.submit:hover {
   background-color: #919191;
 }
-.btn.blue-grey, .simform__actions .blue-grey.sumbit {
+.btn.blue-grey, .simform__actions .blue-grey.submit {
   background: #607D8B;
   color: #FFF;
 }
-.btn.blue-grey:active, .simform__actions .blue-grey.sumbit:active, .btn.blue-grey:focus, .simform__actions .blue-grey.sumbit:focus {
+.btn.blue-grey:active, .simform__actions .blue-grey.submit:active, .btn.blue-grey:focus, .simform__actions .blue-grey.submit:focus {
   background-color: #4d6570;
 }
-.btn.blue-grey:hover, .simform__actions .blue-grey.sumbit:hover {
+.btn.blue-grey:hover, .simform__actions .blue-grey.submit:hover {
   background-color: #566f7c;
 }
 
@@ -613,4 +625,12 @@ label.error {
   text-align: left;
   width: 220px;
   line-height: 20px !important;
+}
+
+label.common_message{
+  color: #FB3A3A;
+  display: inline-block;
+  padding: 0;
+  width: 100%;
+  text-align: center;
 }

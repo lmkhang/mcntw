@@ -94,7 +94,7 @@ class Common extends Controller
         //Success
         unset($register['repeat_password']);
         $match = new Libraries\Math();
-        $register['refer'] = $match->to_base(rand(1000, 3000) . substr(time(), 3, 10) . rand(1000, 3000), 62).$match->to_base(rand(1000, 3000) . substr(time(), 3, 10) . rand(1000, 3000), 62);
+        $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62).$match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62).$match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
 
         $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
 

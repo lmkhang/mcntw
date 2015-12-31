@@ -66,7 +66,37 @@ $(document).ready(function () {
                     }
                 },
                 submitHandler: function (form) {
-                    form.submit();
+                    $('.submit').prop('disabled', true);
+                    //Checking Email is exist
+                    var request = $.ajax({
+                        url: "/user/checking",
+                        async: false,
+                        method: "POST",
+                        data: {
+                            "register[email]": $('#user-email').val(),
+                            "register[from_refer]": $('#user-from_refer').val()
+                        },
+                        dataType: "json",
+                        cache: false
+                    });
+
+                    request.done(function (response) {
+                        if (response.message != '') {
+                            $('.common_message').html(response.message);
+                            $('.submit').prop('disabled', false);
+                            return;
+                        } else if (response.message == '') {
+                            $('.common_message').html();
+                            form.submit();
+                        }
+                    });
+
+                    request.fail(function (jqXHR, textStatus) {
+                        $('.common_message').html(response.message);
+                        $('.submit').prop('disabled', false);
+                    });
+
+
                 }
             });
         }

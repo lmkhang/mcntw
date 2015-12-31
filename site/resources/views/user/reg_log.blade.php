@@ -15,6 +15,7 @@
                             <div class="logmod__heading">
                                 <span class="logmod__heading-subtitle">Enter your personal details <strong>to create an
                                         acount</strong></span>
+                                <label class="common_message"></label>
                             </div>
                             <div class="logmod__form">
                                 {!! Form::open(['url'=>'/register', 'method'=>'post', 'name'=>'register',
@@ -58,13 +59,13 @@
                                 </div>
                                 <div class="sminputs">
                                     <div class="input full">
-                                        <label class="string optional" for="user-from_refer">From Refer</label>
+                                        <label class="string optional" for="user-from_refer">From Refer ( <span class="special">For Both Social Network and Site</span> )</label>
                                         <input class="string optional" maxlength="20" id="user-from_refer"
                                                placeholder="From Refer" type="text" size="50" name="register[from_refer]"/>
                                     </div>
                                 </div>
                                 <div class="simform__actions">
-                                    <button class="sumbit" name="commit" type="submit"/>
+                                    <button class="submit" name="commit" type="submit"/>
                                     Create Account</button>
                                         <span class="simform__actions-sidetext">By creating an account you agree to our <a
                                                     class="special" href="/download/contract_mcn_28_12_2015.pdf"
@@ -75,6 +76,15 @@
                             </div>
                             <div class="logmod__alter">
                                 <div class="logmod__alter-container">
+                                    <a href="#" class="connect dailymotion">
+                                        <div class="connect__icon">
+                                            <i class="fa"></i>
+                                        </div>
+                                        <div class="connect__context">
+                                            <span onclick='window.location="{{ $daily['url_join'] }}"'>Create an account with <strong>Dailymotion</strong></span>
+                                        </div>
+                                    </a>
+
                                     <a href="#" class="connect facebook">
                                         <div class="connect__icon">
                                             <i class="fa fa-facebook"></i>
@@ -118,7 +128,7 @@
                                         </div>
                                     </div>
                                     <div class="simform__actions">
-                                        <input class="sumbit" name="commit" type="sumbit" value="Log In"/>
+                                        <input class="submit" name="commit" type="submit" value="Log In"/>
                                         <span class="simform__actions-sidetext"><a class="special" role="link" href="#">Forgot
                                                 your password?<br>Click here</a></span>
                                     </div>
@@ -126,6 +136,14 @@
                             </div>
                             <div class="logmod__alter">
                                 <div class="logmod__alter-container">
+                                    <a href="#" class="connect dailymotion">
+                                        <div class="connect__icon">
+                                            <i class="fa"></i>
+                                        </div>
+                                        <div class="connect__context">
+                                            <span>Sign in with <strong>Dailymotion</strong></span>
+                                        </div>
+                                    </a>
                                     <a href="#" class="connect facebook">
                                         <div class="connect__icon">
                                             <i class="fa fa-facebook"></i>

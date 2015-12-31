@@ -134,7 +134,7 @@
 
 
 <!-- Modal -->
-@include('user.reg_log', ['refer'=>$site['refer']])
+@include('user.reg_log', ['refer'=>$site['refer'], 'daily'=>$daily])
 <!-- End Modal -->
 
 <!-- Plugins JS -->
