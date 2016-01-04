@@ -105,7 +105,7 @@
                                             <i class="fa fa-facebook"></i>
                                         </div>
                                         <div class="connect__context">
-                                            <span>Create an account with <strong>Facebook</strong></span>
+                                            <span onclick='logInWithFacebook();'>Create an account with <strong>Facebook</strong></span>
                                         </div>
                                     </a>
 
@@ -167,7 +167,7 @@
                                             <i class="fa fa-facebook"></i>
                                         </div>
                                         <div class="connect__context">
-                                            <span>Sign in with <strong>Facebook</strong></span>
+                                            <span onclick='logInWithFacebook();'>Sign in with <strong>Facebook</strong></span>
                                         </div>
                                     </a>
                                     <a href="#" class="connect googleplus">
@@ -188,3 +188,33 @@
 
     </div>
 </div>
+<script>
+    //FB
+    logInWithFacebook = function() {
+        FB.login(function(response) {
+            if (response.authResponse) {
+                window.location = '{{$fbook['url_callback'] }}';
+            } else {
+                alert('User cancelled login or did not fully authorize.');
+            }
+        });
+        return false;
+    };
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '{{$fbook['api_key']}}',
+            status     : true,
+            cookie     : true,
+            xfbml      : true,
+            version: 'v2.5'
+        });
+    };
+
+    (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>

@@ -32,6 +32,9 @@ Route::get('/logout', 'User@logout');
 Route::get('/dailymotion/register?', 'User@callback_daily');
 Route::get('/dailymotion/add?', 'User@callback_daily_channel');
 
+//Callback From FB API
+Route::get('/facebook/register', 'User@callback_facebook');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes

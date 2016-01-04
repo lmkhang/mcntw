@@ -10,6 +10,9 @@ use Redirect;
 use Mail;
 use Validator;
 use App\Http\Libraries;
+use Facebook\Facebook;
+use Facebook\Exceptions\FacebookResponseException;
+use Facebook\Exceptions\FacebookSDKException;
 
 class User extends Controller
 {
@@ -153,13 +156,11 @@ class User extends Controller
 
                 //Check existed account
                 $registration_system = config('constant.registration');
-                $user = $this->checkAccountSNS(['email'=>$response_auth['email']], $registration_system['dailymotion']);
-                if(!$user){
+                $user = $this->checkAccountSNS(['email' => $response_auth['email']], $registration_system['dailymotion']);
+                if (!$user) {
                     //insert
                     $match = new Libraries\Math();
                     $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
-
-                    $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
 
                     $user = new \App\User;
                     $user->refer = $register['refer'];
@@ -183,9 +184,105 @@ class User extends Controller
                         'registration_system' => $user->registration_system
                     ]
                 );
-                return Redirect::intended('/')->with('message', 'Activate successfully!');
+                return Redirect::intended('/')->with('message', 'Register successfully!');
             }
         }
+        return Redirect::intended('/')->with('message', 'Back Home!');
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2015-12-28
+     * Getting and Processing registration from Daily API
+     *
+     */
+    public function callback_facebook(Request $request)
+    {
+        //Check isLogged
+        if ($this->isLogged()) {
+            die;
+        }
+
+        //get Info of Dailymotion's API
+        $fbook['api_key'] = \App\Config::where(['prefix' => 'fb', 'name' => 'api_key', 'del_flg' => 1])->get()[0]['value'];
+        $fbook['api_secret'] = \App\Config::where(['prefix' => 'fb', 'name' => 'api_secret', 'del_flg' => 1])->get()[0]['value'];
+        $fbook['scope'] = \App\Config::where(['prefix' => 'fb', 'name' => 'scope', 'del_flg' => 1])->get()[0]['value'];
+        $fbook['url_callback'] = \App\Config::where(['prefix' => 'fb', 'name' => 'url_callback', 'del_flg' => 1])->get()[0]['value'];
+
+        $fb = new Facebook([
+            'app_id' => $fbook['api_key'],
+            'app_secret' => $fbook['api_secret'],
+            'default_graph_version' => 'v2.5',
+        ]);
+
+        $helper = $fb->getJavaScriptHelper();
+
+        try {
+            $accessToken = $helper->getAccessToken();
+        } catch (FacebookResponseException $e) {
+            // When Graph returns an error
+            return Redirect::intended('/')->with('message', 'Hacking!!!!');
+        } catch (FacebookSDKException $e) {
+            // When validation fails or other local issues
+            echo 'Facebook SDK returned an error: ' . $e->getMessage();
+            exit;
+        }
+
+        if (!isset($accessToken)) {
+            echo 'No cookie set or no OAuth data could be obtained from cookie.';
+            exit;
+        }
+
+        // Logged in
+//        var_dump($accessToken->getValue());
+
+        if ($accessToken) {
+            //set Facebook Login SESSION
+            $session = new \Symfony\Component\HttpFoundation\Session\Session();
+            $session->set('fb_access_token', (string)$accessToken);
+
+            //get Info of User
+            $fb->setDefaultAccessToken((string)$accessToken);
+
+            #These will fall back to the default access token
+            try {
+                $res = $fb->get('/me?fields=id,name,email,first_name,last_name');
+            } catch (FacebookSDKException $e) {
+                echo $e->getMessage();
+            }
+            $user_get = $res->getGraphObject();
+           
+            //Check existed account
+            $registration_system = config('constant.registration');
+            $user = $this->checkAccountSNS(['email' => $user_get->getField('email')], $registration_system['facebook']);
+            if (!$user) {
+                //insert
+                $match = new Libraries\Math();
+                $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
+
+                $user = new \App\User;
+                $user->refer = $register['refer'];
+                $user->username = $user_get->getField('id');
+                $user->first_name = $user_get->getField('first_name');
+                $user->last_name = $user_get->getField('last_name');
+                $user->full_name = $user_get->getField('name');
+                $user->email = $user_get->getField('email');
+                $user->del_flg = 1;
+                $user->registration_system = $registration_system['facebook'];
+                $user->save();
+            }
+
+            //Set Session
+            $this->setLogSession(
+                [
+                    'email' => $user->email,
+                    'user_id' => $user->user_id,
+                    'registration_system' => $user->registration_system
+                ]
+            );
+            return Redirect::intended('/')->with('message', 'Register successfully!');
+        }
+
         return Redirect::intended('/')->with('message', 'Back Home!');
     }
 
