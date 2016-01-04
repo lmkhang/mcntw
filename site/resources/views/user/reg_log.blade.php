@@ -19,7 +19,14 @@
                             </div>
                             <div class="logmod__form">
                                 {!! Form::open(['url'=>'/register', 'method'=>'post', 'name'=>'register',
-                                'id'=>'register-form', 'novalidate'=>'novalidate' ]) !!}
+                                'id'=>'register-form', 'novalidate'=>'novalidate', 'class'=>'simform' ]) !!}
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="user-name">Username*</label>
+                                        <input class="string optional" maxlength="100" id="user-name"
+                                               placeholder="Username" type="text" size="50" name="register[username]"/>
+                                    </div>
+                                </div>
                                 <div class="sminputs">
                                     <div class="input full">
                                         <label class="string optional" for="user-email">Email*</label>
@@ -58,14 +65,22 @@
                                     </div>
                                 </div>
                                 <div class="sminputs">
-                                    <div class="input full">
-                                        <label class="string optional" for="user-from_refer">From Refer ( <span class="special">For Both Social Network and Site</span> )</label>
+                                    <div class="input string optional">
+                                        <label class="string optional" for="user-pin_code">Pin Code *</label>
+                                        <input class="string optional qtyInput" maxlength="6" id="user-pin_code"
+                                               placeholder="Pin Code" type="password" size="6" readonly
+                                               name="register[pin_code]"/>
+                                    </div>
+                                    <div class="input string optional">
+                                        <label class="string optional" for="user-from_refer">From Refer</label>
                                         <input class="string optional" maxlength="20" id="user-from_refer"
-                                               placeholder="From Refer" type="text" size="50" name="register[from_refer]"/>
+                                               value="{{$refer}}"
+                                               placeholder="From Refer" type="text" size="20"
+                                               name="register[from_refer]"/>
                                     </div>
                                 </div>
                                 <div class="simform__actions">
-                                    <button class="submit" name="commit" type="submit"/>
+                                    <button class="submit register" name="commit" type="submit"/>
                                     Create Account</button>
                                         <span class="simform__actions-sidetext">By creating an account you agree to our <a
                                                     class="special" href="/download/contract_mcn_28_12_2015.pdf"
@@ -109,30 +124,33 @@
                             <div class="logmod__heading">
                                 <span class="logmod__heading-subtitle">Enter your email and password <strong>to sign
                                         in</strong></span>
+                                <label class="common_message_login"></label>
                             </div>
                             <div class="logmod__form">
-                                <form accept-charset="utf-8" action="#" class="simform">
-                                    <div class="sminputs">
-                                        <div class="input full">
-                                            <label class="string optional" for="user-name">Email*</label>
-                                            <input class="string optional" maxlength="255" id="user-email"
-                                                   placeholder="Email" type="email" size="50"/>
-                                        </div>
+                                {!! Form::open(['url'=>'/login', 'method'=>'post', 'name'=>'login',
+                                'id'=>'login-form', 'novalidate'=>'novalidate', 'class'=>'simform' ]) !!}
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="user-name-email">Username or Email*</label>
+                                        <input class="string optional" maxlength="255" id="user-name-email"
+                                               placeholder="Username or Email" type="text" name="login[account]" size="100"/>
                                     </div>
-                                    <div class="sminputs">
-                                        <div class="input full">
-                                            <label class="string optional" for="user-pw">Password *</label>
-                                            <input class="string optional" maxlength="255" id="user-pw"
-                                                   placeholder="Password" type="password" size="50"/>
-                                            <span class="hide-password">Show</span>
-                                        </div>
+                                </div>
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="user-pw">Password *</label>
+                                        <input class="string optional" maxlength="255" id="user-password"
+                                               placeholder="Password" type="password" name="login[password]" size="50"/>
+                                        <span class="hide-password">Show</span>
                                     </div>
-                                    <div class="simform__actions">
-                                        <input class="submit" name="commit" type="submit" value="Log In"/>
+                                </div>
+                                <div class="simform__actions">
+                                    <button class="submit login" name="commit" type="submit"/>
+                                    Log In</button>
                                         <span class="simform__actions-sidetext"><a class="special" role="link" href="#">Forgot
                                                 your password?<br>Click here</a></span>
-                                    </div>
-                                </form>
+                                </div>
+                                {!! Form::close() !!}
                             </div>
                             <div class="logmod__alter">
                                 <div class="logmod__alter-container">
@@ -141,7 +159,7 @@
                                             <i class="fa"></i>
                                         </div>
                                         <div class="connect__context">
-                                            <span>Sign in with <strong>Dailymotion</strong></span>
+                                            <span onclick='window.location="{{ $daily['url_join'] }}"'>Sign in with <strong>Dailymotion</strong></span>
                                         </div>
                                     </a>
                                     <a href="#" class="connect facebook">

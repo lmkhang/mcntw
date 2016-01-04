@@ -16,40 +16,54 @@ class Ajax extends Controller
      * @date: 2015-12-31
      * Checking some attributes: email, from refer.
      */
-    public function checkRegister(Request $request)
+    public function check_registration(Request $request)
     {
-        //Message
-        $message = '';
-
+        //Check isLogged
+        if ($this->isLogged()) {
+            die;
+        }
         $post = $request->all();
         $info = $this->trim_all($post['register']);
-        //Query
-        //Check Email
-        $user = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND email = ?', [1, 1, $info['email']])->first();
+        $registration_system = config('constant.registration');
 
-        $email_exists = false;
-        if ($user) {
-            $email_exists = $user->exists;
-            if (!$message && $email_exists) {
-                $email_exists = true;
-                $message = 'Someone already has that username. Try another?';
-            }
-        }
-
-        //Check Refer
-        $ref_exists = true;
-        if ($info['from_refer']) {
-            $ref = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND refer = ?', [1, 1, $info['from_refer']])->first();
-            if (!$message && !$ref) {
-                $ref_exists = false;
-                $message = 'Referrer is not available';
-            }
-        }
+        $message = $this->checkUserAttributes($info, $registration_system['site']);
 
         header('Content-Type: application/json');
         echo json_encode([
             'message' => $message,
         ]);
         exit;
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-04
+     * Checking login
+     */
+    public function check_login(Request $request)
+    {
+        if ($this->isLogged()) {
+            die;
+        }
+        $message = 'This account is not available';
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $post = $request->all();
+            $info = $this->trim_all($post['login']);
+
+            $registration_system = config('constant.registration');
+
+            $username = $this->checkAccount($info, $registration_system['site']);
+
+            //set Session
+            if ($username) {
+                $message = '';
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'message' => $message,
+            ]);
+            exit;
+        }
     }
 }

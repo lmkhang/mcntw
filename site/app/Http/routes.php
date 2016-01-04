@@ -17,14 +17,20 @@ Route::get('/', 'HomeController@index');
 Route::post('/sendmail', 'Common@sendmail');
 
 //Register
-Route::post('/register', 'Common@register');
-Route::post('/user/checking', 'Ajax@checkRegister');
+Route::post('/register', 'User@create_registration');
+Route::post('/user/checking', 'Ajax@check_registration');
+Route::post('/user/checking/login', 'Ajax@check_login');
+Route::get('/user/active/{code}', 'User@activate_registration');
+
+//Login
+Route::post('/login', 'User@login');
 
 //Logout
-Route::get('/logout', 'HomeController@logout');
+Route::get('/logout', 'User@logout');
 
 //Callback From Daily API
-Route::get('/dailymotion/register', 'HomeController@callback_daily');
+Route::get('/dailymotion/register?', 'User@callback_daily');
+Route::get('/dailymotion/add?', 'User@callback_daily_channel');
 
 /*
 |--------------------------------------------------------------------------

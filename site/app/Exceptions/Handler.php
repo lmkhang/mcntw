@@ -43,8 +43,22 @@ class Handler extends ExceptionHandler
      * @param  \Exception  $e
      * @return \Illuminate\Http\Response
      */
+   /* public function render($request, Exception $e)
+    {
+        return parent::render($request, $e);
+    }*/
+
     public function render($request, Exception $e)
     {
+        if ($this->isHttpException($e))
+        {
+            if($e instanceof NotFoundHttpException)
+            {
+//                return response()->view('front.missing', [], 404);
+                return parent::render($request, $e);
+            }
+            return $this->renderHttpException($e);
+        }
         return parent::render($request, $e);
     }
 }
