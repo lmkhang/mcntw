@@ -9,7 +9,7 @@ return [
     'confirmation' =>[
         'email'=>'no-replay@mcenterntw.com',
         'name'=>'Media Center Network',
-        'subject'=>'[Confirm Registration] No-Reply',
+        'subject'=>'[No-Reply] Confirm Registration - Media Center Network',
         'content'=>'Hi {full_name},<p></p> Please click below link to confirm account.<br/> {activated_link}<p></p>This activated link can only operate in 24 hours<p></p>Sincerely,<br/>MCenterNTW Team',
     ]
 ];

@@ -173,7 +173,7 @@ class Controller extends BaseController
         $session = new \Symfony\Component\HttpFoundation\Session\Session();
         $session->set('site_email', $user['email']);
         $session->set('site_user_id', $user['user_id']);
-        $session->set('registration_system', $user['registration_system']);
+        $session->set('site_registration_system', $user['registration_system']);
     }
 
     /**
@@ -185,7 +185,7 @@ class Controller extends BaseController
     {
         $logged = false;
         $session = new \Symfony\Component\HttpFoundation\Session\Session();
-        if ($session->has('site_email') && $session->has('site_user_id') && $session->has('registration_system')) {
+        if ($session->has('site_email') && $session->has('site_user_id') && $session->has('site_registration_system')) {
             $logged = true;
         }
         return $logged;

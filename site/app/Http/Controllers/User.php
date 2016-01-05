@@ -38,8 +38,25 @@ class User extends Controller
             $session->remove('site_user_id');
         }
 
-        if ($session->has('registration_system')) {
-            $session->remove('registration_system');
+        if ($session->has('site_registration_system')) {
+            $session->remove('site_registration_system');
+        }
+
+        //Daily
+        if ($session->has('daily_login_access_token') && $session->has('daily_login_refresh_token') && $session->has('daily_login_uid')) {
+            $session->remove('daily_login_access_token');
+            $session->remove('daily_login_refresh_token');
+            $session->remove('daily_login_uid');
+        }
+
+        //FB
+        if ($session->has('fb_access_token')) {
+            $session->remove('fb_access_token');
+        }
+
+        //Google
+        if ($session->has('google_access_token')) {
+            $session->remove('google_access_token');
         }
 
         return Redirect::intended('/')->with('message', 'Back Home!');
@@ -193,7 +210,7 @@ class User extends Controller
     /**
      * @author: lmkhang - skype
      * @date: 2015-12-28
-     * Getting and Processing registration from Daily API
+     * Getting and Processing registration from FB API
      *
      */
     public function callback_facebook(Request $request)
@@ -234,8 +251,6 @@ class User extends Controller
         }
 
         // Logged in
-//        var_dump($accessToken->getValue());
-
         if ($accessToken) {
             //set Facebook Login SESSION
             $session = new \Symfony\Component\HttpFoundation\Session\Session();
@@ -251,7 +266,7 @@ class User extends Controller
                 echo $e->getMessage();
             }
             $user_get = $res->getGraphObject();
-           
+
             //Check existed account
             $registration_system = config('constant.registration');
             $user = $this->checkAccountSNS(['email' => $user_get->getField('email')], $registration_system['facebook']);
@@ -284,6 +299,99 @@ class User extends Controller
         }
 
         return Redirect::intended('/')->with('message', 'Back Home!');
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-05
+     * Getting and Processing registration from GG API
+     *
+     */
+    public function callback_google()
+    {
+        //Check isLogged
+        if ($this->isLogged()) {
+            die;
+        }
+
+        $session = new \Symfony\Component\HttpFoundation\Session\Session();
+        //get Info of Google's API
+        $google['api_key'] = \App\Config::where(['prefix' => 'google', 'name' => 'api_key', 'del_flg' => 1])->get()[0]['value'];
+        $google['client_id'] = \App\Config::where(['prefix' => 'google', 'name' => 'client_id', 'del_flg' => 1])->get()[0]['value'];
+        $google['client_secret'] = \App\Config::where(['prefix' => 'google', 'name' => 'client_secret', 'del_flg' => 1])->get()[0]['value'];
+        $google['scope'] = \App\Config::where(['prefix' => 'google', 'name' => 'scope', 'del_flg' => 1])->get()[0]['value'];
+        $google['url_callback'] = \App\Config::where(['prefix' => 'google', 'name' => 'url_callback', 'del_flg' => 1])->get()[0]['value'];
+
+        //Create Client Request to access Google API
+        $client = new \Google_Client();
+        $client->setApplicationName("Media Center Network");
+        $client->setClientId($google['client_id']);
+        $client->setClientSecret($google['client_secret']);
+        $client->setRedirectUri(config('app.url') . $google['url_callback']);
+        $client->setDeveloperKey($google['api_key']);
+        $client->addScope(explode(',', $google['scope']));
+
+        //Send Client Request
+        $objOAuthService = new \Google_Service_Oauth2($client);
+
+        //Authenticate code from Google OAuth Flow
+        //Add Access Token to Session
+        if (isset($_GET['code'])) {
+            $client->authenticate($_GET['code']);
+            //set Facebook Login SESSION
+            $session->set('google_access_token', $client->getAccessToken());
+            return redirect(filter_var(config('app.url') . $google['url_callback'], FILTER_SANITIZE_URL));
+        }
+
+        //Set Access Token to make Request
+        if ($session->has('google_access_token')) {
+            $client->setAccessToken($session->get('google_access_token'));
+        }
+
+        //Get User Data from Google Plus
+        //If New, Insert to Database
+        if ($client->getAccessToken()) {
+
+            $userData = $objOAuthService->userinfo->get();
+            $user_get = get_object_vars($userData);
+
+            if ($user_get && is_array($user_get)) {
+                //Check existed account
+                $registration_system = config('constant.registration');
+                $user = $this->checkAccountSNS(['email' => $user_get['email']], $registration_system['google']);
+
+                if (!$user) {
+                    //insert
+                    $match = new Libraries\Math();
+                    $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
+
+                    $user = new \App\User;
+                    $user->refer = $register['refer'];
+                    $user->username = $user_get['id'];
+                    $user->first_name = $user_get['givenName'];
+                    $user->last_name = $user_get['familyName'];
+                    $user->full_name = $user_get['name'];
+                    $user->email = $user_get['email'];
+                    $user->gavatar = $user_get['picture'];
+//                    $user->country = strtoupper($user_get['locale']);
+                    $user->del_flg = 1;
+                    $user->registration_system = $registration_system['google'];
+                    $user->save();
+                }
+
+                //Set Session
+                $this->setLogSession(
+                    [
+                        'email' => $user->email,
+                        'user_id' => $user->user_id,
+                        'registration_system' => $user->registration_system
+                    ]
+                );
+//                return Redirect::intended('/')->with('message', 'Register successfully!');
+            }
+        }
+//        return Redirect::intended('/')->with('message', 'Back Home!');
+        return redirect('/');
     }
 
     /**

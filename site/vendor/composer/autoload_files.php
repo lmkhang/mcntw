@@ -18,4 +18,7 @@ return array(
     '752af1c2bdb339e8474c3c31b22b7d54' => $vendorDir . '/illuminate/html/helpers.php',
     'f18cc91337d49233e5754e93f3ed9ec3' => $vendorDir . '/laravelcollective/html/src/helpers.php',
     'f18cc91337d49233e5754e93f3ed9ec2' => $vendorDir . '/facebook/php-sdk-v4/src/Facebook/Facebook.php',
+    'f18cc91337d49233e5754e9333ed9e32' => $vendorDir . '/google/apiclient/src/Google/Auth/OAuth2.php',
+//    'f18cc91337d49233e5754e93f3ed9e32' => $vendorDir . '/google/apiclient/src/Google/Client.php',
+    'f18cc91337d49233e5754493f3ed9e32' => $vendorDir . '/google/apiclient/src/Google/Config.php',
 );

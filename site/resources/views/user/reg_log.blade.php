@@ -95,8 +95,8 @@
                                         <div class="connect__icon">
                                             <i class="fa"></i>
                                         </div>
-                                        <div class="connect__context">
-                                            <span onclick='window.location="{{ $daily['url_join'] }}"'>Create an account with <strong>Dailymotion</strong></span>
+                                        <div class="connect__context" onclick='window.location="{{ $daily['url_join'] }}"'>
+                                            <span>Create an account with <strong>Dailymotion</strong></span>
                                         </div>
                                     </a>
 
@@ -104,8 +104,8 @@
                                         <div class="connect__icon">
                                             <i class="fa fa-facebook"></i>
                                         </div>
-                                        <div class="connect__context">
-                                            <span onclick='logInWithFacebook();'>Create an account with <strong>Facebook</strong></span>
+                                        <div class="connect__context" onclick='logInWithFacebook();'>
+                                            <span>Create an account with <strong>Facebook</strong></span>
                                         </div>
                                     </a>
 
@@ -113,7 +113,7 @@
                                         <div class="connect__icon">
                                             <i class="fa fa-google-plus"></i>
                                         </div>
-                                        <div class="connect__context">
+                                        <div class="connect__context" onclick='window.location="{{ $google['url_join'] }}"'>
                                             <span>Create an account with <strong>Google+</strong></span>
                                         </div>
                                     </a>
@@ -158,23 +158,23 @@
                                         <div class="connect__icon">
                                             <i class="fa"></i>
                                         </div>
-                                        <div class="connect__context">
-                                            <span onclick='window.location="{{ $daily['url_join'] }}"'>Sign in with <strong>Dailymotion</strong></span>
+                                        <div class="connect__context" onclick='window.location="{{ $daily['url_join'] }}"'>
+                                            <span>Sign in with <strong>Dailymotion</strong></span>
                                         </div>
                                     </a>
                                     <a href="#" class="connect facebook">
                                         <div class="connect__icon">
                                             <i class="fa fa-facebook"></i>
                                         </div>
-                                        <div class="connect__context">
-                                            <span onclick='logInWithFacebook();'>Sign in with <strong>Facebook</strong></span>
+                                        <div class="connect__context" onclick='logInWithFacebook();'>
+                                            <span>Sign in with <strong>Facebook</strong></span>
                                         </div>
                                     </a>
                                     <a href="#" class="connect googleplus">
                                         <div class="connect__icon">
                                             <i class="fa fa-google-plus"></i>
                                         </div>
-                                        <div class="connect__context">
+                                        <div class="connect__context" onclick='window.location="{{ $google['url_join'] }}"'>
                                             <span>Sign in with <strong>Google+</strong></span>
                                         </div>
                                     </a>

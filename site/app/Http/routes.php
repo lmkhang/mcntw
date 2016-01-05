@@ -29,12 +29,14 @@ Route::post('/login', 'User@login');
 Route::get('/logout', 'User@logout');
 
 //Callback From Daily API
-Route::get('/dailymotion/register?', 'User@callback_daily');
-Route::get('/dailymotion/add?', 'User@callback_daily_channel');
+Route::get('/dailymotion/register', 'User@callback_daily');
+Route::get('/dailymotion/add', 'User@callback_daily_channel');
 
 //Callback From FB API
 Route::get('/facebook/register', 'User@callback_facebook');
 
+//Callback From GG API
+Route::get('/google/register', 'User@callback_google');
 /*
 |--------------------------------------------------------------------------
 | Application Routes
