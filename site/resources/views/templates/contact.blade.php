@@ -23,8 +23,8 @@
                     <div class="contact-info">
                         <h4>Our Address</h4>
                         <ul class="contact-address">
-                            <li><i class="fa fa-envelope"></i> contact@mcenterntw.com</li>
-                            <li><i class="fa fa-skype"></i> Media Center Network</li>
+                            <li><i class="fa fa-envelope"></i> <a target="_blank" href="mailto:contact@mcenterntw.com?subject=[Contact From Site] Could You Help Me?&body=Dear MCenterNTW," class="wow" data-wow-delay="0.6s">contact@mcenterntw.com</a></li>
+                            <li><i class="fa fa-skype"></i><a target="_blank" href="{{$socialntw['skype']}}" class="wow" data-wow-delay="0.6s"> Media Center Network</a></li>
                             <li><img src="{{URL::asset('assets/img/logo/logo_200x200.png')}}" border="0"></li>
                         </ul>
                     </div>

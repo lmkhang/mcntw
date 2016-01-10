@@ -51,6 +51,8 @@ class Common extends Controller
         } catch (\Exception $e) {
 
         }
+        //set Flash Message
+        $this->setFlash('message', 'Sent successfully!');
         return Redirect::intended('/')->with('message', 'Sent successfully!');
     }
 }

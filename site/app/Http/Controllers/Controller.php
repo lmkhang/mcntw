@@ -6,10 +6,105 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use \Symfony\Component\HttpFoundation\Session\Session as SS;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $SS = null;
+    protected $_user_id = '';
+    protected $_registration_system = '';
+    protected $_email = '';
+    protected $_stop = false;
+    protected $_redirectTo = '';
+    public $_user = null;
+    protected $_page_title = '';
+    protected $_active = '';
+
+    public function __construct()
+    {
+        $this->SS = new SS();
+        //get User's Session
+        $this->getSessionUser();
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-10
+     * Get Session of User
+     */
+    protected function getSessionUser()
+    {
+        if ($this->isLogged()) {
+            $this->_user_id = $this->getSession('site_user_id');
+            $this->_registration_system = $this->getSession('site_registration_system');
+            $this->_email = $this->getSession('site_email');
+            $user = new \App\User();
+            $this->_user = $user->getAccount($this->_user_id);
+        }
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2015-12-30
+     * Set Flash
+     */
+    protected function setFlash($key, $value)
+    {
+        $this->SS->getFlashBag()->add($key, $value);
+    }
+
+    /**
+     * @author: lmkhang
+     * @date: 2015-12-30
+     * Get Flash
+     */
+    public function getFlash($key)
+    {
+        $value = $this->SS->getFlashBag()->get($key);
+        return isset($value[0]) && $value[0] ? $value[0] : '';
+    }
+
+    /**
+     * @author: lmkhang
+     * @date: 2015-12-30
+     * Has Flash
+     */
+    public function hasFlash($key)
+    {
+        return $this->SS->getFlashBag()->has($key);
+    }
+
+    /**
+     * @author: lmkhang
+     * @date: 2015-12-30
+     * Set Session
+     */
+    protected function setSession($key, $value)
+    {
+        $this->SS->set($key, $value);
+    }
+
+    /**
+     * @author: lmkhang
+     * @date: 2015-12-30
+     * Get Session
+     */
+    protected function getSession($key)
+    {
+        return $this->SS->get($key);
+    }
+
+    /**
+     * @author: lmkhang
+     * @date: 2015-12-30
+     * Has Session
+     */
+    protected function hasSession($key)
+    {
+        return $this->SS->has($key);
+    }
 
     /**
      * @author: lmkhang
@@ -152,6 +247,10 @@ class Controller extends BaseController
             $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND email = ? ', [$registration_system, 1, 1, $info['email']])->first();
 
             $result = $username;
+        } else if (isset($info['username']) && $info['username']) {
+            $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND username = ? ', [$registration_system, 1, 1, $info['username']])->first();
+
+            $result = $username;
         }
 
         return $result;
@@ -191,4 +290,58 @@ class Controller extends BaseController
         return $logged;
     }
 
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-04
+     * get User's Name
+     */
+    public function getName()
+    {
+        $name = $this->_user['full_name'];
+        if (!$name) {
+            $name = $this->_user['first_name'] . ' ' . $this->_user['last_name'];;
+        }
+        return $name;
+    }
+
+    /**
+     * decrypt ID ( Channel + Video ID )
+     * @param $encrypted_string
+     * @param $encryption_key
+     * @return string
+     */
+    public static function ytb_decrypt($encrypted_string, $encryption_key)
+    {
+        //process \: replace \ to /
+        $encrypted_string = str_replace("mcenterntw", "/", $encrypted_string);
+
+        $decoded_64 = base64_decode($encrypted_string);
+        $td = mcrypt_module_open('rijndael-256', '', 'ecb', '');
+        $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+        mcrypt_generic_init($td, $encryption_key, $iv);
+        $decrypted_data = mdecrypt_generic($td, $decoded_64);
+        mcrypt_generic_deinit($td);
+        mcrypt_module_close($td);
+        return trim($decrypted_data);
+    }
+
+    /**
+     * encrypt ( Channel + Video ID )
+     * @param $pure_string
+     * @param $encryption_key
+     * @return string
+     */
+    public static function ytb_encrypt($pure_string, $encryption_key)
+    {
+        $td = mcrypt_module_open('rijndael-256', '', 'ecb', '');
+        $iv = mcrypt_create_iv(mcrypt_enc_get_iv_size($td), MCRYPT_RAND);
+        mcrypt_generic_init($td, $encryption_key, $iv);
+        $encrypted_data = mcrypt_generic($td, $pure_string);
+        mcrypt_generic_deinit($td);
+        mcrypt_module_close($td);
+        $encoded_64 = base64_encode($encrypted_data);
+        //process /: replace / to \
+        $encoded_64 = str_replace("/", "mcenterntw", $encoded_64);
+        return trim($encoded_64);
+    }
 }

@@ -11,7 +11,9 @@
 |
 */
 //Home
-Route::get('/', 'HomeController@index');
+Route::get('/', [
+    'as' => 'home_page', 'uses' => 'HomeController@index'
+]);
 
 //Send mail
 Route::post('/sendmail', 'Common@sendmail');
@@ -26,7 +28,13 @@ Route::get('/user/active/{code}', 'User@activate_registration');
 Route::post('/login', 'User@login');
 
 //Logout
-Route::get('/logout', 'User@logout');
+Route::get('/logout', [
+    'as' => 'logout', 'uses' => 'User@logout'
+]);
+
+//Forgot Password
+Route::post('/forgot', 'User@forgot');
+Route::post('/user/checking/forgot', 'Ajax@forgot');
 
 //Callback From Daily API
 Route::get('/dailymotion/register', 'User@callback_daily');
@@ -37,6 +45,35 @@ Route::get('/facebook/register', 'User@callback_facebook');
 
 //Callback From GG API
 Route::get('/google/register', 'User@callback_google');
+
+
+// ===============================================
+// DASHBOARD SECTION =================================
+// ===============================================
+Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 'dashboard', 'middleware' => 'check_auth'), function () {
+    // Home
+    Route::get('/', [
+        'as' => 'home_dashboard', 'uses' => 'Home@index'
+    ]);
+    // Sign Contract
+    Route::get('/sign_contract', [
+        'as' => 'sign_contract', 'uses' => 'Unverify@sign_contract'
+    ]);
+
+    Route::post('/sign_contract/send', [
+        'as' => 'sign_contract_send', 'uses' => 'Unverify@send'
+    ]);
+
+    Route::post('/checking/sign_contract', [
+        'as' => 'sign_contract_checking', 'uses' => 'Ajax@checkSignContract'
+    ]);
+
+    Route::get('/payment/sign_contract/active/{code}', [
+        'as' => 'sign_contract_active', 'uses' => 'Unverify@activeSignContract'
+    ]);
+
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes

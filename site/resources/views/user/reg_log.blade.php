@@ -147,8 +147,22 @@
                                 <div class="simform__actions">
                                     <button class="submit login" name="commit" type="submit"/>
                                     Log In</button>
-                                        <span class="simform__actions-sidetext"><a class="special" role="link" href="#">Forgot
-                                                your password?<br>Click here</a></span>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                            <div class="logmod__form">
+                                {!! Form::open(['url'=>'/forgot', 'method'=>'post', 'name'=>'forgot',
+                                'id'=>'forgot-form', 'validate'=>'validate', 'class'=>'simform' ]) !!}
+                                <div class="sminputs">
+                                    <div class="input full">
+                                        <label class="string optional" for="forgot-email">Email*</label>
+                                        <input class="string optional" maxlength="255" id="forgot-email"
+                                               placeholder="Email" type="text" name="forgot[email]" size="100"/>
+                                    </div>
+                                </div>
+                                <div class="simform__actions">
+                                    <button class="submit forgot" name="commit" type="submit"/>
+                                    Forgot your password?</button>
                                 </div>
                                 {!! Form::close() !!}
                             </div>

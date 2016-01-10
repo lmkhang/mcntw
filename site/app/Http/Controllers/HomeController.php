@@ -48,6 +48,7 @@ class HomeController extends Controller
             'contact_email' => $contact_email,
             'urlhome' => config('app.url'),
             'refer' => $refer,
+            'message' => $this->hasFlash('message') ? $this->getFlash('message') : '',
         ];
 
         $socialntw = [
@@ -61,7 +62,7 @@ class HomeController extends Controller
         ];
 
         $daily = ['url_join' => ''];
-        $fbook = ['url_join' => '', 'url_callback'=>'', 'api_key'=>''];
+        $fbook = ['url_join' => '', 'url_callback' => '', 'api_key' => ''];
         $google = ['url_join' => ''];
 
 

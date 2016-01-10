@@ -26,6 +26,7 @@
                     @if($joinus['logged']==false)
                         <li><a class="joinus" href="#">Login</a></li>
                     @else
+                        <li><a class="" href="{{url('dashboard')}}">Dashboard</a></li>
                         <li><a class="" href="{{$joinus['url_logout']}}">Logout</a></li>
                     @endif
                 </ul>

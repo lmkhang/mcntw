@@ -223,6 +223,70 @@ $(document).ready(function () {
         JQUERY4ULOGIN.UTIL.setupFormValidation();
     });
 
+
+    //Forgot Password
+    var JQUERY4UFORGOT = {};
+
+    JQUERY4UFORGOT.UTIL =
+    {
+        setupFormValidation: function () {
+            //form validation rules
+            $("#forgot-form").validate({
+                rules: {
+                    "forgot[email]": {
+                        required: true,
+                        minlength: 5,
+                        maxlength: 100
+                    }
+                },
+                messages: {
+                    "forgot[email]": {
+                        required: "Please enter your email",
+                        minlength: "Your email must be at least 5 characters long",
+                        maxlength: "Your email must not be over 100 characters long"
+                    }
+                },
+                submitHandler: function (form) {
+                    $('.forgot').prop('disabled', true);
+                    //Checking Email or Username is exist
+                    var request = $.ajax({
+                        url: "/user/checking/forgot",
+                        async: false,
+                        method: "POST",
+                        data: {
+                            "forgot[email]": $('#forgot-email').val()
+                        },
+                        dataType: "json",
+                        cache: false
+                    });
+
+                    request.done(function (response) {
+                        if (response.message != '') {
+                            $('.forgot').prop('disabled', false);
+                            $('.common_message_login').html(response.message);
+                            return;
+                        } else if (response.message == '') {
+                            $('.common_message_login').html();
+                            form.submit();
+                        }
+                    });
+
+                    request.fail(function (jqXHR, textStatus) {
+                        $('.forgot').prop('disabled', false);
+                        $('.common_message_login').html(response.message);
+                    });
+
+
+                }
+            });
+        }
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function ($) {
+        JQUERY4UFORGOT.UTIL.setupFormValidation();
+    });
+
 })(jQuery, window, document);
 
 

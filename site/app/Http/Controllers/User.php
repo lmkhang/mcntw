@@ -58,8 +58,9 @@ class User extends Controller
         if ($session->has('google_access_token')) {
             $session->remove('google_access_token');
         }
-
-        return Redirect::intended('/')->with('message', 'Back Home!');
+        //set Flash Message
+        $this->setFlash('message', 'Logout!');
+        return Redirect::intended('/')->with('message', 'Logout!');
     }
 
     /**
@@ -94,7 +95,9 @@ class User extends Controller
             );
         }
 
-        return Redirect::intended('/')->with('message', 'Back Home!');
+        //set Flash Message
+        $this->setFlash('message', 'Login!');
+        return Redirect::intended('/')->with('message', 'Login!');
     }
 
     /**
@@ -173,7 +176,7 @@ class User extends Controller
 
                 //Check existed account
                 $registration_system = config('constant.registration');
-                $user = $this->checkAccountSNS(['email' => $response_auth['email']], $registration_system['dailymotion']);
+                $user = $this->checkAccountSNS(['username' => $response_auth['username']], $registration_system['dailymotion']);
                 if (!$user) {
                     //insert
                     $match = new Libraries\Math();
@@ -187,7 +190,7 @@ class User extends Controller
                     $user->last_name = $response_auth['last_name'];
                     $user->full_name = $response_auth['fullname'];
                     $user->gavatar = str_replace('\\', '', $response_auth['avatar_120_url']);
-                    $user->email = $response_auth['email'];
+                    $user->email = '';//$response_auth['email'];
                     $user->del_flg = 1;
                     $user->registration_system = $registration_system['dailymotion'];
                     $user->save();
@@ -201,10 +204,14 @@ class User extends Controller
                         'registration_system' => $user->registration_system
                     ]
                 );
-                return Redirect::intended('/')->with('message', 'Register successfully!');
+                //set Flash Message
+                $this->setFlash('message', 'Login!');
+                return Redirect::intended('/')->with('message', 'Login!');
             }
         }
-        return Redirect::intended('/')->with('message', 'Back Home!');
+        //set Flash Message
+        $this->setFlash('message', 'Error!');
+        return Redirect::intended('/')->with('message', 'Error!');
     }
 
     /**
@@ -269,7 +276,7 @@ class User extends Controller
 
             //Check existed account
             $registration_system = config('constant.registration');
-            $user = $this->checkAccountSNS(['email' => $user_get->getField('email')], $registration_system['facebook']);
+            $user = $this->checkAccountSNS(['username' => $user_get->getField('id')], $registration_system['facebook']);
             if (!$user) {
                 //insert
                 $match = new Libraries\Math();
@@ -281,7 +288,7 @@ class User extends Controller
                 $user->first_name = $user_get->getField('first_name');
                 $user->last_name = $user_get->getField('last_name');
                 $user->full_name = $user_get->getField('name');
-                $user->email = $user_get->getField('email');
+                $user->email = '';//$user_get->getField('email');
                 $user->del_flg = 1;
                 $user->registration_system = $registration_system['facebook'];
                 $user->save();
@@ -295,10 +302,14 @@ class User extends Controller
                     'registration_system' => $user->registration_system
                 ]
             );
-            return Redirect::intended('/')->with('message', 'Register successfully!');
+            //set Flash Message
+            $this->setFlash('message', 'Login!');
+            return Redirect::intended('/')->with('message', 'Login!');
         }
 
-        return Redirect::intended('/')->with('message', 'Back Home!');
+        //set Flash Message
+        $this->setFlash('message', 'Error!');
+        return Redirect::intended('/')->with('message', 'Error!');
     }
 
     /**
@@ -358,7 +369,7 @@ class User extends Controller
             if ($user_get && is_array($user_get)) {
                 //Check existed account
                 $registration_system = config('constant.registration');
-                $user = $this->checkAccountSNS(['email' => $user_get['email']], $registration_system['google']);
+                $user = $this->checkAccountSNS(['username' => $user_get['id']], $registration_system['google']);
 
                 if (!$user) {
                     //insert
@@ -371,7 +382,7 @@ class User extends Controller
                     $user->first_name = $user_get['givenName'];
                     $user->last_name = $user_get['familyName'];
                     $user->full_name = $user_get['name'];
-                    $user->email = $user_get['email'];
+                    $user->email = '';//$user_get['email'];
                     $user->gavatar = $user_get['picture'];
 //                    $user->country = strtoupper($user_get['locale']);
                     $user->del_flg = 1;
@@ -387,10 +398,16 @@ class User extends Controller
                         'registration_system' => $user->registration_system
                     ]
                 );
+                //set Flash Message
+                $this->setFlash('message', 'Login!');
 //                return Redirect::intended('/')->with('message', 'Register successfully!');
             }
         }
 //        return Redirect::intended('/')->with('message', 'Back Home!');
+        if (!$this->hasFlash('message')) {
+            //set Flash Message
+            $this->setFlash('message', 'Error!');
+        }
         return redirect('/');
     }
 
@@ -430,6 +447,8 @@ class User extends Controller
                             'registration_system' => $username->registration_system
                         ]
                     );
+                    //set Flash Message
+                    $this->setFlash('message', 'Activate successfully!');
                     return Redirect::intended('/')->with('message', 'Activate successfully!');
                 }
             }
@@ -484,6 +503,8 @@ class User extends Controller
             // The given data did not pass validation
 //            $session = new \Symfony\Component\HttpFoundation\Session\Session();
 //            $session->set('messages', $validator->errors());
+            //set Flash Message
+            $this->setFlash('message', 'Errors!');
             return redirect()->back();
         }
 
@@ -491,6 +512,8 @@ class User extends Controller
         $registration_system = config('constant.registration');
         $msg_attributes = $this->checkUserAttributes($register, $registration_system['site']);
         if ($msg_attributes) {
+            //set Flash Message
+            $this->setFlash('message', 'Errors!');
             return redirect()->back();
         }
 
@@ -516,7 +539,9 @@ class User extends Controller
         //Send mail
         $this->_sendmail_registration($user);
 
-        return Redirect::intended('/')->with('message', 'Register successfully!');
+        //set Flash Message
+        $this->setFlash('message', 'Please confirm from email ' . $register['email'] . '!');
+        return Redirect::intended('/')->with('message', 'Please confirm from email ' . $register['email'] . '!');
     }
 
     /**
@@ -551,6 +576,117 @@ class User extends Controller
                 // note: if you don't set this, it will use the defaults from config/mail.php
                 $message->from($from_address, $from_name);
                 $message->attach($pathToFile);
+                $message->to($to_address, $to_name)
+                    ->subject($subject)
+                    ->setBody($content);
+            });
+        } catch (\Exception $e) {
+
+        }
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-08
+     * Forgot Password
+     */
+    public function forgot(Request $request)
+    {
+        //Check isLogged
+        if ($this->isLogged()) {
+            die;
+        }
+
+        //Post
+        $post = $request->all();
+        $forgot = $post['forgot'];
+
+        //Trim
+        $forgot = $this->trim_all($forgot);
+
+        //Setup validation
+        $validator = Validator::make(
+            $forgot,
+            [
+                'email' => 'required|email|min:5|max:100',
+            ]
+        );
+
+        // Optionally customize this version using new ->after()
+        /*$validator->after(function() use ($validator) {
+            // Do more validation
+
+            $validator->errors()->add('field', 'new error');
+        });*/
+
+        //Checking
+        if ($validator->fails()) {
+            // The given data did not pass validation
+//            $session = new \Symfony\Component\HttpFoundation\Session\Session();
+//            $session->set('messages', $validator->errors());
+            //set Flash Message
+            $this->setFlash('message', 'Errors!');
+            return redirect()->back();
+        }
+
+        //Check some existed attributes
+        $registration_system = config('constant.registration');
+        $msg_attributes = $this->checkUserAttributes($forgot, $registration_system['site']);
+        if (!$msg_attributes) {
+            //set Flash Message
+            $this->setFlash('message', 'Errors!');
+            return redirect()->back();
+        }
+
+        //Success
+        $user = new \App\User();
+        $user = $user->getAccountByEmail($forgot['email']);
+
+        if ($user) {
+            $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
+
+            $pwd = rand(1111111, 999999999);
+            $user->password = $this->encryptString($pwd, $salt);
+            $user->save();
+
+            //Send mail
+            $this->_sendmail_forgot($user, $pwd);
+        }
+
+        //set Flash Message
+        $this->setFlash('message', 'Please check password in email ' . $forgot['email'] . '!');
+        return Redirect::intended('/')->with('message', 'Please check password in email ' . $forgot['email'] . '!');
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-08
+     * Send Mail - Forgot Password
+     *
+     */
+    private function _sendmail_forgot($user, $pwd)
+    {
+        //Check isLogged
+        if ($this->isLogged()) {
+            die;
+        }
+
+        $sender_info = config('constant.forgot');
+
+        $to_address = $user->email;
+        $to_name = $user->first_name . ' ' . $user->last_name;
+        $from_address = $sender_info['email'];
+        $from_name = $sender_info['name'];
+        $subject = $sender_info['subject'];
+        $content = str_replace(array('{full_name}', '{password}'), array($to_name, $pwd), $sender_info['content']);
+
+        try {
+            Mail::send('emails.contact', array(
+                'subject' => $subject,
+                'message' => $content,
+            ), function ($message) use ($to_address, $to_name, $from_address, $from_name, $subject, $content) {
+                // note: if you don't set this, it will use the defaults from config/mail.php
+                $message->from($from_address, $from_name);
                 $message->to($to_address, $to_name)
                     ->subject($subject)
                     ->setBody($content);

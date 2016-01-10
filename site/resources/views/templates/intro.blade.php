@@ -2,14 +2,14 @@
          style="background-image: url({{URL::asset('assets/img/slider-bg.jpg')}});">
 
     <div class="container">
-        <div class="caption text-center text-white" data-stellar-ratio="0.7">
+        <div class="caption text-center text-white" data-stellar-ratio="0.7" style="top: 200px;">
 
             <div id="owl-intro-text" class="owl-carousel">
                 <div class="item">
                     @if($joinus['logged']==false)
-                    <a class="joinus" href="#"><h1>Join with us</h1></a>
+                    <a class="joinus btn btn-info" href="#"><h1>Join with us</h1></a>
                     @else
-                        <a class="" href="#"><h1>My Dashboard</h1></a>
+                        <a class="btn btn-info" href="{{url('dashboard')}}"><h1>My Dashboard</h1></a>
                     @endif
 
 

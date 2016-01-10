@@ -4,9 +4,8 @@
         <div class="container">
             <div class="page-header text-center wow fadeInUp" data-wow-delay="0.3s">
                 <h2>About</h2>
-
                 <div class="devider"></div>
-                <p class="subtitle">little information</p>
+                <p class="subtitle">Little information</p>
             </div>
         </div>
     </div>
