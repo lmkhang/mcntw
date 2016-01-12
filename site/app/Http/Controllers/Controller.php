@@ -120,6 +120,9 @@ class Controller extends BaseController
         $text = trim($text);
         $text = preg_replace('/^[ 　]+/u', '', $text);
         $text = preg_replace('/[ 　]+$/u', '', $text);
+
+        //htmlspecialchars
+        $text = htmlspecialchars($text);
         return $text;
     }
 
@@ -297,9 +300,9 @@ class Controller extends BaseController
      */
     public function getName()
     {
-        $name = $this->_user['full_name'];
+        $name = htmlspecialchars_decode($this->_user['full_name']);
         if (!$name) {
-            $name = $this->_user['first_name'] . ' ' . $this->_user['last_name'];;
+            $name = htmlspecialchars_decode($this->_user['first_name'] . ' ' . $this->_user['last_name']);
         }
         return $name;
     }

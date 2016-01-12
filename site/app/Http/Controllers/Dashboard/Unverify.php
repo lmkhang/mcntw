@@ -43,13 +43,17 @@ class Unverify extends Controller
         }
 
         //set Title for PAGE
-        $this->_page_title = 'Sign Contract';
+        $this->_page_title = 'Verify Email';
+
+        //contract_file
+        $contract_file = \App\Config::where(['prefix' => 'site', 'name' => 'contract_file', 'del_flg' => 1])->get()[0]['value'];
 
         return view('dashboard.home.sign_contract', [
             'user' => $this->_user,
             'name' => $this->getName(),
             'page_title' => $this->_page_title,
             'active' => $this->_active,
+            'contract_file' => $contract_file,
         ]);
     }
 
@@ -92,11 +96,15 @@ class Unverify extends Controller
             return Redirect::intended(url('/dashboard'));
         }
 
+        //contract_file
+        $contract_file = \App\Config::where(['prefix' => 'site', 'name' => 'contract_file', 'del_flg' => 1])->get()[0]['value'];
+
         //Create confirmation link
         $match = new Libraries\Math();
         $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
         $this->_user->confirm_payment_code = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $this->encryptString(rand(111, 999) . rand(1111, 9999), $salt) . $this->encryptString(time(), $salt) . $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62);
         $this->_user->email = $sign_contract['email'];
+        $this->_user->contract_file = $contract_file;
         $this->_user->save();
         //Send mail
         $this->_sendMailSignContract();
@@ -208,7 +216,7 @@ class Unverify extends Controller
         $from_name = $sender_info['name'];
         $subject = $sender_info['subject'];
         $content = str_replace(array('{full_name}'), array($to_name), $sender_info['content']);
-        $pathToFile = url('/download/contract_mcn_28_12_2015.pdf');
+        $pathToFile = url($this->_user->contract_file);
 
         try {
             Mail::send('emails.contact', array(

@@ -10,9 +10,13 @@
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Dashboard</span></a></li>
             <li class="{!! $active=='sign_contract'?'active':'' !!}"><a href="{{url('/dashboard/sign_contract')}}"><i
-                            class="fa fa-tachometer fa-fw">
+                            class="fa fa-pencil fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Sign Contract</span></a></li>
+            <li class="{!! $active=='profile'?'active':'' !!}"><a href="{{url('/dashboard/profile')}}"><i
+                            class="fa fa-user fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">Profile</span></a></li>
         </ul>
     </div>
 </nav>

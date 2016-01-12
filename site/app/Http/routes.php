@@ -72,6 +72,18 @@ Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 
         'as' => 'sign_contract_active', 'uses' => 'Unverify@activeSignContract'
     ]);
 
+    //Profile
+    Route::get('/profile', [
+        'as' => 'profile', 'uses' => 'User@profile'
+    ]);
+
+    Route::post('/profile/change', [
+        'as' => 'profile_change', 'uses' => 'User@profile_change'
+    ]);
+
+    Route::post('/profile/change/password', [
+        'as' => 'profile_change_password', 'uses' => 'User@profile_change_password'
+    ]);
 });
 
 /*

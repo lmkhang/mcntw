@@ -1,7 +1,7 @@
 <div id="title-breadcrumb-option-demo" class="page-title-breadcrumb">
     <div class="page-header pull-left">
         <div class="page-title">
-            {{ $page_title.': '.$name }}</div>
+            {{ $page_title }}@yield('add_more_navbar')</div>
     </div>
     <ol class="breadcrumb page-breadcrumb pull-right">
         <li><i class="fa fa-home"></i>&nbsp;<a href="{{url('/dashboard')}}">Home</a>&nbsp;&nbsp;<i

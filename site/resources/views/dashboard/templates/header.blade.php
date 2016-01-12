@@ -25,7 +25,7 @@
                 {{--</li>--}}
                 <li class="dropdown topbar-user"><a data-hover="dropdown" href="#" class="dropdown-toggle"><img src="{{$user['gavatar']}}" alt="" class="img-responsive img-circle"/>&nbsp;<span class="hidden-xs">{{ $name }}</span>&nbsp;<span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-user pull-right">
-                        <li><a href="{{url('/dashboard/profile/'.$user['user_id'])}}"><i class="fa fa-user"></i>My Profile</a></li>
+                        <li><a href="{{url('/dashboard/profile/')}}"><i class="fa fa-user"></i>My Profile</a></li>
                         {{--<li><a href="#"><i class="fa fa-calendar"></i>My Calendar</a></li>--}}
                         {{--<li><a href="#"><i class="fa fa-envelope"></i>My Inbox<span class="badge badge-danger">3</span></a></li>--}}
                         {{--<li><a href="#"><i class="fa fa-tasks"></i>My Tasks<span class="badge badge-success">7</span></a></li>--}}

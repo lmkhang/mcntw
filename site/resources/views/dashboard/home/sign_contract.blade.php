@@ -21,7 +21,7 @@
                         <div class="col-md-6 col-md-offset-3">
                             <div class="panel panel-orange">
                                 <div class="panel-heading">
-                                    {{$page_title}} Form
+                                    {{$page_title}}
                                 </div>
                                 <div class="panel-body pan">
                                     {!! Form::open(['url'=>'/dashboard/sign_contract/send', 'method'=>'post',
@@ -39,10 +39,8 @@
                                             <div class="checkbox">
                                                     <input tabindex="5" type="checkbox" id="sign_contract-agree"
                                                            name="sign_contract[agree]"/>&nbsp; <a
-                                                            href="{{url('/download/contract_mcn_28_12_2015.pdf')}}"
-                                                            target="_blank">I
-                                                        agree with the
-                                                        Terms and Conditions</a></div>
+                                                            href="{{url($contract_file)}}"
+                                                            target="_blank">Click here to read our payment policy</a></div>
                                         </div>
                                     </div>
                                     <div class="form-actions pal">
