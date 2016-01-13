@@ -192,7 +192,7 @@ class Controller extends BaseController
 
         //Check Refer
         if (!$message && isset($info['from_refer']) && $info['from_refer']) {
-            $ref = \App\User::select('user_id')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND refer = ?', [$registration_system, 1, 1, $info['from_refer']])->first();
+            $ref = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND refer = ?', [1, 1, $info['from_refer']])->first();
             if (!$ref) {
                 $message = 'Referrer is not available';
             }

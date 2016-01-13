@@ -29,7 +29,7 @@ class Ajax extends Controller
             $sign_contract = $this->trim_all($post['sign_contract']);
 
             $user = new \App\User();
-            if (!$user->checkSignContract($this->_user_id, $sign_contract['email'])) {
+            if (!$user->checkExistedPaymentEmail($this->_user_id, $sign_contract['email'])) {
                 $message = '';
             }
 

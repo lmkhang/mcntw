@@ -84,6 +84,11 @@ Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 
     Route::post('/profile/change/password', [
         'as' => 'profile_change_password', 'uses' => 'User@profile_change_password'
     ]);
+
+    //Channel
+    Route::get('/channels', [
+        'as' => 'channels', 'uses' => 'Channels@index'
+    ]);
 });
 
 /*

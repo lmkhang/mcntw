@@ -46,7 +46,21 @@ class User extends Model
      */
     public function checkSignContract($user_id = '', $email = '')
     {
-        $user = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND user_id <> ? AND email = ? ', [1, 1, $user_id, $email])->first();
+        $user = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND sign_contract = ? AND user_id <> ? AND payment_email = ? ', [1, 1, 0, $user_id, $email])->first();
+        if ($user) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-10
+     * Checking email for signing contract
+     */
+    public function checkExistedPaymentEmail($user_id = '', $email = '')
+    {
+        $user = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND sign_contract = ? AND user_id <> ? AND payment_email = ? ', [1, 1, 1, $user_id, $email])->first();
         if ($user) {
             return true;
         }

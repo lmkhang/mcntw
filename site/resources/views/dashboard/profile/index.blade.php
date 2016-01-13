@@ -36,21 +36,39 @@
                                         <div class="text-center mbl"><img
                                                     src="{{$user['gavatar']}}" alt=""
                                                     class="img-responsive"/></div>
-                                        <div class="text-center mbl"><a href="#" class="btn btn-green"><i
-                                                        class="fa fa-upload"></i>&nbsp;
-                                                Upload</a></div>
+                                        {{--<div class="text-center mbl"><a href="#" class="btn btn-green"><i--}}
+                                        {{--class="fa fa-upload"></i>&nbsp;--}}
+                                        {{--Upload</a></div>--}}
                                     </div>
                                     <table class="table table-striped table-hover">
                                         <tbody>
                                         @if($user['registration_system']==1)
-                                        <tr>
-                                            <td>User Name</td>
-                                            <td>{{$user['username']}}</td>
-                                        </tr>
+                                            <tr>
+                                                <td>User Name</td>
+                                                <td>{{$user['username']}}</td>
+                                            </tr>
                                         @endif
                                         <tr>
-                                            <td>Email</td>
-                                            <td>{{$user['email']}}</td>
+                                            <td>Payment Email</td>
+                                            <td>{{$user['payment_email']}}</td>
+                                        </tr>
+                                        @if($user['from_refer'])
+                                            <tr>
+                                                <td>From Refer ID</td>
+                                                <td>
+                                                    {{$user['from_refer']}}<br/>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        <tr>
+                                            <td>Refer ID</td>
+                                            <td>
+                                                {{$user['refer']}}<br/>
+                                                <button type="button" class="copy_refer btn btn-green"
+                                                        onclick="window.prompt('Copy link below', '{{url('/?refer='.$user['refer'])}}'); return false;">
+                                                    Copy Refer Link
+                                                </button>
+                                            </td>
                                         </tr>
                                         {{--<tr>--}}
                                         {{--<td>Status</td>--}}
@@ -71,13 +89,13 @@
                                         </tbody>
                                     </table>
                                     {{--<div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog"--}}
-                                         {{--aria-hidden="true">--}}
-                                        {{--<div class="modal-content">--}}
-                                            {{--<ul class="list-inline item-details">--}}
-                                                {{--<li><a href="http://themifycloud.com">Admin templates</a></li>--}}
-                                                {{--<li><a href="http://themescloud.org">Bootstrap themes</a></li>--}}
-                                            {{--</ul>--}}
-                                        {{--</div>--}}
+                                    {{--aria-hidden="true">--}}
+                                    {{--<div class="modal-content">--}}
+                                    {{--<ul class="list-inline item-details">--}}
+                                    {{--<li><a href="http://themifycloud.com">Admin templates</a></li>--}}
+                                    {{--<li><a href="http://themescloud.org">Bootstrap themes</a></li>--}}
+                                    {{--</ul>--}}
+                                    {{--</div>--}}
                                     {{--</div>--}}
                                 </div>
                                 <div class="col-md-9">
@@ -88,12 +106,25 @@
                                     <div id="generalTabContent" class="tab-content">
                                         <div id="tab-edit" class="tab-pane fade in active">
                                             @if($user['registration_system']==1)
-                                            {!! Form::open(['url'=>'/dashboard/profile/change/password', 'method'=>'post',
-                                            'name'=>'profile-change-password',
-                                            'id'=>'profile-change-password-form', 'novalidate'=>'novalidate',
-                                            'class'=>'form-horizontal']) !!}
+                                                {!! Form::open(['url'=>'/dashboard/profile/change/password',
+                                                'method'=>'post',
+                                                'name'=>'profile-change-password',
+                                                'id'=>'profile-change-password-form', 'novalidate'=>'novalidate',
+                                                'class'=>'form-horizontal']) !!}
                                                 <h3>Account Setting</h3>
+                                                <div class="form-group"><label
+                                                            class="col-sm-3 control-label">Email</label>
 
+                                                    <div class="col-sm-9 controls">
+                                                        <div class="row">
+                                                            <div class="col-xs-4"><input type="text"
+                                                                                         value="{{$user['email']}}"
+                                                                                         placeholder="username" readonly
+                                                                                         disabled
+                                                                                         class="form-control"/></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="form-group"><label
                                                             class="col-sm-3 control-label">Username</label>
 
@@ -112,12 +143,12 @@
 
                                                     <div class="col-sm-9 controls">
                                                         <div class="row">
-                                                            <div class="col-xs-4"><input type="password" autocomplete="off"
+                                                            <div class="col-xs-4"><input type="password"
+                                                                                         autocomplete="off"
                                                                                          name="profile[password]"
                                                                                          id="profile-password"
                                                                                          placeholder="password"
                                                                                          class="form-control"/>
-                                                                <span>Leave a blank if you do not change</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -127,7 +158,8 @@
 
                                                     <div class="col-sm-9 controls">
                                                         <div class="row">
-                                                            <div class="col-xs-4"><input type="password" autocomplete="off"
+                                                            <div class="col-xs-4"><input type="password"
+                                                                                         autocomplete="off"
                                                                                          name="profile[confirm_password]"
                                                                                          id="profile-confirm-password"
                                                                                          placeholder="Confirm new password"
@@ -136,7 +168,9 @@
                                                     </div>
                                                 </div>
                                                 <hr/>
-                                                <button type="submit" name="commit" class="btn btn-green btn_change_password">Change password</button>
+                                                <button type="submit" name="commit"
+                                                        class="btn btn-green btn_change_password">Change password
+                                                </button>
                                                 {!! Form::close() !!}
                                                 <hr/>
                                             @endif
@@ -151,7 +185,8 @@
 
                                                 <div class="col-sm-9 controls">
                                                     <div class="row">
-                                                        <div class="col-xs-4"><input type="text" value="{{$user['first_name']}}"
+                                                        <div class="col-xs-4"><input type="text"
+                                                                                     value="{{$user['first_name']}}"
                                                                                      name="profile[first_name]"
                                                                                      id="profile-first-name"
                                                                                      placeholder="First name"
@@ -164,7 +199,8 @@
 
                                                 <div class="col-sm-9 controls">
                                                     <div class="row">
-                                                        <div class="col-xs-4"><input type="text" value="{{$user['last_name']}}"
+                                                        <div class="col-xs-4"><input type="text"
+                                                                                     value="{{$user['last_name']}}"
                                                                                      name="profile[last_name]"
                                                                                      id="profile-last-name"
                                                                                      placeholder="Last name"
@@ -250,7 +286,8 @@
                                             {{--</div>--}}
                                             {{--</div>--}}
                                             <hr/>
-                                            <button type="submit" name="commit" class="btn btn-green btn_save">Save</button>
+                                            <button type="submit" name="commit" class="btn btn-green btn_save">Save
+                                            </button>
                                             {!! Form::close() !!}
                                         </div>
                                         <div id="tab-messages" class="tab-pane fade in">

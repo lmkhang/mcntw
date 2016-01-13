@@ -74,7 +74,7 @@
                                     <div class="input string optional">
                                         <label class="string optional" for="user-from_refer">From Refer</label>
                                         <input class="string optional" maxlength="20" id="user-from_refer"
-                                               value="{{$refer}}"
+                                               value="{{$refer}}" readonly
                                                placeholder="From Refer" type="text" size="20"
                                                name="register[from_refer]"/>
                                     </div>

@@ -182,8 +182,17 @@ class User extends Controller
                     $match = new Libraries\Math();
                     $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
 
+                    //from_refer
+                    if ($this->hasFlash('refer')) {
+                        $register['from_refer'] = $this->getFlash('refer');
+                    } else {
+                        $register['from_refer'] = 'no_refer';
+                    }
+                    $message_refer = $this->checkUserAttributes($register);
+
                     $user = new \App\User;
                     $user->refer = $register['refer'];
+                    $user->from_refer = !$message_refer ? $register['from_refer'] : '';
                     $user->username = $response_auth['username'];
                     $user->country = $response_auth['country'];
                     $user->first_name = $response_auth['first_name'];
@@ -282,8 +291,17 @@ class User extends Controller
                 $match = new Libraries\Math();
                 $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
 
+                //from_refer
+                if ($this->hasFlash('refer')) {
+                    $register['from_refer'] = $this->getFlash('refer');
+                } else {
+                    $register['from_refer'] = 'no_refer';
+                }
+                $message_refer = $this->checkUserAttributes($register);
+
                 $user = new \App\User;
                 $user->refer = $register['refer'];
+                $user->from_refer = !$message_refer ? $register['from_refer'] : '';
                 $user->username = $user_get->getField('id');
                 $user->first_name = $user_get->getField('first_name');
                 $user->last_name = $user_get->getField('last_name');
@@ -376,8 +394,17 @@ class User extends Controller
                     $match = new Libraries\Math();
                     $register['refer'] = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62) . $match->to_base(rand(100, 300) . substr(time(), 5, 10) . rand(100, 300), 62);
 
+                    //from_refer
+                    if ($this->hasFlash('refer')) {
+                        $register['from_refer'] = $this->getFlash('refer');
+                    } else {
+                        $register['from_refer'] = 'no_refer';
+                    }
+                    $message_refer = $this->checkUserAttributes($register);
+
                     $user = new \App\User;
                     $user->refer = $register['refer'];
+                    $user->from_refer = !$message_refer ? $register['from_refer'] : '';
                     $user->username = $user_get['id'];
                     $user->first_name = $user_get['givenName'];
                     $user->last_name = $user_get['familyName'];

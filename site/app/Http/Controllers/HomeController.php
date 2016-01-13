@@ -22,7 +22,16 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $get = $request->all();
-        $refer = isset($get['refer']) ? $get['refer'] : '';
+        $refer = '';
+        if (isset($get['refer'])) {
+            $refer = $get['refer'];
+            $this->getFlash('refer');
+            $this->setFlash('refer', $refer);
+        } else {
+            $this->getFlash('refer');
+            $this->setFlash('refer', 'no_refer');
+        }
+
 
         //Preparing link for JOINING US
         $joinus = [

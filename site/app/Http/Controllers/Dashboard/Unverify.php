@@ -60,7 +60,7 @@ class Unverify extends Controller
     /**
      * @author: lmkhang - skype
      * @date: 2016-01-10
-     * Send Email
+     * Send payment_email
      */
     public function send(Request $request)
     {
@@ -90,7 +90,7 @@ class Unverify extends Controller
         }
 
         $user = new \App\User();
-        if ($user->checkSignContract($this->_user_id, $sign_contract['email'])) {
+        if ($user->checkExistedPaymentEmail($this->_user_id, $sign_contract['email'])) {
             //set Flash Message
             $this->setFlash('message', 'This email is not available!');
             return Redirect::intended(url('/dashboard'));
@@ -103,7 +103,7 @@ class Unverify extends Controller
         $match = new Libraries\Math();
         $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
         $this->_user->confirm_payment_code = $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62) . $this->encryptString(rand(111, 999) . rand(1111, 9999), $salt) . $this->encryptString(time(), $salt) . $match->to_base(rand(10, 30) . substr(time(), 5, 10) . rand(10, 30), 62);
-        $this->_user->email = $sign_contract['email'];
+        $this->_user->payment_email = $sign_contract['email'];
         $this->_user->contract_file = $contract_file;
         $this->_user->save();
         //Send mail
@@ -117,10 +117,10 @@ class Unverify extends Controller
     private function _sendMailSignContract()
     {
         $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
-        $confirm_link = config('app.url') . '/dashboard/payment/sign_contract/active/' . $this->ytb_encrypt(time() . '---' . $this->_user->confirm_payment_code . '---' . $this->_user->email, $salt);
+        $confirm_link = config('app.url') . '/dashboard/payment/sign_contract/active/' . $this->ytb_encrypt(time() . '---' . $this->_user->confirm_payment_code . '---' . $this->_user->payment_email, $salt);
         $sender_info = config('constant.confirm_payment');
 
-        $to_address = $this->_user->email;
+        $to_address = $this->_user->payment_email;
         $to_name = $this->getName();
         $from_address = $sender_info['email'];
         $from_name = $sender_info['name'];
@@ -178,7 +178,7 @@ class Unverify extends Controller
         }
 
         //Check Email is existed
-        if ($this->_user->email != $emailGet) {
+        if ($this->_user->payment_email != $emailGet) {
             //set Flash Message
             $this->setFlash('message', 'The code is not match with email which had signed!');
             return Redirect::intended('/dashboard/sign_contract')->with('message', 'The code is not match with email which had signed contract!');
@@ -193,6 +193,14 @@ class Unverify extends Controller
             return Redirect::intended('/dashboard/sign_contract')->with('message', 'The code is not valid or expired!');
         }
 
+        //check existed email
+        $user_check_pm = new \App\User();
+        if ($user_check_pm->checkExistedPaymentEmail($this->_user_id, $this->_user->payment_email)) {
+            //set Flash Message
+            $this->setFlash('message', 'The payment email had been activated by other person!');
+            return Redirect::intended('/dashboard/sign_contract')->with('message', 'The payment email had been activated by other person!');
+        }
+
         //Good status
         $this->_user->sign_contract = 1;
         $this->_user->confirm_payment_code = '';
@@ -202,15 +210,15 @@ class Unverify extends Controller
         $this->_sendMailSignContractCongrats();
 
         //set Flash Message
-        $this->setFlash('message', $this->getName() . ' signed contract successfully: ' . $this->_user->email);
-        return Redirect::intended('/dashboard')->with('message', $this->getName() . ' signed contract successfully: ' . $this->_user->email);
+        $this->setFlash('message', $this->getName() . ' signed contract successfully: ' . $this->_user->payment_email);
+        return Redirect::intended('/dashboard')->with('message', $this->getName() . ' signed contract successfully: ' . $this->_user->payment_email);
     }
 
     private function _sendMailSignContractCongrats()
     {
         $sender_info = config('constant.confirm_payment_success');
 
-        $to_address = $this->_user->email;
+        $to_address = $this->_user->payment_email;
         $to_name = $this->getName();
         $from_address = $sender_info['email'];
         $from_name = $sender_info['name'];
