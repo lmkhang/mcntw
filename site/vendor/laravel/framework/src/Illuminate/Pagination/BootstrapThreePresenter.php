@@ -89,7 +89,7 @@ class BootstrapThreePresenter implements PresenterContract
      */
     protected function getDisabledTextWrapper($text)
     {
-        return '<li class="disabled"><span>'.$text.'</span></li>';
+        return '<li class="disabled"><a>'.$text.'</a></li>';
     }
 
     /**

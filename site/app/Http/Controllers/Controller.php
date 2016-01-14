@@ -21,6 +21,7 @@ class Controller extends BaseController
     public $_user = null;
     protected $_page_title = '';
     protected $_active = '';
+    protected $_page_url = '';
 
     public function __construct()
     {

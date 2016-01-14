@@ -17,6 +17,10 @@
                             class="fa fa-user fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Profile</span></a></li>
+            <li class="{!! $active=='channels'?'active':'' !!}"><a href="{{url('/dashboard/channels')}}"><i
+                            class="fa fa-desktop fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">Channel Management</span></a></li>
         </ul>
     </div>
 </nav>

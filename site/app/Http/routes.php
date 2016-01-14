@@ -38,7 +38,6 @@ Route::post('/user/checking/forgot', 'Ajax@forgot');
 
 //Callback From Daily API
 Route::get('/dailymotion/register', 'User@callback_daily');
-Route::get('/dailymotion/add', 'User@callback_daily_channel');
 
 //Callback From FB API
 Route::get('/facebook/register', 'User@callback_facebook');
@@ -86,9 +85,19 @@ Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 
     ]);
 
     //Channel
-    Route::get('/channels', [
-        'as' => 'channels', 'uses' => 'Channels@index'
-    ]);
+    Route::group(array('prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels'), function () {
+        //Home
+        Route::get('/', [
+            'as' => 'channels', 'uses' => 'Channels@index'
+        ]);
+        //Callback From Daily API
+        Route::get('/dailymotion/add', [
+            'as' => 'add_new_channels', 'uses' => 'Channels@callback_daily_channel'
+        ]);
+
+    });
+
+
 });
 
 /*

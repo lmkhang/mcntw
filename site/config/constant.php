@@ -6,6 +6,22 @@ return [
         'facebook' => 3,
         'google' => 4,
     ],
+    'channel_status' => [
+        '1' => 'Approved',
+        '2' => 'Suspended',
+        '3' => 'Pending',
+        '4' => 'Blocked',
+    ],
+    'channel_label_status' => [
+        '1' => 'label-success',
+        '2' => 'label-warning',
+        '3' => 'label-info',
+        '4' => 'label-danger',
+    ],
+    'is_activate' => [
+        '1' => 'Activated',
+        '2' => 'Deactivated',
+    ],
     'confirmation' => [
         'email' => 'no-replay@mcenterntw.com',
         'name' => 'Media Center Network',
