@@ -94,4 +94,39 @@ class Ajax extends Controller
             exit;
         }
     }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-10
+     * Checking admin login
+     */
+    public function admin_login(Request $request)
+    {
+        if ($this->isLoggedAdmin()) {
+            die;
+        }
+
+        $message = 'This account is not available';
+        if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $post = $request->all();
+            $info = $this->trim_all($post['login']);
+
+            $salt = \App\Config::where(['prefix' => 'admin', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
+            $pwd = $this->encryptString($info['password'], $salt);
+
+            $admin_get = new \App\Admin;
+            $admin = $admin_get->checkAccount($info['account'], $pwd);
+
+            //set Session
+            if ($admin) {
+                $message = '';
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode([
+                'message' => $message
+            ]);
+            exit;
+        }
+    }
 }

@@ -1,0 +1,57 @@
+<?php
+
+namespace App\Http\Controllers\Admin\Channels;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Admin\AdminController;
+use Redirect;
+
+class Channels extends AdminController
+{
+    //Sessions
+    //daily_channel_access_token
+    //daily_channel_refresh_token
+    //daily_channel_uid
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        //Active page
+        $this->_active = 'channels';
+
+        //page url
+        $this->_page_url = '/adminntw/channels';
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-09
+     * DASHBOARD HOME
+     */
+    public function index()
+    {
+
+        //set Title for PAGE
+        $this->_page_title = 'Channel Management';
+
+        //Get channel list
+        $channel_get = new \App\Channels;
+        $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
+        $channels_paging = $channel_get->getAllPaging([], $number_pagination);
+
+        return view('admin.channels.index', [
+            'admin' => $this->_admin,
+            'name' => $this->getName(),
+            'page_title' => $this->_page_title,
+            'active' => $this->_active,
+            'number_pagination' => $number_pagination,
+            'channels_paging' => $channels_paging,
+            'channel_label_status' => config('constant.channel_label_status'),
+            'channel_status' => config('constant.channel_status'),
+            'no' => 1,
+        ]);
+    }
+}

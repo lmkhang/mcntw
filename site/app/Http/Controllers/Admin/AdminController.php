@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -8,17 +8,17 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use \Symfony\Component\HttpFoundation\Session\Session as SS;
 
-class Controller extends BaseController
+class AdminController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $SS = null;
-    protected $_user_id = '';
-    protected $_registration_system = '';
+    protected $_admin_id = '';
+    protected $_username = '';
     protected $_email = '';
     protected $_stop = false;
     protected $_redirectTo = '';
-    public $_user = null;
+    public $_admin = null;
     protected $_page_title = '';
     protected $_active = '';
     protected $_page_url = '';
@@ -27,7 +27,7 @@ class Controller extends BaseController
     {
         $this->SS = new SS();
         //get User's Session
-        $this->getSessionUser();
+        $this->getSessionAdmin();
     }
 
     /**
@@ -35,14 +35,14 @@ class Controller extends BaseController
      * @date: 2016-01-10
      * Get Session of User
      */
-    protected function getSessionUser()
+    protected function getSessionAdmin()
     {
-        if ($this->isLogged()) {
-            $this->_user_id = $this->getSession('site_user_id');
-            $this->_registration_system = $this->getSession('site_registration_system');
-            $this->_email = $this->getSession('site_email');
-            $user = new \App\User();
-            $this->_user = $user->getAccount($this->_user_id);
+        if ($this->isLoggedAdmin()) {
+            $this->_admin_id = $this->getSession('ad_admin_id');
+            $this->_username = $this->getSession('ad_username');
+            $this->_email = $this->getSession('ad_email');
+            $admin = new \App\Admin();
+            $this->_admin = $admin->getAccount($this->_admin_id);
         }
     }
 
@@ -156,63 +156,14 @@ class Controller extends BaseController
 
     /**
      * @author: lmkhang - skype
-     * @date: 2016-01-03
-     * Checking some attributes: email, from refer.
-     */
-
-    protected function checkUserAttributes($info, $registration_system = 1)
-    {
-        //Check isLogged
-        if ($this->isLogged()) {
-            die;
-        }
-        //Message
-        $message = '';
-
-        //Check Username
-        if (!$message && isset($info['username']) && $info['username']) {
-            $username = \App\User::select('user_id')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND username = ?', [$registration_system, 1, 1, $info['username']])->first();
-
-            if ($username) {
-                if ($username->exists) {
-                    $message = 'Someone already has that username. Try another?';
-                }
-            }
-        }
-
-        //Check Email
-        if (!$message && isset($info['email']) && $info['email']) {
-            $email = \App\User::select('user_id')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND email = ?', [$registration_system, 1, 1, $info['email']])->first();
-
-            if ($email) {
-                if ($email->exists) {
-                    $message = 'Someone already has that email. Try another?';
-                }
-            }
-        }
-
-        //Check Refer
-        if (!$message && isset($info['from_refer']) && $info['from_refer']) {
-            $ref = \App\User::select('user_id')->whereRaw('status = ? AND del_flg = ? AND refer = ?', [1, 1, $info['from_refer']])->first();
-            if (!$ref) {
-                $message = 'Referrer is not available';
-            }
-        }
-
-        return $message;
-    }
-
-
-    /**
-     * @author: lmkhang - skype
      * @date: 2016-01-04
      * Checking existed account
      */
 
-    protected function checkAccount($info, $registration_system = 1)
+    protected function checkAccount($info)
     {
         //Check isLogged
-        if ($this->isLogged()) {
+        if ($this->isLoggedAdmin()) {
             die;
         }
         //Message
@@ -220,41 +171,11 @@ class Controller extends BaseController
 
         //Check Username
         if (isset($info['account']) && $info['account'] && isset($info['password']) && $info['password']) {
-            $salt = \App\Config::where(['prefix' => 'site', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
+            $salt = \App\Config::where(['prefix' => 'admin', 'name' => 'salt', 'del_flg' => 1])->get()[0]['value'];
             $password = $this->encryptString($info['password'], $salt);
 
-            $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND ( username = ? OR email = ? ) AND password = ? ', [$registration_system, 1, 1, $info['account'], $info['account'], $password])->first();
-
-            $result = $username;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @author: lmkhang - skype
-     * @date: 2016-01-04
-     * Checking existed account
-     */
-
-    protected function checkAccountSNS($info, $registration_system)
-    {
-        //Check isLogged
-        if ($this->isLogged()) {
-            die;
-        }
-        //Message
-        $result = null;
-
-        //Check Username
-        if (isset($info['email']) && $info['email']) {
-            $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND email = ? ', [$registration_system, 1, 1, $info['email']])->first();
-
-            $result = $username;
-        } else if (isset($info['username']) && $info['username']) {
-            $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND username = ? ', [$registration_system, 1, 1, $info['username']])->first();
-
-            $result = $username;
+            $admin = new \App\Admin();
+            $result = $admin->checkAccount($info['account'], $password);
         }
 
         return $result;
@@ -264,34 +185,18 @@ class Controller extends BaseController
      * @author: lmkhang - skype
      * @date: 2016-04-01
      * Set session after login
-     * site_email, site_user_id, registration_system
+     * ad_admin_id, ad_username, ad_email
      *
      */
-    protected function setLogSession($user)
+    protected function setLogSession($admin)
     {
         //Check isLogged
-        if ($this->isLogged()) {
+        if ($this->isLoggedAdmin()) {
             die;
         }
-        $session = new \Symfony\Component\HttpFoundation\Session\Session();
-        $session->set('site_email', $user['email']);
-        $session->set('site_user_id', $user['user_id']);
-        $session->set('site_registration_system', $user['registration_system']);
-    }
-
-    /**
-     * @author: lmkhang - skype
-     * @date: 2016-01-04
-     * isLogged
-     */
-    public function isLogged()
-    {
-        $logged = false;
-        $session = new \Symfony\Component\HttpFoundation\Session\Session();
-        if ($session->has('site_email') && $session->has('site_user_id') && $session->has('site_registration_system')) {
-            $logged = true;
-        }
-        return $logged;
+        $this->setSession('ad_admin_id', $admin['admin_id']);
+        $this->setSession('ad_username', $admin['username']);
+        $this->setSession('ad_email', $admin['email']);
     }
 
     /**
@@ -315,11 +220,7 @@ class Controller extends BaseController
      */
     public function getName()
     {
-        $name = htmlspecialchars_decode($this->_user['full_name']);
-        if (!$name) {
-            $name = htmlspecialchars_decode($this->_user['first_name'] . ' ' . $this->_user['last_name']);
-        }
-        return $name;
+        return htmlspecialchars_decode($this->_admin['first_name'] . ' ' . $this->_admin['last_name']);
     }
 
     /**

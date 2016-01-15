@@ -30,7 +30,7 @@
                                 <div class="sminputs">
                                     <div class="input full">
                                         <label class="string optional" for="user-email">Email*</label>
-                                        <input class="string optional" maxlength="100" id="user-email"
+                                        <input class="string optional" maxlength="100" id="user-email" autocomplete="off"
                                                placeholder="Email" type="email" size="50" name="register[email]"/>
                                     </div>
                                 </div>
@@ -132,7 +132,7 @@
                                 <div class="sminputs">
                                     <div class="input full">
                                         <label class="string optional" for="user-name-email">Username or Email*</label>
-                                        <input class="string optional" maxlength="255" id="user-name-email"
+                                        <input class="string optional" maxlength="255" id="user-name-email" autocomplete="off"
                                                placeholder="Username or Email" type="text" name="login[account]" size="100"/>
                                     </div>
                                 </div>

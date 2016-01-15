@@ -31,7 +31,7 @@
                                         <div class="form-group">
                                             <div class="input-icon right">
                                                 <i class="fa fa-envelope"></i>
-                                                <input value="{{$user['payment_email']}}" id="sign_contract-email" type="email" placeholder="Payment Email address"
+                                                <input autocomplete="off" value="{{$user['payment_email']}}" id="sign_contract-email" type="email" placeholder="Payment Email address"
                                                        class="form-control" name="sign_contract[email]"/></div>
                                         </div>
                                         <hr/>

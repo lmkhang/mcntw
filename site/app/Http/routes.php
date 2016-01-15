@@ -100,6 +100,85 @@ Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 
 
 });
 
+
+// ===============================================
+// ADMIN SECTION =================================
+// ===============================================
+//Create pws
+Route::get('/adminntw/create_pwd/{pwd}', [
+    'as' => 'adminntw_create_pwd', 'uses' => 'Admin@create_pwd'
+]);
+
+// Login
+Route::get('/adminntw/login', [
+    'as' => 'adminntw_login', 'uses' => 'Admin@index'
+]);
+
+Route::post('/adminntw/checking/login', [
+    'as' => 'adminntw_checking_login', 'uses' => 'Ajax@admin_login'
+]);
+
+Route::post('/adminntw/login', [
+    'as' => 'adminntw_login_action', 'uses' => 'Admin@login'
+]);
+
+Route::get('/adminntw/logout', [
+    'as' => 'adminntw_logout', 'uses' => 'Admin@logout'
+]);
+
+Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'adminntw', 'middleware' => 'check_admin_auth'), function () {
+
+
+    // Home
+    Route::get('/', [
+        'as' => 'home_dashboard', 'uses' => 'Home@index'
+    ]);
+    // Sign Contract
+    Route::get('/sign_contract', [
+        'as' => 'sign_contract', 'uses' => 'Unverify@sign_contract'
+    ]);
+
+    Route::post('/sign_contract/send', [
+        'as' => 'sign_contract_send', 'uses' => 'Unverify@send'
+    ]);
+
+    Route::post('/checking/sign_contract', [
+        'as' => 'sign_contract_checking', 'uses' => 'Ajax@checkSignContract'
+    ]);
+
+    Route::get('/payment/sign_contract/active/{code}', [
+        'as' => 'sign_contract_active', 'uses' => 'Unverify@activeSignContract'
+    ]);
+
+    //Profile
+    Route::get('/profile', [
+        'as' => 'profile', 'uses' => 'User@profile'
+    ]);
+
+    Route::post('/profile/change', [
+        'as' => 'profile_change', 'uses' => 'User@profile_change'
+    ]);
+
+    Route::post('/profile/change/password', [
+        'as' => 'profile_change_password', 'uses' => 'User@profile_change_password'
+    ]);
+
+    //Channel
+    Route::group(array('prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels'), function () {
+        //Home
+        Route::get('/', [
+            'as' => 'channels', 'uses' => 'Channels@index'
+        ]);
+        //Callback From Daily API
+        Route::get('/dailymotion/add', [
+            'as' => 'add_new_channels', 'uses' => 'Channels@callback_daily_channel'
+        ]);
+
+    });
+
+
+});
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
