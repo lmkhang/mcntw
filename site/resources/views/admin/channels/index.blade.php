@@ -28,7 +28,7 @@
                                 <div class="panel-heading">All Channels @yield('of_someone')</div>
                                 <div class="panel-body">
                                     {!! $channels_paging->render() !!}
-                                    <table class="table table-hover table-bordered">
+                                    <table class="table table-hover table-striped">
                                         <thead>
                                         <tr>
                                             <th class="col-lg-1">#</th>
@@ -58,11 +58,11 @@
                                                                     class="btn btn-default dropdown-toggle">Action
                                                                 &nbsp;<span class="caret"></span></button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#">Action</a></li>
-                                                                <li><a href="#">Another action</a></li>
-                                                                <li><a href="#">Something else here</a></li>
-                                                                <li class="divider"></li>
-                                                                <li><a href="#">Separated link</a></li>
+                                                                @foreach($channel_status as $k=>$c_status)
+                                                                    <li>
+                                                                        <a href="{{ $k!=$channel->status?url('/adminntw/channels/status/'.$channel->channel_id.'/'.$k):'#'}}">{{$c_status}}</a>
+                                                                    </li>
+                                                                @endforeach
                                                             </ul>
                                                         </div>
                                                     </td>

@@ -3,8 +3,12 @@
 @section('title')
     {{$page_title}}
 @stop
+@section('full_name')
+    {{$name}}
+@stop
 
 @section('content')
+
     <div class="page-content">
         <div id="tab-general">
             <div class="row mbl">
@@ -25,4 +29,7 @@
             </div>
         </div>
     </div>
+@stop
+
+@section('content_script')
 @stop

@@ -174,6 +174,22 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'add_new_channels', 'uses' => 'Channels@callback_daily_channel'
         ]);
 
+
+        //Change status of channel
+        Route::get('/status/{channel_id}/{status}', [
+            'as' => 'channel_change_status', 'uses' => 'Channels@change_status'
+        ]);
+
+    });
+
+    //Statistics
+    Route::group(array('prefix' => 'stats', 'namespace' => 'Stats', 'as' => 'stats'), function () {
+        //Home
+        Route::get('/', [
+            'as' => 'stats', 'uses' => 'Stats@index'
+        ]);
+
+
     });
 
 

@@ -54,4 +54,32 @@ class Channels extends AdminController
             'no' => 1,
         ]);
     }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-09
+     * Change status
+     */
+
+    public function change_status($channel_id, $status)
+    {
+        $channel_get = new \App\Channels;
+        $channel = $channel_get->getChannelById($channel_id);
+        if (!$channel) {
+            //set Flash Message
+            $this->setFlash('message', 'This channel is deactivated!');
+            return redirect()->back()->with('message', 'This channel is deactivated!');
+        }
+
+        //Status
+        $status_list = config('constant.channel_status');
+        $old_status = $channel->status;
+
+        $channel->status = $status;
+        $channel->save();
+
+        //set Flash Message
+        $this->setFlash('message', 'This status of ' . $channel->daily_channel_name . ' channel is changed from ' . $status_list[$old_status] . ' to ' . $status_list[$status]);
+        return redirect()->back()->with('message', 'This status of ' . $channel->daily_channel_name . ' channel is changed from ' . $status_list[$old_status] . ' to ' . $status_list[$status]);
+    }
 }
