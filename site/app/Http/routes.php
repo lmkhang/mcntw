@@ -84,6 +84,10 @@ Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 
         'as' => 'profile_change_password', 'uses' => 'User@profile_change_password'
     ]);
 
+    Route::post('/payment/change', [
+        'as' => 'payment_change', 'uses' => 'User@payment_change'
+    ]);
+
     //Channel
     Route::group(array('prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels'), function () {
         //Home
@@ -189,6 +193,9 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'stats', 'uses' => 'Stats@index'
         ]);
 
+        Route::post('/import', [
+            'as' => 'stats_import', 'uses' => 'Stats@import'
+        ]);
 
     });
 

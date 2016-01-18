@@ -24,6 +24,7 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
+                            <button type="button" class="btn btn-danger navbar-btn" onclick="window.location=''">Import Data (CSV)</button>
                             <div class="panel panel-body">
                                 <div class="panel-heading">All Channels @yield('of_someone')</div>
                                 <div class="panel-body">
@@ -31,12 +32,11 @@
                                     <table class="table table-hover table-striped">
                                         <thead>
                                         <tr>
-                                            <th class="col-lg-1">#</th>
                                             <th class="col-lg-2">Username</th>
                                             <th class="col-lg-2">Screen Name</th>
                                             <th class="col-lg-3">Email</th>
                                             <th class="col-lg-2">Create Date</th>
-                                            <th class="col-lg-1">Status</th>
+                                            <th class="col-lg-2">Status</th>
                                             <th class="col-lg-1">Action</th>
                                         </tr>
                                         </thead>
@@ -44,13 +44,16 @@
                                         @if($channels_paging && $channels_paging->count())
                                             @foreach($channels_paging as $channel)
                                                 <tr>
-                                                    <td>{{$no++}}</td>
                                                     <td>{{$channel->daily_channel_username}}</td>
                                                     <td>{{$channel->daily_channel_name}}</td>
                                                     <td>{{$channel->email}}</td>
                                                     <td>{{date('l jS \of F Y', strtotime($channel->created_at))}}</td>
                                                     <td>
-                                                        <span class="label label-sm {{$channel_label_status[$channel->status]}}">{{$channel_status[$channel->status]}}</span>
+                                                        <span class="label label-sm {{$channel_label_status[$channel->status]}}">
+                                                            {{$channel_status[$channel->status]}}
+                                                        </span>
+                                                        <br/>
+                                                        {{$channel->approved_at?'('.$channel->approved_at.')':''}}
                                                     </td>
                                                     <td>
                                                         <div class="input-group-btn">

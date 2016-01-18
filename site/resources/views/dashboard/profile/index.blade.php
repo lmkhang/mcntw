@@ -101,7 +101,7 @@
                                 <div class="col-md-9">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#tab-edit" data-toggle="tab">Edit Profile</a></li>
-                                        {{--<li><a href="#tab-messages" data-toggle="tab">Messages</a></li>--}}
+                                        {{--<li><a href="#tab-bank" data-toggle="tab">Payment</a></li>--}}
                                     </ul>
                                     <div id="generalTabContent" class="tab-content">
                                         <div id="tab-edit" class="tab-pane fade in active">
@@ -238,173 +238,53 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            {{--<hr/>--}}
-                                            {{--<h3>Contact Setting</h3>--}}
-
-                                            {{--<div class="form-group"><label class="col-sm-3 control-label">Mobile--}}
-                                            {{--Phone</label>--}}
-
-                                            {{--<div class="col-sm-9 controls">--}}
-                                            {{--<div class="row">--}}
-                                            {{--<div class="col-xs-9"><input type="text"--}}
-                                            {{--placeholder="mobile phone"--}}
-                                            {{--class="form-control"/></div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="form-group"><label--}}
-                                            {{--class="col-sm-3 control-label">Google</label>--}}
-
-                                            {{--<div class="col-sm-9 controls">--}}
-                                            {{--<div class="row">--}}
-                                            {{--<div class="col-xs-9"><input type="text"--}}
-                                            {{--placeholder="website"--}}
-                                            {{--class="form-control"/></div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="form-group"><label--}}
-                                            {{--class="col-sm-3 control-label">Facebook</label>--}}
-
-                                            {{--<div class="col-sm-9 controls">--}}
-                                            {{--<div class="row">--}}
-                                            {{--<div class="col-xs-9"><input type="text"--}}
-                                            {{--placeholder="facebook"--}}
-                                            {{--class="form-control"/></div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="form-group"><label--}}
-                                            {{--class="col-sm-3 control-label">Twitter</label>--}}
-
-                                            {{--<div class="col-sm-9 controls">--}}
-                                            {{--<div class="row">--}}
-                                            {{--<div class="col-xs-9"><input type="text"--}}
-                                            {{--placeholder="twitter"--}}
-                                            {{--class="form-control"/></div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--</div>--}}
                                             <hr/>
                                             <button type="submit" name="commit" class="btn btn-green btn_save">Save
                                             </button>
                                             {!! Form::close() !!}
                                         </div>
-                                        <div id="tab-messages" class="tab-pane fade in">
-                                            <div class="row mbl">
-                                                <div class="col-lg-6"><span style="margin-left: 15px"></span><input
-                                                            type="checkbox"/><a href="#"
-                                                                                class="btn btn-success btn-sm mlm mrm"><i
-                                                                class="fa fa-send-o"></i>&nbsp;
-                                                        Write Mail</a><a href="#" class="btn btn-white btn-sm"><i
-                                                                class="fa fa-trash-o"></i>&nbsp;
-                                                        Delete</a></div>
-                                                <div class="col-lg-6">
-                                                    <div class="input-group"><input type="text"
-                                                                                    class="form-control"/><span
-                                                                class="input-group-btn"><button type="button"
-                                                                                                class="btn btn-white">
-                                                                Search
-                                                            </button></span></div>
+                                        <div id="tab-bank" class="tab-pane fade in">
+                                            <div id="tab-edit" class="tab-pane fade in active">
+                                                {!! Form::open(['url'=>'/dashboard/payment/change', 'method'=>'post',
+                                                'name'=>'payment-change',
+                                                'id'=>'payment-change-form', 'novalidate'=>'novalidate',
+                                                'class'=>'form-horizontal']) !!}
+                                                <h3>Payment Detils</h3>
+
+                                                <div class="form-group"><label class="col-sm-3 control-label">First
+                                                        Name</label>
+
+                                                    <div class="col-sm-9 controls">
+                                                        <div class="row">
+                                                            <div class="col-xs-4">
+                                                                <input type="text"
+                                                                                         value=""
+                                                                                         name="profile[first_name]"
+                                                                                         id="profile-first-name"
+                                                                                         placeholder="First name"
+                                                                                         class="form-control"/></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="list-group"><a href="#" class="list-group-item"><input
-                                                            type="checkbox"/><span
-                                                            class="fa fa-star text-yellow mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star text-yellow mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a><a
-                                                        href="#" class="list-group-item"><input type="checkbox"/><span
-                                                            class="fa fa-star-o mrm mlm"></span><span
-                                                            style="min-width: 120px; display: inline-block;"
-                                                            class="name">Bhaumik Patel</span><span>Sed ut perspiciatis unde</span>&nbsp;
-                                                    - &nbsp;<span style="font-size: 11px;" class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</span><span
-                                                            class="badge">12:10 AM</span><span
-                                                            class="pull-right mrl"><span
-                                                                class="glyphicon glyphicon-paperclip"></span></span></a>
+                                                <div class="form-group"><label class="col-sm-3 control-label">Last
+                                                        Name</label>
+
+                                                    <div class="col-sm-9 controls">
+                                                        <div class="row">
+                                                            <div class="col-xs-4">
+                                                                <input type="text"
+                                                                                         value=""
+                                                                                         name="profile[last_name]"
+                                                                                         id="profile-last-name"
+                                                                                         placeholder="Last name"
+                                                                                         class="form-control"/></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <hr/>
+                                                <button type="submit" name="commit" class="btn btn-green">Save
+                                                </button>
+                                                {!! Form::close() !!}
                                             </div>
                                         </div>
                                     </div>

@@ -1,5 +1,8 @@
 <?php
 return [
+    'path' => [
+        'csv' => 'temp'
+    ],
     'registration' => [
         'site' => 1,
         'dailymotion' => 2,

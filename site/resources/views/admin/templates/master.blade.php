@@ -28,6 +28,12 @@
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/pace.css">
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/jquery.news-ticker.css">
+
+    {{--Multiselect--}}
+    <link type="text/css" rel="stylesheet" href="/assets/css/lib/bootstrap-multiselect.css">
+
+    {{--Datetimepicker--}}
+    <link type="text/css" rel="stylesheet" href="/assets/css/lib/bootstrap-datetimepicker.css">
 </head>
 <body>
 <div>
@@ -98,6 +104,13 @@
 <script src="{{URL::asset('assets/js/lib/jquery.mockjax.js')}}"></script>
 <script src="{{URL::asset('assets/js/lib/jquery.form.js')}}"></script>
 <script src="{{URL::asset('assets/js/lib/jquery.validate.js')}}"></script>
+
+{{--Multiselect--}}
+<script src="{{URL::asset('assets/js/lib/bootstrap-multiselect.js')}}"></script>
+
+{{--Datetimepicker--}}
+<script src="{{URL::asset('assets/js/lib/moment-with-locales.js')}}"></script>
+<script src="{{URL::asset('assets/js/lib/bootstrap-datetimepicker.js')}}"></script>
 
 <!--CORE JAVASCRIPT-->
 <script src="/assets/dashboard/script/main.js"></script>

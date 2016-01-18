@@ -17,6 +17,10 @@
                             class="fa fa-desktop fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Channel Management</span></a></li>
+            <li class="{!! $active=='stats'?'active':'' !!}"><a href="{{url('/adminntw/stats')}}"><i
+                            class="fa fa-desktop fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">Statistics</span></a></li>
         </ul>
     </div>
 </nav>

@@ -30,8 +30,17 @@ class Channels extends Model
         return \App\Channels::whereRaw('del_flg = ? AND channel_id = ? ', [1, $channel_id])->first();
     }
 
-    public function getAllPaging($where = [], $number_pagination) {
+    public function getAllPaging($where = [], $number_pagination = '')
+    {
         $where['del_flg'] = 1;
-        return \App\Channels::where($where)->paginate($number_pagination);
+        $channels = \App\Channels::where($where);
+
+        if ($number_pagination) {
+            $channels = $channels->paginate($number_pagination);
+        } else {
+            $channels = $channels->get();
+        }
+
+        return $channels;
     }
 }

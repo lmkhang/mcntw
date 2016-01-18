@@ -29,6 +29,7 @@ class Home extends AdminController
      */
     public function index()
     {
+
         //set Title for PAGE
         $this->_page_title = 'Home';
 

@@ -165,4 +165,14 @@ class User extends Controller
         return Redirect::intended(url('/dashboard/profile'))->with('message', 'Change password successfully!');
 
     }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-18
+     * Change payment (bank or paypal)
+     */
+    public function payment_change(Request $request)
+    {
+
+    }
 }

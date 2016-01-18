@@ -51,7 +51,6 @@ class Channels extends AdminController
             'channels_paging' => $channels_paging,
             'channel_label_status' => config('constant.channel_label_status'),
             'channel_status' => config('constant.channel_status'),
-            'no' => 1,
         ]);
     }
 
@@ -76,6 +75,11 @@ class Channels extends AdminController
         $old_status = $channel->status;
 
         $channel->status = $status;
+        if ($status == 1) {
+            $channel->approved_at = date('Y-m-d H:i:s');
+        } else {
+            $channel->approved_at = null;
+        }
         $channel->save();
 
         //set Flash Message
