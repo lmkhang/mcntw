@@ -70,38 +70,17 @@
                                                 </button>
                                             </td>
                                         </tr>
-                                        {{--<tr>--}}
-                                        {{--<td>Status</td>--}}
-                                        {{--<td><span class="label label-success">Active</span></td>--}}
-                                        {{--</tr>--}}
-                                        {{--<tr>--}}
-                                        {{--<td>User Rating</td>--}}
-                                        {{--<td><i class="fa fa-star text-yellow fa-fw"></i><i--}}
-                                        {{--class="fa fa-star text-yellow fa-fw"></i><i--}}
-                                        {{--class="fa fa-star text-yellow fa-fw"></i><i--}}
-                                        {{--class="fa fa-star text-yellow fa-fw"></i><i--}}
-                                        {{--class="fa fa-star text-yellow fa-fw"></i></td>--}}
-                                        {{--</tr>--}}
                                         <tr>
                                             <td>Member Since</td>
                                             <td>{{ date('l jS \of F Y', strtotime($user['created_at']))}}</td>
                                         </tr>
                                         </tbody>
                                     </table>
-                                    {{--<div class="common-modal modal fade" id="common-Modal1" tabindex="-1" role="dialog"--}}
-                                    {{--aria-hidden="true">--}}
-                                    {{--<div class="modal-content">--}}
-                                    {{--<ul class="list-inline item-details">--}}
-                                    {{--<li><a href="http://themifycloud.com">Admin templates</a></li>--}}
-                                    {{--<li><a href="http://themescloud.org">Bootstrap themes</a></li>--}}
-                                    {{--</ul>--}}
-                                    {{--</div>--}}
-                                    {{--</div>--}}
                                 </div>
                                 <div class="col-md-9">
                                     <ul class="nav nav-tabs">
                                         <li class="active"><a href="#tab-edit" data-toggle="tab">Edit Profile</a></li>
-                                        {{--<li><a href="#tab-bank" data-toggle="tab">Payment</a></li>--}}
+                                        <li><a href="#tab-bank" data-toggle="tab">Payment</a></li>
                                     </ul>
                                     <div id="generalTabContent" class="tab-content">
                                         <div id="tab-edit" class="tab-pane fade in active">
@@ -249,40 +228,226 @@
                                                 'name'=>'payment-change',
                                                 'id'=>'payment-change-form', 'novalidate'=>'novalidate',
                                                 'class'=>'form-horizontal']) !!}
-                                                <h3>Payment Detils</h3>
+                                                <h2>Payment Detail (<span class="text-danger">{{$payment_notice}}</span>)</h2>
 
-                                                <div class="form-group"><label class="col-sm-3 control-label">First
-                                                        Name</label>
+                                                <div class="form-group">
+                                                    <select class="form-control selectpicker payment_method" name="payment[method]">
+                                                        @foreach($payment_method as $k=>$pm)
+                                                            <option value="{{$k}}">{{$pm}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
 
-                                                    <div class="col-sm-9 controls">
-                                                        <div class="row">
-                                                            <div class="col-xs-4">
-                                                                <input type="text"
-                                                                                         value=""
-                                                                                         name="profile[first_name]"
-                                                                                         id="profile-first-name"
-                                                                                         placeholder="First name"
-                                                                                         class="form-control"/></div>
+                                                {{--Bank Info--}}
+                                                <div class="row bank_method">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Bank</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <select class="form-control select_bank"
+                                                                            name="payment[bank]">
+                                                                        @foreach($banks as $b)
+                                                                            <option value="{{$b['bank_id']}}">{{$b['bank_name']}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">ID Number (Bank)</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[number_bank]"
+                                                                           id="payment-number-bank"
+                                                                           placeholder="ID Number"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">First
+                                                            Name</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[first_name]"
+                                                                           id="payment-first-name"
+                                                                           placeholder="First name"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group"><label class="col-sm-3 control-label">Middle
+                                                            Name</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[mid_name]"
+                                                                           id="payment-mid_name"
+                                                                           placeholder="Middle name"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Last Name</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[last_name]"
+                                                                           id="payment-last-name"
+                                                                           placeholder="Last name"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Address</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[address]"
+                                                                           id="payment-address"
+                                                                           placeholder="Address"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Ward</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[ward]"
+                                                                           id="payment-ward"
+                                                                           placeholder="Ward"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">District</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[district]"
+                                                                           id="payment-district"
+                                                                           placeholder="District"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">City</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="text"
+                                                                           value=""
+                                                                           name="payment[city]"
+                                                                           id="payment-city"
+                                                                           placeholder="City"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Phone</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="tel"
+                                                                           value=""
+                                                                           name="payment[phone]"
+                                                                           id="payment-phone"
+                                                                           placeholder="Phone"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Email</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="email"
+                                                                           value=""
+                                                                           name="payment[contact_email]"
+                                                                           id="payment-contact-email"
+                                                                           placeholder="Email"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group"><label class="col-sm-3 control-label">Last
-                                                        Name</label>
+                                                {{--End Bank Info--}}
 
-                                                    <div class="col-sm-9 controls">
-                                                        <div class="row">
-                                                            <div class="col-xs-4">
-                                                                <input type="text"
-                                                                                         value=""
-                                                                                         name="profile[last_name]"
-                                                                                         id="profile-last-name"
-                                                                                         placeholder="Last name"
-                                                                                         class="form-control"/></div>
+                                                {{--Paypal Info--}}
+                                                <div class="row paypal_method">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Email</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <input type="email"
+                                                                           value=""
+                                                                           name="payment[paypal_email]"
+                                                                           id="payment-paypal-email"
+                                                                           placeholder="Email"
+                                                                           class="form-control"/>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {{--End Paypal Info--}}
                                                 <hr/>
-                                                <button type="submit" name="commit" class="btn btn-green">Save
+                                                <button type="submit" name="commit" class="btn btn-green btn_send_payment">Send payment information
                                                 </button>
                                                 {!! Form::close() !!}
                                             </div>

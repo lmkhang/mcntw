@@ -60,7 +60,7 @@ class Channels extends AdminController
      * Change status
      */
 
-    public function change_status($channel_id, $status)
+    public function change_status($channel_id, $status, $date = '')
     {
         $channel_get = new \App\Channels;
         $channel = $channel_get->getChannelById($channel_id);
@@ -76,7 +76,8 @@ class Channels extends AdminController
 
         $channel->status = $status;
         if ($status == 1) {
-            $channel->approved_at = date('Y-m-d H:i:s');
+            $date = $date ? $date : date('Y-m-d');
+            $channel->approved_at = $date;
         } else {
             $channel->approved_at = null;
         }

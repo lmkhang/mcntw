@@ -44,6 +44,10 @@ class User extends Controller
         $this->_page_title = 'Profile';
 
         $countries = config('constant.countries');
+        $payment_method = config('constant.payment_method');
+        $payment_notice = \App\Config::where(['prefix' => 'site', 'name' => 'payment_notice', 'del_flg' => 1])->get()[0]['value'];
+        $banks_get = new \App\Banks;
+        $banks = $banks_get->getAll();
 
         return view('dashboard.profile.index', [
             'user' => $this->_user,
@@ -51,6 +55,9 @@ class User extends Controller
             'page_title' => $this->_page_title,
             'active' => $this->_active,
             'countries' => $countries,
+            'payment_method' => $payment_method,
+            'banks' => $banks,
+            'payment_notice' => $payment_notice,
         ]);
     }
 

@@ -28,6 +28,8 @@
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/zabuto_calendar.min.css">
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/pace.css">
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/jquery.news-ticker.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
 </head>
 <body>
 <div>
@@ -101,6 +103,9 @@
 
 <!--CORE JAVASCRIPT-->
 <script src="/assets/dashboard/script/main.js"></script>
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
 
 <!--Notice-->
 <script src="{{URL::asset('assets/js/lib/notie.js')}}"></script>

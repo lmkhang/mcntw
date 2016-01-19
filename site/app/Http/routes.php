@@ -180,7 +180,7 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
 
 
         //Change status of channel
-        Route::get('/status/{channel_id}/{status}', [
+        Route::get('/status/{channel_id}/{status}/{date}', [
             'as' => 'channel_change_status', 'uses' => 'Channels@change_status'
         ]);
 

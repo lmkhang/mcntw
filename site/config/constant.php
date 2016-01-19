@@ -1,5 +1,9 @@
 <?php
 return [
+    'payment_method' => [
+        1 => 'Sharemoney (Only For VietNam)',
+        2 => 'Paypal'
+    ],
     'path' => [
         'csv' => 'temp'
     ],

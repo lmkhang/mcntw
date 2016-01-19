@@ -24,7 +24,9 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-danger navbar-btn" onclick="window.location=''">Import Data (CSV)</button>
+                            <button type="button" class="btn btn-danger navbar-btn"
+                                    onclick="window.location='{{url('/adminntw/stats')}}'">Import Data (CSV)
+                            </button>
                             <div class="panel panel-body">
                                 <div class="panel-heading">All Channels @yield('of_someone')</div>
                                 <div class="panel-body">
@@ -63,7 +65,11 @@
                                                             <ul class="dropdown-menu">
                                                                 @foreach($channel_status as $k=>$c_status)
                                                                     <li>
-                                                                        <a href="{{ $k!=$channel->status?url('/adminntw/channels/status/'.$channel->channel_id.'/'.$k):'#'}}">{{$c_status}}</a>
+                                                                        <a href="#"
+                                                                           onclick="changeStatus(this); return false;"
+                                                                           data-status="{{$k}}"
+                                                                           data-change-id="{{$channel->channel_id}}"
+                                                                           data-action="{{ $k!=$channel->status?true:false}}">{{$c_status}}</a>
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
@@ -90,4 +96,8 @@
 @stop
 
 @section('content_script')
+    <script>
+        var date = '{{date('Y-m-d')}}';
+    </script>
+    <script src="/assets/admin/js/channels.js"></script>
 @stop

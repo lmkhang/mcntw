@@ -113,23 +113,26 @@ class Stats extends AdminController
 
         foreach ($csvArray as $k => $row) {
 
-            if ($checkDate && ($year . '-' . $month) != date('Y-m', strtotime($row['date']))) {
+            if ($checkDate && isset($row['date']) && ($year . '-' . $month) != date('Y-m', strtotime($row['date']))) {
                 continue;
             }
 
-            if ($channel_ids && count($channel_ids) > 0 && !in_array($row['channel_id'], $channel_ids)) {
+            if ($channel_ids && isset($row['channel_id']) && count($channel_ids) > 0 && !in_array($row['channel_id'], $channel_ids)) {
                 continue;
             }
+            try {
+                //New Payment
+                $earningDate = new \App\EarningDate;
+                $earningDate->daily_channel_id = isset($row['channel_id']) ? $row['channel_id'] : '';
+                $earningDate->daily_channel_username = isset($row['channel_username']) ? $row['channel_username'] : '';
+                $earningDate->parent_username = isset($row['parent_username']) ? $row['parent_username'] : '';
+                $earningDate->earning_date = isset($row['date']) ? $row['date'] : '';
+                $earningDate->estimated_earnings = isset($row['estimated_earnings']) ? $row['estimated_earnings'] : '';
+                $earningDate->impressions = isset($row['impressions']) ? $row['impressions'] : '';
+                $earningDate->save();
+            } catch (\Exception $ex) {
 
-            //New Payment
-            $earningDate = new \App\EarningDate;
-            $earningDate->daily_channel_id = isset($row['channel_id']) ? $row['channel_id'] : '';
-            $earningDate->daily_channel_username = isset($row['channel_username']) ? $row['channel_username'] : '';
-            $earningDate->parent_username = isset($row['parent_username']) ? $row['parent_username'] : '';
-            $earningDate->earning_date = isset($row['date']) ? $row['date'] : '';
-            $earningDate->estimated_earnings = isset($row['estimated_earnings']) ? $row['estimated_earnings'] : '';
-            $earningDate->impressions = isset($row['impressions']) ? $row['impressions'] : '';
-            $earningDate->save();
+            }
         }
 
         //delete file

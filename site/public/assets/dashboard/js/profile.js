@@ -91,6 +91,33 @@
     $(D).ready(function ($) {
         JQUERY4UPWD.UTIL.setupFormValidation();
     });
+
+    //Css for select menu
+    $('.selectpicker').selectpicker({
+        style: 'btn-info',
+        size: 8
+    });
+    $('.select_bank').selectpicker({
+        style: 'btn-body',
+        size: 4
+    });
+
+    //initial payment method
+    showMethod();
+
+    //choose payment method
+    $('.payment_method').on('change', function () {
+        showMethod();
+    });
+
 })(jQuery, window, document);
 
-
+function showMethod() {
+    if ($('.payment_method option:selected').val() == 1) {
+        $('.bank_method').show();
+        $('.paypal_method').hide();
+    } else {
+        $('.bank_method').hide();
+        $('.paypal_method').show();
+    }
+}
