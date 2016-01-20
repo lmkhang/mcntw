@@ -48,6 +48,8 @@ class User extends Controller
         $payment_notice = \App\Config::where(['prefix' => 'site', 'name' => 'payment_notice', 'del_flg' => 1])->get()[0]['value'];
         $banks_get = new \App\Banks;
         $banks = $banks_get->getAll();
+        $payment_get = new \App\Payment;
+        $payment = $payment_get->getPaymentInfomation($this->_user_id);
 
         return view('dashboard.profile.index', [
             'user' => $this->_user,
@@ -58,6 +60,7 @@ class User extends Controller
             'payment_method' => $payment_method,
             'banks' => $banks,
             'payment_notice' => $payment_notice,
+            'payment' => $payment,
         ]);
     }
 
@@ -180,6 +183,90 @@ class User extends Controller
      */
     public function payment_change(Request $request)
     {
+        //Check Status
+        if ($this->_stop) {
+            return Redirect::intended(url($this->_redirectTo));
+        }
 
+        //Post
+        $post = $request->all();
+        $payment = $post['payment'];
+
+        //Trim
+        $payment = $this->trim_all($payment);
+
+        //get method
+        $payment_method = config('constant.payment_method');
+        $method = $payment['method'];
+
+        $arr_check = [];
+        //Bank
+        if ($method == 1) {
+            $arr_check = [
+                'bank' => 'required',
+                'number_bank' => 'required|min:5|max:50',
+                'first_name' => 'required|min:2|max:50',
+                'mid_name' => 'required|min:2|max:50',
+                'last_name' => 'required|min:2|max:50',
+                'address' => 'required|min:2|max:250',
+                'ward' => 'required|min:2|max:250',
+                'district' => 'required|min:2|max:250',
+                'city' => 'required|min:2|max:250',
+                'phone' => 'required|min:9|max:14',
+                'contact_email' => 'required|min:5|max:100|email'
+            ];
+        } else if ($method == 2) {
+            $arr_check = [
+                'paypal_email' => 'required|min:5|max:100|email'
+            ];
+        }
+
+        //Setup validation
+        $validator = Validator::make(
+            $payment,
+            $arr_check
+        );
+
+        //Checking
+        if ($validator->fails()) {
+            //set Flash Message
+//            $this->setFlash('errors',  $validator->errors()->toArray());
+            $this->setFlash('message', 'Please type all information correctly for your payment method! <' . $payment_method[$method] . '>');
+            return redirect()->back();
+        }
+
+        //Insert or Update
+        $payment_get = new \App\Payment;
+        $payment_obj = $payment_get->getPaymentInfomation($this->_user_id);
+
+        if (!$payment_obj) {
+            $payment_obj = $payment_get;
+            $payment_obj->user_id = $this->_user_id;
+        }
+
+        $payment_obj->payment_method = $method;
+        if ($method == 1) {
+            //Bank
+            $payment_obj->bank_id = $payment['bank'];
+            $payment_obj->id_number_bank = $payment['number_bank'];
+            $payment_obj->phone = $payment['phone'];
+            $payment_obj->last_name = $payment['last_name'];
+            $payment_obj->mid_name = $payment['mid_name'];
+            $payment_obj->first_name = $payment['first_name'];
+            $payment_obj->address = $payment['address'];
+            $payment_obj->ward = $payment['ward'];
+            $payment_obj->district = $payment['district'];
+            $payment_obj->city = $payment['city'];
+            $payment_obj->contact_email = $payment['contact_email'];
+        } else if ($method == 2) {
+            //Paypal
+            $payment_obj->paypal_email = $payment['paypal_email'];
+        }
+
+        $payment_obj->save();
+
+        //set Flash Message
+        $this->setFlash('message', 'Update payment method <' . $payment_method[$method] . '> successfully!');
+        return redirect()->back()->with('message', 'Update payment method <' . $payment_method[$method] . '> successfully!');
     }
 }

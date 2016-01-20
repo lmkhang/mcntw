@@ -53,6 +53,12 @@
             <!--END TITLE & BREADCRUMB PAGE-->
             <!--BEGIN CONTENT-->
             @yield('content')
+            {{--It is hard to know--}}
+            <div class="hidden">
+                <div id="area-chart-spline" style="width: 100%; height: 300px">
+                </div>
+            </div>
+            {{--It is hard to know--}}
             <!--END CONTENT-->
             <!--BEGIN FOOTER-->
             @include('dashboard.templates.footer')
@@ -105,7 +111,7 @@
 <script src="/assets/dashboard/script/main.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/js/bootstrap-select.min.js"></script>
+<script src="/assets/js/lib/bootstrap-select.min.js"></script>
 
 <!--Notice-->
 <script src="{{URL::asset('assets/js/lib/notie.js')}}"></script>

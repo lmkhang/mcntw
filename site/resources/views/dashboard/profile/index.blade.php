@@ -1,3 +1,4 @@
+@inject('controller', 'App\Http\Controllers\Controller')
 @extends('dashboard.templates.master')
 
 @section('title')
@@ -228,12 +229,22 @@
                                                 'name'=>'payment-change',
                                                 'id'=>'payment-change-form', 'novalidate'=>'novalidate',
                                                 'class'=>'form-horizontal']) !!}
-                                                <h2>Payment Detail (<span class="text-danger">{{$payment_notice}}</span>)</h2>
-
+                                                <h2>Payment Detail (<span class="text-danger">{{$payment_notice}}</span>)
+                                                </h2>
+                                                @if($controller->hasFlash('errors'))
+                                                    @foreach($controller->getFlash('errors') as $att)
+                                                        @foreach($att as $err)
+                                                            <div class="text-warning common_message">
+                                                                {{$err}}
+                                                            </div>
+                                                        @endforeach
+                                                    @endforeach
+                                                @endif
                                                 <div class="form-group">
-                                                    <select class="form-control selectpicker payment_method" name="payment[method]">
+                                                    <select class="form-control selectpicker payment_method"
+                                                            name="payment[method]">
                                                         @foreach($payment_method as $k=>$pm)
-                                                            <option value="{{$k}}">{{$pm}}</option>
+                                                            <option value="{{$k}}" {{isset($payment['payment_method']) && $payment['payment_method']==$k?'selected':''}}>{{$pm}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -249,7 +260,7 @@
                                                                     <select class="form-control select_bank"
                                                                             name="payment[bank]">
                                                                         @foreach($banks as $b)
-                                                                            <option value="{{$b['bank_id']}}">{{$b['bank_name']}}</option>
+                                                                            <option value="{{$b['bank_id']}}"  {{isset($payment['bank_id']) && $payment['bank_id']==$b['bank_id']?'selected':''}}>{{$b['bank_name']}}</option>
                                                                         @endforeach
                                                                     </select>
                                                                 </div>
@@ -263,7 +274,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['id_number_bank'])?$payment['id_number_bank']:''}}"
                                                                            name="payment[number_bank]"
                                                                            id="payment-number-bank"
                                                                            placeholder="ID Number"
@@ -280,7 +291,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['first_name'])?$payment['first_name']:''}}"
                                                                            name="payment[first_name]"
                                                                            id="payment-first-name"
                                                                            placeholder="First name"
@@ -296,7 +307,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['mid_name'])?$payment['mid_name']:''}}"
                                                                            name="payment[mid_name]"
                                                                            id="payment-mid_name"
                                                                            placeholder="Middle name"
@@ -312,7 +323,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['last_name'])?$payment['last_name']:''}}"
                                                                            name="payment[last_name]"
                                                                            id="payment-last-name"
                                                                            placeholder="Last name"
@@ -329,7 +340,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['address'])?$payment['address']:''}}"
                                                                            name="payment[address]"
                                                                            id="payment-address"
                                                                            placeholder="Address"
@@ -346,7 +357,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['ward'])?$payment['ward']:''}}"
                                                                            name="payment[ward]"
                                                                            id="payment-ward"
                                                                            placeholder="Ward"
@@ -363,7 +374,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['district'])?$payment['district']:''}}"
                                                                            name="payment[district]"
                                                                            id="payment-district"
                                                                            placeholder="District"
@@ -380,7 +391,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="text"
-                                                                           value=""
+                                                                           value="{{isset($payment['city'])?$payment['city']:''}}"
                                                                            name="payment[city]"
                                                                            id="payment-city"
                                                                            placeholder="City"
@@ -397,7 +408,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="tel"
-                                                                           value=""
+                                                                           value="{{isset($payment['phone'])?$payment['phone']:''}}"
                                                                            name="payment[phone]"
                                                                            id="payment-phone"
                                                                            placeholder="Phone"
@@ -414,7 +425,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="email"
-                                                                           value=""
+                                                                           value="{{isset($payment['contact_email'])?$payment['contact_email']:''}}"
                                                                            name="payment[contact_email]"
                                                                            id="payment-contact-email"
                                                                            placeholder="Email"
@@ -435,7 +446,7 @@
                                                             <div class="row">
                                                                 <div class="col-xs-4">
                                                                     <input type="email"
-                                                                           value=""
+                                                                           value="{{isset($payment['paypal_email'])?$payment['paypal_email']:''}}"
                                                                            name="payment[paypal_email]"
                                                                            id="payment-paypal-email"
                                                                            placeholder="Email"
@@ -447,7 +458,8 @@
                                                 </div>
                                                 {{--End Paypal Info--}}
                                                 <hr/>
-                                                <button type="submit" name="commit" class="btn btn-green btn_send_payment">Send payment information
+                                                <button type="button" name="commit"
+                                                        class="btn btn-green btn_send_payment">Send payment information
                                                 </button>
                                                 {!! Form::close() !!}
                                             </div>
@@ -464,5 +476,8 @@
 @stop
 
 @section('content_script')
+    <script>
+        var arrCheck = new Array();
+    </script>
     <script src="/assets/dashboard/js/profile.js"></script>
 @stop

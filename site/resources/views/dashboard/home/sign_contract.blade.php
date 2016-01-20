@@ -11,12 +11,6 @@
         <div id="tab-general">
             <div class="row mbl">
                 <div class="col-lg-12">
-                    <div class="col-md-12">
-                        <div id="area-chart-spline" style="width: 100%; height: 300px; display: none;">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12">
                     <div class="row">
                         <div class="col-md-6 col-md-offset-3">
                             <div class="panel panel-orange">

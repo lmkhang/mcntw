@@ -110,13 +110,22 @@
         showMethod();
     });
 
+    //submitting payment
+    $('.btn_send_payment').on('click', function () {
+        notie.confirm('Are you sure you want to do that?', 'Yes', 'Cancel', function () {
+            $('#payment-change-form').submit();
+        });
+    });
+
 })(jQuery, window, document);
 
 function showMethod() {
     if ($('.payment_method option:selected').val() == 1) {
+        //Bank
         $('.bank_method').show();
         $('.paypal_method').hide();
     } else {
+        //Paypal
         $('.bank_method').hide();
         $('.paypal_method').show();
     }
