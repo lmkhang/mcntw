@@ -22,6 +22,16 @@ class Channels extends Model
 
     /**
      * @author: lmkhang - skype
+     * @date: 2016-01-24
+     * Get account by channel id
+     */
+    public function getUserIdByChannelId($channel_id = '')
+    {
+        return \App\Channels::whereRaw('status = ? AND del_flg = ? AND daily_channel_id = ? ', [1, 1, $channel_id])->first();
+    }
+
+    /**
+     * @author: lmkhang - skype
      * @date: 2016-01-15
      * Get channel
      */

@@ -203,6 +203,13 @@ class User extends Controller
                     $user->del_flg = 1;
                     $user->registration_system = $registration_system['dailymotion'];
                     $user->save();
+
+                    //Insert User Stats
+                    $user_stats = new \App\UserStats;
+                    $user_stats->user_id = $user->user_id;
+                    $user_stats->total = 0;
+                    $user_stats->del_flg = $user->del_flg;
+                    $user_stats->save();
                 }
 
                 //Set Session
@@ -310,6 +317,13 @@ class User extends Controller
                 $user->del_flg = 1;
                 $user->registration_system = $registration_system['facebook'];
                 $user->save();
+
+                //Insert User Stats
+                $user_stats = new \App\UserStats;
+                $user_stats->user_id = $user->user_id;
+                $user_stats->total = 0;
+                $user_stats->del_flg = $user->del_flg;
+                $user_stats->save();
             }
 
             //Set Session
@@ -415,6 +429,13 @@ class User extends Controller
                     $user->del_flg = 1;
                     $user->registration_system = $registration_system['google'];
                     $user->save();
+
+                    //Insert User Stats
+                    $user_stats = new \App\UserStats;
+                    $user_stats->user_id = $user->user_id;
+                    $user_stats->total = 0;
+                    $user_stats->del_flg = $user->del_flg;
+                    $user_stats->save();
                 }
 
                 //Set Session
@@ -466,6 +487,12 @@ class User extends Controller
                     $username->del_flg = 1;
                     $username->active_code = '';
                     $username->save();
+
+                    //Update User Stats
+                    $user_stats = \App\UserStats::find($username['user_id']);
+                    $user_stats->del_flg = 1;
+                    $user_stats->save();
+
                     //Set Session
                     $this->setLogSession(
                         [
@@ -562,6 +589,12 @@ class User extends Controller
         $user->last_name = $register['last_name'];
         $user->email = $register['email'];
         $user->save();
+
+        //Insert User Stats
+        $user_stats = new \App\UserStats;
+        $user_stats->user_id = $user->user_id;
+        $user_stats->total = 0;
+        $user_stats->save();
 
         //Send mail
         $this->_sendmail_registration($user);

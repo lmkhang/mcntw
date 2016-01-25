@@ -111,6 +111,7 @@ class Stats extends AdminController
             }
         }
 
+        $income = [];
         foreach ($csvArray as $k => $row) {
 
             if ($checkDate && isset($row['date']) && ($year . '-' . $month) != date('Y-m', strtotime($row['date']))) {
@@ -130,11 +131,45 @@ class Stats extends AdminController
                 $earningDate->estimated_earnings = isset($row['estimated_earnings']) ? $row['estimated_earnings'] : '';
                 $earningDate->impressions = isset($row['impressions']) ? $row['impressions'] : '';
                 $earningDate->save();
+
+                $money = $earningDate->estimated_earnings;
+                if (!isset($income[$earningDate->daily_channel_id]['info'])) {
+                    $income[$earningDate->daily_channel_id]['info'] = [
+                        'type' => 1,
+                        'date' => date('Y-m-d', strtotime($earningDate->earning_date)),
+                    ];
+                    $income[$earningDate->daily_channel_id]['income'] = $money;
+                } else {
+                    $income[$earningDate->daily_channel_id]['income'] = $income[$earningDate->daily_channel_id]['income'] + $money;
+                }
+
+
             } catch (\Exception $ex) {
 
             }
         }
+        /*echo '<pre/>';
+        print_r($income);
+        die;*/
 
+        //Insert Income
+        if ($income && count($income) > 0) {
+            foreach ($income as $channel_id => $in) {
+                //get user id by channel id
+                $channel_get = new \App\Channels;
+                $_channel = $channel_get->getUserIdByChannelId($channel_id);
+
+                $in_expen = new \App\UserIncomeExpenditure;
+                $in_expen->user_id = $_channel->user_id;
+                $in_expen->daily_channel_id = $channel_id;
+                $in_expen->amount = $in['income'];
+                $in_expen->type = $in['info']['type'];
+                $in_expen->date = $in['info']['date'];
+                $in_expen->save();
+            }
+        }
+        echo 'ra';
+        die;
         //delete file
         unlink($file);
 
