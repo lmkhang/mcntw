@@ -41,11 +41,27 @@ class Home extends Controller
         //set Title for PAGE
         $this->_page_title = 'Home';
 
+        //Get income-expenditure list
+        $user_in_ex_get = new \App\UserIncomeExpenditure;
+        $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
+        $user_in_ex = $user_in_ex_get->getAllPaging([
+            'user_income_expenditure.user_id' => $this->_user_id
+        ], $number_pagination);
+
+        //get money
+        $user_stats_get = new \App\UserStats;
+        $user_stats = $user_stats_get->getAccount($this->_user_id);
+
         return view('dashboard.home.index', [
             'user' => $this->_user,
             'name' => $this->getName(),
             'page_title' => $this->_page_title,
             'active' => $this->_active,
+            'user_stats' => $user_stats,
+            'number_pagination' => $number_pagination,
+            'user_in_ex' => $user_in_ex,
+            'in_expen_status' => config('constant.in_expen_status'),
+            'in_exp_action' => config('constant.in_exp_action'),
         ]);
     }
 }

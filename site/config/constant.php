@@ -1,5 +1,13 @@
 <?php
 return [
+    'in_expen_status' => [
+        1 => 'Income',
+        2 => 'Withdraw'
+    ],
+    'in_exp_action' => [
+        1 => 'System',
+        2 => 'Admin'
+    ],
     'payment_method' => [
         1 => 'Sharemoney (Only For VietNam)',
         2 => 'Paypal'

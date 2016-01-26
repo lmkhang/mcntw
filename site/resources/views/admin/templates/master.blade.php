@@ -57,6 +57,11 @@
             <!--END TITLE & BREADCRUMB PAGE-->
             <!--BEGIN CONTENT-->
             @yield('content')
+            {{--It is hard to know--}}
+            <div class="hidden">
+                <div id="area-chart-spline" style="width: 100%; height: 300px">
+                </div>
+            </div>
             <!--END CONTENT-->
             <!--BEGIN FOOTER-->
             @include('admin.templates.footer')

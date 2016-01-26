@@ -121,55 +121,74 @@ class Stats extends AdminController
             if ($channel_ids && isset($row['channel_id']) && count($channel_ids) > 0 && !in_array($row['channel_id'], $channel_ids)) {
                 continue;
             }
-            try {
-                //New Payment
-                $earningDate = new \App\EarningDate;
-                $earningDate->daily_channel_id = isset($row['channel_id']) ? $row['channel_id'] : '';
-                $earningDate->daily_channel_username = isset($row['channel_username']) ? $row['channel_username'] : '';
-                $earningDate->parent_username = isset($row['parent_username']) ? $row['parent_username'] : '';
-                $earningDate->earning_date = isset($row['date']) ? $row['date'] : '';
-                $earningDate->estimated_earnings = isset($row['estimated_earnings']) ? $row['estimated_earnings'] : '';
-                $earningDate->impressions = isset($row['impressions']) ? $row['impressions'] : '';
-                $earningDate->save();
+            //get user id by channel id
+            $channel_get = new \App\Channels;
+            $_channel = $channel_get->getUserIdByChannelId($row['channel_id']);
+            if ($_channel) {
+                try {
+                    //New Payment
+                    $earningDate = new \App\EarningDate;
+                    $earningDate->daily_channel_id = isset($row['channel_id']) ? $row['channel_id'] : '';
+                    $earningDate->daily_channel_username = isset($row['channel_username']) ? $row['channel_username'] : '';
+                    $earningDate->parent_username = isset($row['parent_username']) ? $row['parent_username'] : '';
+                    $earningDate->earning_date = isset($row['date']) ? $row['date'] : '';
+                    $earningDate->estimated_earnings = isset($row['estimated_earnings']) ? $row['estimated_earnings'] : '';
+                    $earningDate->impressions = isset($row['impressions']) ? $row['impressions'] : '';
+                    $earningDate->save();
 
-                $money = $earningDate->estimated_earnings;
-                if (!isset($income[$earningDate->daily_channel_id]['info'])) {
-                    $income[$earningDate->daily_channel_id]['info'] = [
-                        'type' => 1,
-                        'date' => date('Y-m-d', strtotime($earningDate->earning_date)),
-                    ];
-                    $income[$earningDate->daily_channel_id]['income'] = $money;
-                } else {
-                    $income[$earningDate->daily_channel_id]['income'] = $income[$earningDate->daily_channel_id]['income'] + $money;
+                    $money = $earningDate->estimated_earnings;
+                    if (!isset($income[$earningDate->daily_channel_id]['info'])) {
+                        $income[$earningDate->daily_channel_id]['info'] = [
+                            'user_id' => $_channel->user_id,
+                            'type' => 1,
+                            'date' => date('Y-m-d', strtotime($earningDate->earning_date)),
+                        ];
+                        $income[$earningDate->daily_channel_id]['income'] = $money;
+                    } else {
+                        $income[$earningDate->daily_channel_id]['income'] = $income[$earningDate->daily_channel_id]['income'] + $money;
+                    }
+
+
+                } catch (\Exception $ex) {
+
                 }
-
-
-            } catch (\Exception $ex) {
-
             }
         }
-        /*echo '<pre/>';
-        print_r($income);
-        die;*/
 
+        $user_income = [];
         //Insert Income
         if ($income && count($income) > 0) {
             foreach ($income as $channel_id => $in) {
-                //get user id by channel id
-                $channel_get = new \App\Channels;
-                $_channel = $channel_get->getUserIdByChannelId($channel_id);
+                try {
+                    $money = 0;
+                    $in_expen = new \App\UserIncomeExpenditure;
+                    $in_expen->user_id = $in['info']['user_id'];
+                    $in_expen->daily_channel_id = $channel_id;
+                    $in_expen->amount = $in['income'];
+                    $in_expen->type = $in['info']['type'];
+                    $in_expen->date = $in['info']['date'];
+                    $in_expen->save();
 
-                $in_expen = new \App\UserIncomeExpenditure;
-                $in_expen->user_id = $_channel->user_id;
-                $in_expen->daily_channel_id = $channel_id;
-                $in_expen->amount = $in['income'];
-                $in_expen->type = $in['info']['type'];
-                $in_expen->date = $in['info']['date'];
-                $in_expen->save();
+                    //update income
+                    if (!isset($user_income[$in_expen->user_id])) {
+                        $user_income[$in_expen->user_id] = 0;
+                    }
+                    $user_income[$in_expen->user_id] += $in['income'];
+
+                } catch (\Exception $ex) {
+
+                }
             }
         }
-        echo 'ra';
-        die;
+
+        //Update $ for user
+        foreach ($user_income as $user_id => $income) {
+            $user_stats_get = new \App\UserStats;
+            $user_stats = $user_stats_get->getAccount($user_id);
+            $user_stats->total = floatval($user_stats->total + $income);
+            $user_stats->save();
+        }
+
         //delete file
         unlink($file);
 

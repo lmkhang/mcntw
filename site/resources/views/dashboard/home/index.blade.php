@@ -12,89 +12,98 @@
         <div id="tab-general">
             <div id="sum_box" class="row mbl">
                 <div class="col-sm-6 col-md-3">
-                    <div class="panel profit db mbm">
-                        <div class="panel-body">
-                            <p class="icon">
-                                <i class="icon fa fa-shopping-cart"></i>
-                            </p>
-                            <h4 class="value">
-                                            <span data-counter="" data-start="10" data-end="50" data-step="1"
-                                                  data-duration="0">
-                                            </span><span>$</span></h4>
-
-                            <p class="description">
-                                Profit description</p>
-
-                            <div class="progress progress-sm mbn">
-                                <div role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 80%;" class="progress-bar progress-bar-success">
-                                    <span class="sr-only">80% Complete (success)</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
                     <div class="panel income db mbm">
                         <div class="panel-body">
                             <p class="icon">
                                 <i class="icon fa fa-money"></i>
                             </p>
                             <h4 class="value">
-                                <span>215</span><span>$</span></h4>
+                                <span></span><span>$</span>
+                            </h4>
 
                             <p class="description">
                                 Income detail</p>
-
-                            <div class="progress progress-sm mbn">
-                                <div role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 60%;" class="progress-bar progress-bar-info">
-                                    <span class="sr-only">60% Complete (success)</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="panel task db mbm">
-                        <div class="panel-body">
-                            <p class="icon">
-                                <i class="icon fa fa-signal"></i>
-                            </p>
-                            <h4 class="value">
-                                <span>215</span></h4>
-
-                            <p class="description">
-                                Task completed</p>
-
-                            <div class="progress progress-sm mbn">
-                                <div role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 50%;" class="progress-bar progress-bar-danger">
-                                    <span class="sr-only">50% Complete (success)</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-3">
-                    <div class="panel visit db mbm">
-                        <div class="panel-body">
-                            <p class="icon">
-                                <i class="icon fa fa-group"></i>
-                            </p>
-                            <h4 class="value">
-                                <span>128</span></h4>
-
-                            <p class="description">
-                                Visitor description</p>
-
-                            <div class="progress progress-sm mbn">
-                                <div role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
-                                     style="width: 70%;" class="progress-bar progress-bar-warning">
-                                    <span class="sr-only">70% Complete (success)</span></div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    {{--<button type="button" class="btn btn-danger navbar-btn btn_feed_back">Feed back</button>--}}
+                    <div class="panel panel-body">
+                        <div class="panel-heading">Income and Expenditure details of {{$name}}</div>
+                        <div class="panel-body">
+                            {!! $user_in_ex->render() !!}
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="col-lg-3">Screen Name</th>
+                                    <th class="col-lg-3">Username</th>
+                                    <th class="col-lg-2">Amount</th>
+                                    <th class="col-lg-1">Type</th>
+                                    <th class="col-lg-1">By</th>
+                                    <th class="col-lg-2">Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @if($user_in_ex && $user_in_ex->count())
+                                    @foreach($user_in_ex as $detail)
+                                        <tr>
+                                            <td>{{$detail->daily_channel_name}}</td>
+                                            <td>{{$detail->daily_channel_username}}</td>
+                                            <td>{{$detail->amount}}</td>
+                                            <td>{{$in_expen_status[$detail->type]}}</td>
+                                            <td>{{$in_exp_action[$detail->action]}}
+                                                @if($detail->action==2)
+                                                    <span data-container="body" data-toggle="popover"
+                                                          data-placement="left" data-content="{{$detail->reason}}"
+                                                          data-original-title="Reason" title=""><i
+                                                                class="fa fa-question-circle"></i></span>
+                                                @endif
+                                            </td>
+                                            <td>{{date('F Y', strtotime($detail->date))}}</td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="7" class="text-center text-danger">No record</td>
+                                    </tr>
+                                @endif
+                                </tbody>
+                            </table>
+                            {!! $user_in_ex->render() !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
+@stop
+
+@section('content_script')
+    <script>
+        var total = '{{$user_stats['total']}}';
+        var start = Math.floor(total / 1.5);
+        //BEGIN COUNTER FOR SUMMARY BOX
+        counterNum($(".income h4 span:first-child"), start, total, 1, 50);
+        function counterNum(obj, start, end, step, duration) {
+            $(obj).html(start);
+            setInterval(function () {
+                var val = Number($(obj).html());
+                if (val < end) {
+                    $(obj).html(val + step);
+                } else {
+                    //revert precise
+                    if (Number($(".income h4 span:first-child").html()) > total) {
+                        $(obj).html(total);
+                    }
+                    clearInterval();
+                }
+            }, duration);
+        }
+        //END COUNTER FOR SUMMARY BOX
+    </script>
 @stop
