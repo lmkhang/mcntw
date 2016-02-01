@@ -34,9 +34,9 @@ class Home extends AdminController
         $this->_page_title = 'Home';
 
         //Get income-expenditure list
-        $user_in_ex_get = new \App\UserIncomeExpenditure;
+        $user_get = new \App\User;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
-        $user_in_ex = $user_in_ex_get->getAllPaging([], $number_pagination);
+        $user_in_ex = $user_get->getAllPaging([], $number_pagination);
 
         //get money
         $user_stats_get = new \App\UserStats;
@@ -50,7 +50,6 @@ class Home extends AdminController
             'total_income' => $total_income,
             'user_in_ex' => $user_in_ex,
             'in_expen_status' => config('constant.in_expen_status'),
-            'in_exp_action' => config('constant.in_exp_action'),
         ]);
     }
 }

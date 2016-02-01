@@ -87,4 +87,49 @@ class Channels extends AdminController
         $this->setFlash('message', 'This status of ' . $channel->daily_channel_name . ' channel is changed from ' . $status_list[$old_status] . ' to ' . $status_list[$status]);
         return redirect()->back()->with('message', 'This status of ' . $channel->daily_channel_name . ' channel is changed from ' . $status_list[$old_status] . ' to ' . $status_list[$status]);
     }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-01
+     * Detail about income and expenditure of channel
+     */
+    public function detail($daily_channel_id)
+    {
+        //Check Status
+        if ($this->_stop) {
+            return Redirect::intended(url($this->_redirectTo));
+        }
+
+        //set Title for PAGE
+        $this->_page_title = 'Detail of A Channel';
+
+        //check owning channel
+        $channel_get = new \App\Channels;
+        $_channel = $channel_get->getUserIdByChannelId($daily_channel_id);
+        if (!$_channel) {
+            //set Flash Message
+            $this->setFlash('message', 'The channel is not existed!');
+            return Redirect::intended($this->_page_url)->with('message', 'The channel is not existed!');
+        }
+
+        //get income and expenditure list
+        //Get income-expenditure list
+        $channel_in_ex_get = new \App\ChannelIncomeExpenditure;
+        $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
+        $channel_in_ex = $channel_in_ex_get->getAllPagingForAdmin([
+            'channel_income_expenditure.daily_channel_id' => $daily_channel_id,
+        ], $number_pagination);
+
+        return view('admin.channels.detail', [
+            'admin' => $this->_admin,
+            'name' => $this->getName(),
+            'page_title' => $this->_page_title,
+            'active' => $this->_active,
+            'number_pagination' => $number_pagination,
+            'daily_channel_name' => $_channel['daily_channel_name'],
+            'channel_in_ex' => $channel_in_ex,
+            'in_expen_status' => config('constant.in_expen_status'),
+            'in_exp_action' => config('constant.in_exp_action'),
+        ]);
+    }
 }

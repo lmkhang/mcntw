@@ -30,6 +30,10 @@
     <link type="text/css" rel="stylesheet" href="/assets/dashboard/styles/jquery.news-ticker.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.9.4/css/bootstrap-select.min.css">
+
+    <!--Popup base on bootstrap-->
+    <link type="text/css" rel="stylesheet" href="/assets/css/lib/bootstrap-dialog.min.css">
+
 </head>
 <body>
 <div>
@@ -114,14 +118,22 @@
 <script src="/assets/js/lib/bootstrap-select.min.js"></script>
 
 <!--Notice-->
-<script src="{{URL::asset('assets/js/lib/notie.js')}}"></script>
+{{--<script src="{{URL::asset('assets/js/lib/notie.js')}}"></script>--}}
+
+<!--Popup base on bootstrap-->
+<script src="{{URL::asset('assets/js/lib/bootstrap-dialog.min.js')}}"></script>
 
 @if($controller->hasFlash('message'))
     <script>
-        notie.alert(4, '{{$controller->getFlash('message')}}', 4);
+        {{--notie.alert(4, '{{$controller->getFlash('message')}}', 4);--}}
+        BootstrapDialog.show({
+            title: 'Notice',
+            message: '{{$controller->getFlash('message')}}'
+        });
     </script>
 @endif
 
 @yield('content_script')
+@include('admin.templates.modal_dialog')
 </body>
 </html>

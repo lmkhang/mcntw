@@ -66,4 +66,19 @@ class User extends Model
         }
         return false;
     }
+
+    public function getAllPaging($where = [], $number_pagination = '')
+    {
+        $user_in_ex = \App\User::select($this->table . '.*', 'user_stats.total', 'user_stats.updated_at')->join('user_stats', function ($join) {
+            $join->on('user_stats.user_id', '=', $this->table . '.user_id');
+        })->where($where)->orderBy('user_stats.total', 'desc');
+
+        if ($number_pagination) {
+            $user_in_ex = $user_in_ex->paginate($number_pagination);
+        } else {
+            $user_in_ex = $user_in_ex->get();
+        }
+
+        return $user_in_ex;
+    }
 }

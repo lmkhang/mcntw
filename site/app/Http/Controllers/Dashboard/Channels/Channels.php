@@ -179,4 +179,50 @@ class Channels extends Controller
         $this->setFlash('message', 'Error!');
         return Redirect::intended($this->_page_url)->with('message', 'Error!');
     }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-01
+     * Detail about income and expenditure of channel
+     */
+    public function detail($daily_channel_id)
+    {
+        //Check Status
+        if ($this->_stop) {
+            return Redirect::intended(url($this->_redirectTo));
+        }
+
+        //set Title for PAGE
+        $this->_page_title = 'Detail of A Channel';
+
+        //check owning channel
+        $channel_get = new \App\Channels;
+        $_channel = $channel_get->getUserIdByChannelId($daily_channel_id);
+        if (!$_channel || $_channel['user_id'] != $this->_user_id) {
+            //set Flash Message
+            $this->setFlash('message', 'You do not own that channel!');
+            return Redirect::intended($this->_page_url)->with('message', 'You do not own that channel!');
+        }
+
+        //get income and expenditure list
+        //Get income-expenditure list
+        $channel_in_ex_get = new \App\ChannelIncomeExpenditure;
+        $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
+        $channel_in_ex = $channel_in_ex_get->getAllPaging([
+            'channel_income_expenditure.user_id' => $this->_user_id,
+            'channel_income_expenditure.daily_channel_id' => $daily_channel_id,
+        ], $number_pagination);
+
+        return view('dashboard.channels.detail', [
+            'user' => $this->_user,
+            'name' => $this->getName(),
+            'page_title' => $this->_page_title,
+            'active' => $this->_active,
+            'number_pagination' => $number_pagination,
+            'daily_channel_name' => $_channel['daily_channel_name'],
+            'channel_in_ex' => $channel_in_ex,
+            'in_expen_status' => config('constant.in_expen_status'),
+            'in_exp_action' => config('constant.in_exp_action'),
+        ]);
+    }
 }

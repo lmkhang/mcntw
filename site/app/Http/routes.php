@@ -98,6 +98,10 @@ Route::group(array('prefix' => 'dashboard', 'namespace' => 'Dashboard', 'as' => 
         Route::get('/dailymotion/add', [
             'as' => 'add_new_channels', 'uses' => 'Channels@callback_daily_channel'
         ]);
+        //Detail
+        Route::get('/{daily_channel_id}/detail', [
+            'as' => 'channel_detail', 'uses' => 'Channels@detail'
+        ]);
 
     });
 
@@ -184,6 +188,11 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'channel_change_status', 'uses' => 'Channels@change_status'
         ]);
 
+        //Detail
+        Route::get('/{daily_channel_id}/detail', [
+            'as' => 'channel_detail', 'uses' => 'Channels@detail'
+        ]);
+
     });
 
     //Statistics
@@ -199,6 +208,19 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
 
     });
 
+    //Member
+    Route::group(array('prefix' => 'members', 'namespace' => 'Members', 'as' => 'members'), function () {
+        //Home
+        Route::get('/', [
+            'as' => 'members_home', 'uses' => 'Members@index'
+        ]);
+
+        //Detail
+        Route::get('/{user_id}/detail', [
+            'as' => 'members_detail', 'uses' => 'Members@detail'
+        ]);
+
+    });
 
 });
 

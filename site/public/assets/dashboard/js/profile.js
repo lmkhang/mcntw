@@ -112,8 +112,25 @@
 
     //submitting payment
     $('.btn_send_payment').on('click', function () {
-        notie.confirm('Are you sure you want to do that?', 'Yes', 'Cancel', function () {
-            $('#payment-change-form').submit();
+        /*notie.confirm('Are you sure you want to do that?', 'Yes', 'Cancel', function () {
+         $('#payment-change-form').submit();
+         });*/
+
+        BootstrapDialog.confirm({
+            title: 'WARNING',
+            message: 'Are you sure you want to do that?',
+            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'Cancel!', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes!', // <-- Default value is 'OK',
+            btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+            callback: function (result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if (result) {
+                    $('#payment-change-form').submit();
+                }
+            }
         });
     });
 
@@ -129,4 +146,16 @@ function showMethod() {
         $('.bank_method').hide();
         $('.paypal_method').show();
     }
+}
+
+function copy_refer(refer) {
+    BootstrapDialog.show({
+        title: 'Notice',
+        message: 'Your refer link: <input type="text" class="input_copy_refer form-control" value="' + refer + '" onclick="selectAll(this); return false;">'
+    });
+}
+
+function selectAll(that) {
+    //select all while clicking input
+    $(that).select();
 }

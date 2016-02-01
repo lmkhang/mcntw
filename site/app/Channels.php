@@ -27,7 +27,7 @@ class Channels extends Model
      */
     public function getUserIdByChannelId($channel_id = '')
     {
-        return \App\Channels::whereRaw('status = ? AND del_flg = ? AND daily_channel_id = ? ', [1, 1, $channel_id])->first();
+        return \App\Channels::whereRaw('del_flg = ? AND daily_channel_id = ? ', [1, $channel_id])->first();
     }
 
     /**

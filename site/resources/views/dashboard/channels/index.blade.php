@@ -26,7 +26,7 @@
                         <div class="col-lg-12">
                             <button type="button" class="btn btn-danger navbar-btn btn_new_channel">New Channel</button>
                             <div class="panel panel-body">
-                                <div class="panel-heading">Channels of {{$name}}</div>
+                                <div class="panel-heading">Channels of <span class="text-uppercase text-dribbble">{{$name}}</span></div>
                                 <div class="panel-body">
                                     {!! $channels_paging->render() !!}
                                     <table class="table table-hover table-striped">
@@ -54,11 +54,12 @@
                                                         {{$channel->approved_at?'('.$channel->approved_at.')':''}}
                                                     </td>
                                                     <td>
-                                                        @if($channel->status==1)
-                                                            <button type="button" class="btn btn-google-plus btn-sm">
-                                                                Access
-                                                            </button>
-                                                        @endif
+                                                        {{--@if($channel->status==1)--}}
+                                                        <button type="button" class="btn btn-google-plus btn-sm"
+                                                                onclick="window.location='{{url('/dashboard/channels/'.$channel->daily_channel_id.'/detail')}}'">
+                                                            Detail
+                                                        </button>
+                                                        {{--@endif--}}
                                                     </td>
                                                 </tr>
                                             @endforeach

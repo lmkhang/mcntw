@@ -52,6 +52,9 @@ class Home extends Controller
         $user_stats_get = new \App\UserStats;
         $user_stats = $user_stats_get->getAccount($this->_user_id);
 
+        //min PAY
+        $minpay = \App\Config::where(['prefix' => 'payment', 'name' => 'minpay', 'del_flg' => 1])->get()[0]['value'];
+
         return view('dashboard.home.index', [
             'user' => $this->_user,
             'name' => $this->getName(),
@@ -62,6 +65,7 @@ class Home extends Controller
             'user_in_ex' => $user_in_ex,
             'in_expen_status' => config('constant.in_expen_status'),
             'in_exp_action' => config('constant.in_exp_action'),
+            'minpay' => $minpay,
         ]);
     }
 }

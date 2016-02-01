@@ -66,7 +66,7 @@
                                             <td>
                                                 {{$user['refer']}}<br/>
                                                 <button type="button" class="copy_refer btn btn-green"
-                                                        onclick="window.prompt('Copy link below', '{{url('/?refer='.$user['refer'])}}'); return false;">
+                                                        onclick="copy_refer('{{url('').'/?refer='.$user['refer']}}'); return false;">
                                                     Copy Refer Link
                                                 </button>
                                             </td>

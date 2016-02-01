@@ -40,6 +40,7 @@
                                             <th class="col-lg-2">Create Date</th>
                                             <th class="col-lg-2">Status</th>
                                             <th class="col-lg-1">Action</th>
+                                            <th class="col-lg-1"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -74,6 +75,12 @@
                                                                 @endforeach
                                                             </ul>
                                                         </div>
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-google-plus btn-sm"
+                                                                onclick="window.location='{{url('/adminntw/channels/'.$channel->daily_channel_id.'/detail')}}'">
+                                                            Detail
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             @endforeach

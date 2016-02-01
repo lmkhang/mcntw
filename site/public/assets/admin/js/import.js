@@ -39,7 +39,12 @@ $(document).ready(function () {
 
     //import
     $('.btn_import_data').click(function () {
-        notie.alert(4, 'Importing...', 999999);
+        //notie.alert(4, 'Importing...', 999999);
+        BootstrapDialog.show({
+            title: 'Notice',
+            message: 'Importing...'
+        });
+
         $('#stats-import-form').submit();
     });
 });
