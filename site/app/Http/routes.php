@@ -171,6 +171,15 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
         'as' => 'profile_change_password', 'uses' => 'User@profile_change_password'
     ]);
 
+    //Setting
+    Route::get('/setting', [
+        'as' => 'setting', 'uses' => 'Setting@index'
+    ]);
+
+    Route::post('/setting/change', [
+        'as' => 'setting_change', 'uses' => 'Setting@change'
+    ]);
+
     //Channel
     Route::group(array('prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels'), function () {
         //Home

@@ -25,6 +25,10 @@
                             class="fa fa-desktop fa-fw">
                         <div class="icon-bg bg-orange"></div>
                     </i><span class="menu-title">Statistics</span></a></li>
+            <li class="{!! $active=='setting'?'active':'' !!}"><a href="{{url('/adminntw/setting')}}"><i
+                            class="fa fa-gears fa-fw">
+                        <div class="icon-bg bg-orange"></div>
+                    </i><span class="menu-title">Setting</span></a></li>
         </ul>
     </div>
 </nav>

@@ -72,7 +72,8 @@ return [
                         <p></p>Information:
                         <br/>{info}
                         <br/>Name: {full_name_info}
-                        <br/>Amount: {amount_info}$
+                        <br/>Gross Amount: {gross_amount_info}
+                        <br/>Net Amount: {net_amount_info}
 
                         <p></p>This is your {mm-YYYY} income from dailymotion. Thanks for cooperation with you.
 

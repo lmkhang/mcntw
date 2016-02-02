@@ -68,12 +68,6 @@
                                             <td>{{$detail->amount}}$</td>
                                             <td>{{$in_expen_status[$detail->type]}}</td>
                                             <td>{{$in_exp_action[$detail->action]}}
-                                                @if($detail->action==2)
-                                                    <span data-container="body" data-toggle="popover"
-                                                          data-placement="left" data-content="{{$detail->reason}}"
-                                                          data-original-title="Reason" title=""><i
-                                                                class="fa fa-question-circle"></i></span>
-                                                @endif
                                             </td>
                                             <td>{{$detail->reason}}</td>
                                             <td>{{$detail->date}}</td>

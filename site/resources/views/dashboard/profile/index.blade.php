@@ -54,23 +54,23 @@
                                             <td>{{$user['payment_email']}}</td>
                                         </tr>
                                         @if($user['from_refer'])
-                                            <tr>
-                                                <td>From Refer ID</td>
-                                                <td>
-                                                    {{$user['from_refer']}}<br/>
-                                                </td>
-                                            </tr>
+                                            {{--<tr>--}}
+                                                {{--<td>From Refer ID</td>--}}
+                                                {{--<td>--}}
+                                                    {{--{{$user['from_refer']}}<br/>--}}
+                                                {{--</td>--}}
+                                            {{--</tr>--}}
                                         @endif
-                                        <tr>
-                                            <td>Refer ID</td>
-                                            <td>
-                                                {{$user['refer']}}<br/>
-                                                <button type="button" class="copy_refer btn btn-green"
-                                                        onclick="copy_refer('{{url('').'/?refer='.$user['refer']}}'); return false;">
-                                                    Copy Refer Link
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        {{--<tr>--}}
+                                            {{--<td>Refer ID</td>--}}
+                                            {{--<td>--}}
+                                                {{--{{$user['refer']}}<br/>--}}
+                                                {{--<button type="button" class="copy_refer btn btn-green"--}}
+                                                        {{--onclick="copy_refer('{{url('').'/?refer='.$user['refer']}}'); return false;">--}}
+                                                    {{--Copy Refer Link--}}
+                                                {{--</button>--}}
+                                            {{--</td>--}}
+                                        {{--</tr>--}}
                                         <tr>
                                             <td>Member Since</td>
                                             <td>{{ date('l jS \of F Y', strtotime($user['created_at']))}}</td>
@@ -240,13 +240,24 @@
                                                         @endforeach
                                                     @endforeach
                                                 @endif
-                                                <div class="form-group">
-                                                    <select class="form-control selectpicker payment_method"
-                                                            name="payment[method]">
-                                                        @foreach($payment_method as $k=>$pm)
-                                                            <option value="{{$k}}" {{isset($payment['payment_method']) && $payment['payment_method']==$k?'selected':''}}>{{$pm}}</option>
-                                                        @endforeach
-                                                    </select>
+
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <label class="col-sm-3 control-label">Payment Method</label>
+
+                                                        <div class="col-sm-9 controls">
+                                                            <div class="row">
+                                                                <div class="col-xs-4">
+                                                                    <select class="selectpicker payment_method"
+                                                                    name="payment[method]">
+                                                                    @foreach($payment_method as $k=>$pm)
+                                                                        <option value="{{$k}}" {{isset($payment['payment_method']) && $payment['payment_method']==$k?'selected':''}}>{{$pm}}</option>
+                                                                        @endforeach
+                                                                        </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
 
                                                 {{--Bank Info--}}

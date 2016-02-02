@@ -315,9 +315,9 @@ class Controller extends BaseController
      */
     public function getName()
     {
-        $name = htmlspecialchars_decode($this->_user['full_name']);
-        if (!$name) {
-            $name = htmlspecialchars_decode($this->_user['first_name'] . ' ' . $this->_user['last_name']);
+        $name = htmlspecialchars_decode($this->_user['first_name'] . ' ' . $this->_user['last_name']);
+        if (!$this->_user['first_name']) {
+            $name = htmlspecialchars_decode($this->_user['full_name']);
         }
         return $name;
     }

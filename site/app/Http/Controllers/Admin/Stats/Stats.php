@@ -183,7 +183,7 @@ class Stats extends AdminController
         //Update $ for user
         foreach ($user_income as $user_id => $income) {
             if ($income > 0) {
-                $this->historyInExp($user_id, $income);
+                $this->historyInExp($user_id, $income, '', 1, 1, ['is_import' => 1]);
             }
         }
 

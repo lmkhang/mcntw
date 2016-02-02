@@ -59,8 +59,8 @@ class User extends Controller
             $session->remove('google_access_token');
         }
         //set Flash Message
-        $this->setFlash('message', 'Logout!');
-        return Redirect::intended('/')->with('message', 'Logout!');
+        $this->setFlash('message', 'See you next time!');
+        return Redirect::intended('/')->with('message', 'See you next time!');
     }
 
     /**
@@ -96,8 +96,8 @@ class User extends Controller
         }
 
         //set Flash Message
-        $this->setFlash('message', 'Login!');
-        return Redirect::intended('/')->with('message', 'Login!');
+        $this->setFlash('message', 'Welcome to MCN!');
+        return Redirect::intended('/')->with('message', 'Welcome to MCN!');
     }
 
     /**
@@ -221,8 +221,8 @@ class User extends Controller
                     ]
                 );
                 //set Flash Message
-                $this->setFlash('message', 'Login!');
-                return Redirect::intended('/')->with('message', 'Login!');
+                $this->setFlash('message', 'Welcome to MCN!');
+                return Redirect::intended('/')->with('message', 'Welcome to MCN!');
             }
         }
         //set Flash Message
@@ -335,8 +335,8 @@ class User extends Controller
                 ]
             );
             //set Flash Message
-            $this->setFlash('message', 'Login!');
-            return Redirect::intended('/')->with('message', 'Login!');
+            $this->setFlash('message', 'Welcome to MCN!');
+            return Redirect::intended('/')->with('message', 'Welcome to MCN!');
         }
 
         //set Flash Message
@@ -447,7 +447,7 @@ class User extends Controller
                     ]
                 );
                 //set Flash Message
-                $this->setFlash('message', 'Login!');
+                $this->setFlash('message', 'Welcome to MCN!');
 //                return Redirect::intended('/')->with('message', 'Register successfully!');
             }
         }

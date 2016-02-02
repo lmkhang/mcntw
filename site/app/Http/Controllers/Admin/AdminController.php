@@ -273,9 +273,12 @@ class AdminController extends BaseController
      * $type: 1=> Plus; 2=> Minus
      * $action: 1=> System; 2=>People
      */
-    protected function historyInExp($user_id, $money, $reason = '', $type = 1, $action = 1, $post = [])
+    protected function historyInExp($user_id, $amount, $reason = '', $type = 1, $action = 1, $post = [])
     {
         $rs = true;
+        $process_amount = [
+            'amount' => $amount,
+        ];
         //get some info
         //min PAY
         $minpay = \App\Config::where(['prefix' => 'payment', 'name' => 'minpay', 'del_flg' => 1])->get()[0]['value'];
@@ -298,18 +301,33 @@ class AdminController extends BaseController
                 $rs = false;
                 return $rs;
             }
+            $process_amount = $this->payment_amount($amount, $user_payment['payment_method']);
         }
+
         //without payment, only withdraw
         if ($type == 2 && $user_stats->total < $post['amount']) {
             $rs = false;
             return $rs;
         }
 
+        //if choose import from csv
+        if (count($post) > 0 && isset($post['is_import']) && $post['is_import'] == 1 && $type == 1) {
+            $process_amount = $this->net_amount($amount);
+        }
+
         $date = isset($post['date']) ? date('Y-m-d H:i:s', strtotime($post['date'])) : date('Y-m-d H:i:s');
         //insert history
         $user_history = new \App\UserIncomeExpenditure;
         $user_history->user_id = $user_id;
-        $user_history->amount = $money;
+
+        $user_history->amount = $process_amount['amount'];
+        $user_history->tax_from_daily = isset($process_amount['tax_from_daily']) ? $process_amount['tax_from_daily'] : '';
+        $user_history->commission = isset($process_amount['commission']) ? $process_amount['commission'] : '';
+        $user_history->currency = isset($process_amount['currency']) ? $process_amount['currency'] : '';
+        $user_history->tax_pay_bank = isset($process_amount['tax_pay_bank']) ? $process_amount['tax_pay_bank'] : '';
+        $user_history->payment_method = isset($process_amount['payment_method']) ? $process_amount['payment_method'] : '';
+        $user_history->original_amount = isset($process_amount['original_amount']) ? $process_amount['original_amount'] : '';
+
         $user_history->type = $type;
         $user_history->date = $date;
         $user_history->action = $action;
@@ -317,11 +335,15 @@ class AdminController extends BaseController
 
         if ($type == 1) {
             //increase
-            $user_stats->total = floatval($user_stats->total + $money);
+            $user_stats->total = floatval($user_stats->total + $process_amount['amount']);
         } else if ($type == 2) {
             //withdraw, payment
-            $user_stats->total = floatval($user_stats->total - $money);
-            $this->sendmailPayment($user_id, $money, $date);
+            $_amount = isset($process_amount['original_amount']) ? $process_amount['original_amount'] : $process_amount['amount'];
+            $user_stats->total = floatval($user_stats->total - $_amount);
+            //if choose payment
+            if (count($post) > 0 && isset($post['is_payment']) && $post['is_payment'] == 1 && $type == 2) {
+                $this->sendmailPayment($user_id, $process_amount['string_amount'], $process_amount['string_original_amount'], $date);
+            }
         }
 
         $user_history->save();
@@ -334,7 +356,7 @@ class AdminController extends BaseController
      * @date: 2016-02-02
      * Send mail after paying
      */
-    protected function sendmailPayment($user_id, $money, $date)
+    protected function sendmailPayment($user_id, $amount, $original_amount, $date)
     {
         //get User
         $user_get = new \App\User;
@@ -350,7 +372,7 @@ class AdminController extends BaseController
         $from_address = $sender_info['email'];
         $from_name = $sender_info['name'];
         $subject = str_replace(array('{mm-YYYY}'), array(date('m-Y', strtotime($date))), $sender_info['subject']);
-        $content = str_replace(array('{full_name}', '{dd-mm-YYYY}', '{info}', '{full_name_info}', '{amount_info}', '{mm-YYYY}'), array($to_name, date('d-m-Y', strtotime($date)), $info['info'], $info['full_name_info'], $money, date('m-Y', strtotime($date))), $sender_info['content']);
+        $content = str_replace(array('{full_name}', '{dd-mm-YYYY}', '{info}', '{full_name_info}', '{gross_amount_info}', '{net_amount_info}', '{mm-YYYY}'), array($to_name, date('d-m-Y', strtotime($date)), $info['info'], $info['full_name_info'], $original_amount, $amount, date('m-Y', strtotime($date))), $sender_info['content']);
 
         try {
             Mail::send('emails.contact', array(
@@ -393,7 +415,7 @@ class AdminController extends BaseController
             $full_name_info = '';
             if ($user_payment['payment_method'] == 1) {
                 //Bank
-                $info .= "<br/>" . $type_info . "<br/>";
+                $info .= $type_info . "<br/>";
                 $info .= "Bank Name: " . $user_payment['bank_name'] . "<br/>";
                 $info .= "Bank ID: " . $user_payment['id_number_bank'] . "<br/>";
                 $info .= "Full Name: " . $user_payment['first_name'] . ' ' . $user_payment['last_name'] . ' ' . $user_payment['mid_name'] . "<br/>";
@@ -407,7 +429,7 @@ class AdminController extends BaseController
                 $full_name_info = $user_payment['first_name'] . ' ' . $user_payment['last_name'] . ' ' . $user_payment['mid_name'];
             } else if ($user_payment['payment_method'] == 2) {
                 //Paypal
-                $info .= "<br/>Paypal<br/>";
+                $info .= "Paypal<br/>";
                 $info .= $user_payment['paypal_email'];
                 $full_name_info = $user->full_name ? $user->full_name : $user->first_name . ' ' . $user->last_name;
             }
@@ -419,5 +441,73 @@ class AdminController extends BaseController
         }
 
         return $rs;
+    }
+
+    protected function get_currency($from_Currency, $to_Currency, $amount)
+    {
+        $amount = urlencode($amount);
+        $from_Currency = urlencode($from_Currency);
+        $to_Currency = urlencode($to_Currency);
+
+        $url = "http://www.google.com/finance/converter?a=$amount&from=$from_Currency&to=$to_Currency";
+
+        $ch = curl_init();
+        $timeout = 0;
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_setopt($ch, CURLOPT_USERAGENT,
+            "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)");
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $rawdata = curl_exec($ch);
+        curl_close($ch);
+        $data = explode('bld>', $rawdata);
+        $data = explode($to_Currency, $data[1]);
+
+        return round($data[0], 2);
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-03
+     * Formula for Net Amount
+     */
+    public function net_amount($income)
+    {
+        //get Setting value
+        $tax_from_daily = \App\Config::where(['prefix' => 'payment', 'name' => 'tax_from_daily', 'del_flg' => 1])->get()[0]['value'];
+        $commission = \App\Config::where(['prefix' => 'payment', 'name' => 'commission', 'del_flg' => 1])->get()[0]['value'];
+
+        $after_tax = $income - ($income * $tax_from_daily / 100);
+        $amount = $after_tax - ($after_tax * $commission / 100);
+        return [
+            'tax_from_daily' => $tax_from_daily,
+            'commission' => $commission,
+            'original_amount' => $income,
+            'amount' => $amount,
+        ];
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-03
+     * Formula for Payment Amount
+     */
+    public function payment_amount($original_amount, $payment_method)
+    {
+        //get Setting value
+        $currency = \App\Config::where(['prefix' => 'payment', 'name' => 'currency', 'del_flg' => 1])->get()[0]['value'];
+        $tax_pay_bank = \App\Config::where(['prefix' => 'payment', 'name' => 'tax_pay_bank', 'del_flg' => 1])->get()[0]['value'];
+
+        $amount = $payment_method == 1 ? ($original_amount * $currency) - $tax_pay_bank : $original_amount;
+        return [
+            'currency' => $payment_method == 1 ? $currency : '',
+            'tax_pay_bank' => $payment_method == 1 ? $tax_pay_bank : '',
+            'original_amount' => $original_amount,
+            'amount' => $amount,
+            'payment_method' => $payment_method,
+            'string_original_amount' => $original_amount . '$',
+            'string_amount' => $payment_method == 1 ? number_format($amount) . 'VND' : number_format($amount, 2) . '$',
+        ];
     }
 }
