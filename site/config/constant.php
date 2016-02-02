@@ -1,8 +1,8 @@
 <?php
 return [
     'in_expen_status' => [
-        1 => 'Income',
-        2 => 'Withdraw'
+        2 => 'Withdraw or Payment',
+        1 => 'Income or Increase'
     ],
     'in_exp_action' => [
         1 => 'System',

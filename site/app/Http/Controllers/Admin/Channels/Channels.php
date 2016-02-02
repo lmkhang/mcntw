@@ -114,10 +114,10 @@ class Channels extends AdminController
 
         //get income and expenditure list
         //Get income-expenditure list
-        $channel_in_ex_get = new \App\ChannelIncomeExpenditure;
+        $channel_in_ex_get = new \App\ChannelIncome;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
         $channel_in_ex = $channel_in_ex_get->getAllPagingForAdmin([
-            'channel_income_expenditure.daily_channel_id' => $daily_channel_id,
+            'channel_income.daily_channel_id' => $daily_channel_id,
         ], $number_pagination);
 
         return view('admin.channels.detail', [

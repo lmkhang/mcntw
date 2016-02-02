@@ -263,4 +263,35 @@ class AdminController extends BaseController
         $encoded_64 = str_replace("/", "mcenterntw", $encoded_64);
         return trim($encoded_64);
     }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-01
+     * $type: 1=> Plus; 2=> Minus
+     * $action: 1=> System; 2=>People
+     */
+    protected function historyInExp($user_id, $money, $reason = '', $type = 1, $action = 1)
+    {
+        //initial USERSTATS
+        $user_stats_get = new \App\UserStats;
+        $user_stats = $user_stats_get->getAccount($user_id);
+
+        //insert history
+        $user_history = new \App\UserIncomeExpenditure;
+        $user_history->user_id = $user_id;
+        $user_history->amount = $money;
+        $user_history->type = $type;
+        $user_history->date = date('Y-m-d H:i:s');
+        $user_history->action = $action;
+        $user_history->reason = $reason;
+
+        if ($type == 1) {
+            $user_stats->total = floatval($user_stats->total + $money);
+        } else if ($type == 2) {
+            $user_stats->total = floatval($user_stats->total - $money);
+        }
+
+        $user_history->save();
+        $user_stats->save();
+    }
 }

@@ -10,33 +10,40 @@ use Session;
 
 class Ajax extends AdminController
 {
+
     /**
      * @author: lmkhang - skype
-     * @date: 2016-01-10
-     * Check email for signing contract
+     * @date: 2016-01-15
+     * Adjust income of members
      */
-    public function checkSignContract(Request $request)
+    public function member_adjust(Request $request)
     {
-        //check sign contract
-        if ($this->_user['sign_contract'] == 1) {
-            //set Flash Message
-            die;
-        }
-
-        $message = 'This email is not available';
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $post = $request->all();
-            $sign_contract = $this->trim_all($post['sign_contract']);
+            $post = $this->trim_all($post);
 
-            $user = new \App\User();
-            if (!$user->checkExistedPaymentEmail($this->_user_id, $sign_contract['email'])) {
-                $message = '';
+            $rs = [
+                'error' => true,
+            ];
+
+            if ($post['user_id'] && $post['amount'] && $post['amount'] > 0 && $post['reason'] && $post['type']) {
+
+                /*echo '<pre/>';
+                print_r($post);
+                die;*/
+                //process data
+                $this->historyInExp($post['user_id'], $post['amount'], $post['reason'], $post['type'], 2);
+                $rs['error'] = false;
+
+                $user_stats_get = new \App\UserStats;
+                $user_stats = $user_stats_get->getAccount($post['user_id']);
+                $rs['user_id'] = $user_stats['user_id'];
+                $rs['total'] = $user_stats['total'];
+                $rs['last_income'] = date('Y-m-d H:i:s');
             }
 
             header('Content-Type: application/json');
-            echo json_encode([
-                'message' => $message
-            ]);
+            echo json_encode($rs);
             exit;
         }
     }

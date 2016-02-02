@@ -160,7 +160,7 @@ class Stats extends AdminController
         if ($income && count($income) > 0) {
             foreach ($income as $channel_id => $in) {
                 try {
-                    $in_expen = new \App\ChannelIncomeExpenditure;
+                    $in_expen = new \App\ChannelIncome;
                     $in_expen->user_id = $in['info']['user_id'];
                     $in_expen->daily_channel_id = $channel_id;
                     $in_expen->amount = $in['income'];
@@ -193,38 +193,5 @@ class Stats extends AdminController
         //set Flash Message
         $this->setFlash('message', 'Imported data');
         return redirect()->back()->with('message', 'Imported data');
-    }
-
-    /**
-     * @author: lmkhang - skype
-     * @date: 2016-02-01
-     * $type: 1=> Plus; 2=> Minus
-     * $action: 1=> System; 2=>People
-     */
-    private function historyInExp($user_id, $income, $reason = '', $type = 1, $action = 1)
-    {
-        //initial USERSTATS
-        $user_stats_get = new \App\UserStats;
-        $user_stats = $user_stats_get->getAccount($user_id);
-
-        if ($type == 1) {
-            //insert history
-            $user_history = new \App\UserIncomeExpenditure;
-            $user_history->user_id = $user_id;
-            $user_history->amount = $income;
-            $user_history->type = $type;
-            $user_history->date = date('Y-m-d H:i:s');
-            $user_history->action = $action;
-            $user_history->reason = $reason;
-
-
-            $user_stats->total = floatval($user_stats->total + $income);
-
-        } else if ($type == 2) {
-            $user_stats->total = floatval($user_stats->total - $income);
-        }
-
-        $user_history->save();
-        $user_stats->save();
     }
 }

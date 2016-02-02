@@ -52,7 +52,6 @@
                                 @endif
                                 </tbody>
                             </table>
-                            {!! $channel_in_ex->render() !!}
                         </div>
                     </div>
                 </div>

@@ -13,3 +13,4 @@
         onclick="perform(this); return false;">
     Adjust
 </button>
+<span class="message_{{$user_id}} text-red"></span>

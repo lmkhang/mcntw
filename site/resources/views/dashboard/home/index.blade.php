@@ -83,7 +83,6 @@
                                 @endif
                                 </tbody>
                             </table>
-                            {!! $user_in_ex->render() !!}
                         </div>
                     </div>
                 </div>

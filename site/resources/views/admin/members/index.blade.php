@@ -28,11 +28,11 @@
                                 <tbody>
                                 @if($user_in_ex && $user_in_ex->count())
                                     @foreach($user_in_ex as $detail)
-                                        <tr>
+                                        <tr class="tr_{{$detail->user_id}}">
                                             <td>{{$detail->full_name ? $detail->full_name:$detail->first_name. ' '.$detail->last_name}}</td>
                                             <td>{{$detail->payment_email}}</td>
-                                            <td>{{$detail->total}}$</td>
-                                            <td>{{date('F Y', strtotime($detail->updated_at))}}</td>
+                                            <td class="td_amount_{{$detail->user_id}}">{{$detail->total}}$</td>
+                                            <td class="td_last_income_{{$detail->user_id}}">{{date('Y-m-d H:i:s', strtotime($detail->updated_at))}}</td>
                                             <td>
                                                 @include('admin.members.adjust', ['user_id'=> $detail->user_id ])
                                             </td>
@@ -51,7 +51,6 @@
                                 @endif
                                 </tbody>
                             </table>
-                            {!! $user_in_ex->render() !!}
                         </div>
                     </div>
                 </div>

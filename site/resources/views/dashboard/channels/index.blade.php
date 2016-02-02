@@ -70,7 +70,6 @@
                                         @endif
                                         </tbody>
                                     </table>
-                                    {!! $channels_paging->render() !!}
                                 </div>
                             </div>
                         </div>

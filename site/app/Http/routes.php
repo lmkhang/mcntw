@@ -222,6 +222,11 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
 
     });
 
+    //Adjust
+    Route::post('/member/adjust', [
+        'as' => 'member_adjust', 'uses' => 'Ajax@member_adjust'
+    ]);
+
 });
 
 /*
