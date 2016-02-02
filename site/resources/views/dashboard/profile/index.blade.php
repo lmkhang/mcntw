@@ -385,7 +385,7 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label class="col-sm-3 control-label">City</label>
+                                                        <label class="col-sm-3 control-label">City/Province</label>
 
                                                         <div class="col-sm-9 controls">
                                                             <div class="row">

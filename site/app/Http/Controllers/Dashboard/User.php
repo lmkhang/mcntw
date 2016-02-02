@@ -206,11 +206,10 @@ class User extends Controller
                 'bank' => 'required',
                 'number_bank' => 'required|min:5|max:50',
                 'first_name' => 'required|min:2|max:50',
-                'mid_name' => 'required|min:2|max:50',
                 'last_name' => 'required|min:2|max:50',
-                'address' => 'required|min:2|max:250',
-                'ward' => 'required|min:2|max:250',
-                'district' => 'required|min:2|max:250',
+                'address' => 'required|min:1|max:250',
+                'ward' => 'required|min:1|max:250',
+                'district' => 'required|min:1|max:250',
                 'city' => 'required|min:2|max:250',
                 'phone' => 'required|min:9|max:14',
                 'contact_email' => 'required|min:5|max:100|email'
@@ -251,7 +250,7 @@ class User extends Controller
             $payment_obj->id_number_bank = $payment['number_bank'];
             $payment_obj->phone = $payment['phone'];
             $payment_obj->last_name = $payment['last_name'];
-            $payment_obj->mid_name = $payment['mid_name'];
+            $payment_obj->mid_name = isset($payment['mid_name']) ? $payment['mid_name'] : '';
             $payment_obj->first_name = $payment['first_name'];
             $payment_obj->address = $payment['address'];
             $payment_obj->ward = $payment['ward'];

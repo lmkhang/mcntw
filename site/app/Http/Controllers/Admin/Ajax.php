@@ -27,13 +27,8 @@ class Ajax extends AdminController
             ];
 
             if ($post['user_id'] && $post['amount'] && $post['amount'] > 0 && $post['reason'] && $post['type']) {
-
-                /*echo '<pre/>';
-                print_r($post);
-                die;*/
                 //process data
-                $this->historyInExp($post['user_id'], $post['amount'], $post['reason'], $post['type'], 2);
-                $rs['error'] = false;
+                $rs['error'] = $this->historyInExp($post['user_id'], $post['amount'], $post['reason'], $post['type'], 2, $post) ? false : true;
 
                 $user_stats_get = new \App\UserStats;
                 $user_stats = $user_stats_get->getAccount($post['user_id']);

@@ -16,6 +16,14 @@ class Payment extends Model
      */
     public function getPaymentInfomation($user_id)
     {
-        return \App\Payment::whereRaw('del_flg = ? AND user_id = ?', [1, $user_id])->first();
+        $where = [
+            $this->table . '.del_flg' => 1,
+            $this->table . '.user_id' => $user_id,
+        ];
+
+        return \App\Payment::select($this->table . '.*', 'm_banks.bank_name')
+            ->leftjoin('m_banks', function ($join) {
+                $join->on('m_banks.bank_id', '=', 'payment.bank_id');
+            })->where($where)->first();
     }
 }

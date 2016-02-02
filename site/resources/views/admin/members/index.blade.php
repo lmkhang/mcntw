@@ -1,3 +1,4 @@
+@inject('admincontroller', 'App\Http\Controllers\Admin\AdminController')
 @extends('admin.templates.master')
 
 @section('title')
@@ -18,10 +19,10 @@
                                 <thead>
                                 <tr>
                                     <th class="col-lg-2">Full Name</th>
-                                    <th class="col-lg-2">Payment Email</th>
-                                    <th class="col-lg-2">Amount</th>
+                                    <th class="col-lg-4">Payment Information</th>
+                                    <th class="col-lg-1">Amount</th>
                                     <th class="col-lg-2">Last Income</th>
-                                    <th class="col-lg-3">Action</th>
+                                    <th class="col-lg-2">Action</th>
                                     <th class="col-lg-1"></th>
                                 </tr>
                                 </thead>
@@ -30,11 +31,14 @@
                                     @foreach($user_in_ex as $detail)
                                         <tr class="tr_{{$detail->user_id}}">
                                             <td>{{$detail->full_name ? $detail->full_name:$detail->first_name. ' '.$detail->last_name}}</td>
-                                            <td>{{$detail->payment_email}}</td>
+                                            <td>
+                                                <?php $info = $admincontroller->createPaymentInfo($detail); ?>
+                                                {!! nl2br($info['info']) !!}
+                                            </td>
                                             <td class="td_amount_{{$detail->user_id}}">{{$detail->total}}$</td>
                                             <td class="td_last_income_{{$detail->user_id}}">{{date('Y-m-d H:i:s', strtotime($detail->updated_at))}}</td>
                                             <td>
-                                                @include('admin.members.adjust', ['user_id'=> $detail->user_id ])
+                                                @include('admin.members.adjust', ['user_id'=> $detail->user_id, 'total'=>$detail->total ])
                                             </td>
                                             <td>
                                                 <button type="button" class="btn btn-google-plus btn-sm"

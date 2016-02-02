@@ -628,7 +628,7 @@ class User extends Controller
         $content = str_replace(array('{full_name}', '{activated_link}'), array($to_name, $active_link), $sender_info['content']);
         $pathToFile = config('app.url') . '/download/term_of_site.pdf';
 
-//        try {
+        try {
             Mail::send('emails.contact', array(
                 'subject' => $subject,
                 'message' => $content,
@@ -640,10 +640,9 @@ class User extends Controller
                     ->subject($subject)
                     ->setBody($content);
             });
-        die;
-//        } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
-//        }
+        }
     }
 
     /**

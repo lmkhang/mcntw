@@ -12,7 +12,7 @@ class UserIncomeExpenditure extends Model
 
     public function getAllPaging($where = [], $number_pagination = '')
     {
-        $user_in_ex = \App\UserIncomeExpenditure::where($where)->orderBy('user_income_expenditure.date', 'desc');
+        $user_in_ex = \App\UserIncomeExpenditure::where($where)->orderBy('user_income_expenditure.created_at', 'desc');
 
         if ($number_pagination) {
             $user_in_ex = $user_in_ex->paginate($number_pagination);

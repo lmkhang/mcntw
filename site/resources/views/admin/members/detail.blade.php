@@ -18,9 +18,11 @@
                                 <thead>
                                 <tr>
                                     <th class="col-lg-2">Amount</th>
-                                    <th class="col-lg-1">Type</th>
+                                    <th class="col-lg-2">Type</th>
                                     <th class="col-lg-1">By</th>
+                                    <th class="col-lg-3">Reason</th>
                                     <th class="col-lg-2">Date</th>
+                                    <th class="col-lg-2">Create Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -30,14 +32,16 @@
                                             <td>{{$detail->amount}}$</td>
                                             <td>{{$in_expen_status[$detail->type]}}</td>
                                             <td>{{$in_exp_action[$detail->action]}}
-                                                @if($detail->action==2)
-                                                    <span data-container="body" data-toggle="popover"
-                                                          data-placement="left" data-content="{{$detail->reason}}"
-                                                          data-original-title="Reason" title=""><i
-                                                                class="fa fa-question-circle"></i></span>
-                                                @endif
+                                                {{--@if($detail->action==2)--}}
+                                                    {{--<span data-container="body" data-toggle="popover"--}}
+                                                          {{--data-placement="left" data-content="{{$detail->reason}}"--}}
+                                                          {{--data-original-title="Reason" title=""><i--}}
+                                                                {{--class="fa fa-question-circle"></i></span>--}}
+                                                {{--@endif--}}
                                             </td>
+                                            <td>{{$detail->reason}}</td>
                                             <td>{{$detail->date}}</td>
+                                            <td>{{$detail->created_at}}</td>
                                         </tr>
                                     @endforeach
                                 @else

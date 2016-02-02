@@ -61,6 +61,24 @@ return [
         'subject' => '[No-Reply] Congratulations! Sign contract successfully - Media Center Network',
         'content' => 'Dear {full_name},<p></p> Congratulations!<br/>You had signed contract successfully.<p></p>Sincerely,<br/>MCenterNTW Team',
     ],
+    'send_income_expenditure' => [
+        'email' => 'no-reply@mcenterntw.com',
+        'name' => 'Media Center Network',
+        'subject' => '[No-Reply] Payment for {mm-YYYY} (Dailymotion) - Media Center Network',
+        'content' => '  Dear {full_name},
+
+                        <p></p>This email just want to confirm that on {dd-mm-YYYY}, we (Media Center Network) has just made a payment to you via (Bank/paypal):
+
+                        <p></p>Information:
+                        <br/>{info}
+                        <br/>Name: {full_name_info}
+                        <br/>Amount: {amount_info}$
+
+                        <p></p>This is your {mm-YYYY} income from dailymotion. Thanks for cooperation with you.
+
+                        <p></p>Sincerely,
+                        <br/>MCenterNTW Team',
+    ],
     'countries' => [
         "AF" => array('name' => "Afghanistan", 'nativetongue' => "‫افغانستان"),
         "AX" => array('name' => "Åland Islands", 'nativetongue' => "Åland"),
