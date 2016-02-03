@@ -60,6 +60,9 @@ class Channels extends Controller
             'user_id' => $this->_user_id
         ], $number_pagination);
 
+        //get URL STATS
+        $url_stats = \App\Config::where(['prefix' => 'daily', 'name' => 'url_stats', 'del_flg' => 1])->get()[0]['value'];
+
         return view('dashboard.channels.index', [
             'user' => $this->_user,
             'name' => $this->getName(),
@@ -70,6 +73,7 @@ class Channels extends Controller
             'channels_paging' => $channels_paging,
             'channel_label_status' => config('constant.channel_label_status'),
             'channel_status' => config('constant.channel_status'),
+            'url_stats' => $url_stats,
             'no' => 1,
         ]);
     }

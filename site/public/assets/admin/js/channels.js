@@ -16,7 +16,7 @@ function changeStatus(that) {
         if (status == 1) {
             pr = prompt('Enter month/year for approved date. Format: YYYY-mm-dd', date);
             if (!isDate(pr)) {
-                alert('Date format is invalid or incorrect. Example: '+date);
+                alert('Date format is invalid or incorrect. Example: ' + date);
                 return false;
             }
         }
@@ -24,6 +24,30 @@ function changeStatus(that) {
     }
     return false;
 }
+
+function decline(that) {
+    var channel_id = $(that).data('channel-id');
+    BootstrapDialog.confirm({
+        title: 'WARNING',
+        message: 'Are you sure you want to do that?',
+        type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+        closable: true, // <-- Default value is false
+        draggable: true, // <-- Default value is false
+        btnCancelLabel: 'Cancel!', // <-- Default value is 'Cancel',
+        btnOKLabel: 'Yes!', // <-- Default value is 'OK',
+        btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+        callback: function (result) {
+            // result will be true if button was click, while it will be false if users close the dialog directly.
+            if (result) {
+                window.location.href = '/adminntw/channels/remove/' + channel_id;
+            }
+        }
+    });
+
+
+    return false;
+}
+
 
 function isDate(txtDate) {
     var currVal = txtDate;

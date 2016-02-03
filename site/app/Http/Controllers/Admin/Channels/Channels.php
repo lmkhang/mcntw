@@ -42,6 +42,9 @@ class Channels extends AdminController
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
         $channels_paging = $channel_get->getAllPaging([], $number_pagination);
 
+        //get URL STATS
+        $url_stats = \App\Config::where(['prefix' => 'daily', 'name' => 'url_stats', 'del_flg' => 1])->get()[0]['value'];
+
         return view('admin.channels.index', [
             'admin' => $this->_admin,
             'name' => $this->getName(),
@@ -51,6 +54,7 @@ class Channels extends AdminController
             'channels_paging' => $channels_paging,
             'channel_label_status' => config('constant.channel_label_status'),
             'channel_status' => config('constant.channel_status'),
+            'url_stats' => $url_stats,
         ]);
     }
 
@@ -131,5 +135,29 @@ class Channels extends AdminController
             'in_expen_status' => config('constant.in_expen_status'),
             'in_exp_action' => config('constant.in_exp_action'),
         ]);
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-03
+     * Remove
+     */
+
+    public function remove($channel_id)
+    {
+        $channel_get = new \App\Channels;
+        $channel = $channel_get->getChannelById($channel_id);
+        if (!$channel) {
+            //set Flash Message
+            $this->setFlash('message', 'This channel is deactivated!');
+            return redirect()->back()->with('message', 'This channel is deactivated!');
+        }
+
+        $channel_get = \App\Channels::find($channel_id);
+        $channel_get->delete();
+
+        //set Flash Message
+        $this->setFlash('message', $channel->daily_channel_name . ' channel is removed');
+        return redirect()->back()->with('message', $channel->daily_channel_name . ' channel is removed');
     }
 }

@@ -46,9 +46,19 @@
                                         <tbody>
                                         @if($channels_paging && $channels_paging->count())
                                             @foreach($channels_paging as $channel)
-                                                <tr>
-                                                    <td>{{$channel->daily_channel_username}}</td>
-                                                    <td>{{$channel->daily_channel_name}}</td>
+                                                <tr title="{{$channel->status==4?'All payment for this channel wil not be updated due violating dailymotion rules.':''}}">
+                                                    <td>
+                                                        <a href="{{str_replace(array('{channel_name}'), array($channel->daily_channel_username), $url_stats)}}"
+                                                           target="_blank">
+                                                            {{$channel->daily_channel_username}}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{str_replace(array('{channel_name}'), array($channel->daily_channel_username), $url_stats)}}"
+                                                           target="_blank">
+                                                            {{$channel->daily_channel_name}}
+                                                        </a>
+                                                    </td>
                                                     <td>{{$channel->email}}</td>
                                                     <td>{{date('l jS \of F Y', strtotime($channel->created_at))}}</td>
                                                     <td>
@@ -73,6 +83,11 @@
                                                                            data-action="{{ $k!=$channel->status?true:false}}">{{$c_status}}</a>
                                                                     </li>
                                                                 @endforeach
+                                                                    <li>
+                                                                        <a href="#"
+                                                                           onclick="decline(this); return false;"
+                                                                           data-channel-id="{{$channel->channel_id}}">Decline</a>
+                                                                    </li>
                                                             </ul>
                                                         </div>
                                                     </td>

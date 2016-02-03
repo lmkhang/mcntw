@@ -202,6 +202,11 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'channel_detail', 'uses' => 'Channels@detail'
         ]);
 
+        //Remove
+        Route::get('/remove/{channel_id}', [
+            'as' => 'channel_remove', 'uses' => 'Channels@remove'
+        ]);
+
     });
 
     //Statistics

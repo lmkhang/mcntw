@@ -123,7 +123,7 @@ class Stats extends AdminController
             }
             //get user id by channel id
             $channel_get = new \App\Channels;
-            $_channel = $channel_get->getUserIdByChannelId($row['channel_id']);
+            $_channel = $channel_get->getChannelForImport($row['channel_id'], 4, $row['date']);
             if ($_channel) {
                 try {
                     //New Payment
