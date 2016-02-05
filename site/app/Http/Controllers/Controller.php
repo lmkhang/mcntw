@@ -248,11 +248,15 @@ class Controller extends BaseController
 
         //Check Username
         if (isset($info['email']) && $info['email']) {
-            $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND email = ? ', [$registration_system, 1, 1, $info['email']])->first();
+            $username = \App\User::select('user_id', 'username', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND email = ? ', [$registration_system, 1, 1, $info['email']])->first();
 
             $result = $username;
         } else if (isset($info['username']) && $info['username']) {
-            $username = \App\User::select('user_id', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND username = ? ', [$registration_system, 1, 1, $info['username']])->first();
+            $username = \App\User::select('user_id', 'username', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND username = ? ', [$registration_system, 1, 1, $info['username']])->first();
+
+            $result = $username;
+        } else if (isset($info['daily_channel_id']) && $info['daily_channel_id']) {
+            $username = \App\User::select('user_id', 'username', 'email', 'registration_system')->whereRaw('registration_system = ? AND status = ? AND del_flg = ? AND daily_channel_id = ? ', [$registration_system, 1, 1, $info['daily_channel_id']])->first();
 
             $result = $username;
         }

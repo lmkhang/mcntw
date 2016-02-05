@@ -1,8 +1,8 @@
 <?php
 return [
     'in_expen_status' => [
-        2 => 'Withdraw or Payment',
-        1 => 'Income or Increase'
+        2 => '-',
+        1 => '+'
     ],
     'in_exp_action' => [
         1 => 'System',
@@ -10,7 +10,7 @@ return [
     ],
     'payment_method' => [
         1 => 'Sharemoney (Only For VietNam)',
-        2 => 'Paypal'
+//        2 => 'Paypal'
     ],
     'path' => [
         'csv' => 'temp'
@@ -67,13 +67,15 @@ return [
         'subject' => '[No-Reply] Payment for {mm-YYYY} (Dailymotion) - Media Center Network',
         'content' => '  Dear {full_name},
 
-                        <p></p>This email just want to confirm that on {dd-mm-YYYY}, we (Media Center Network) has just made a payment to you via (Bank/paypal):
+                        <p></p>This email just want to confirm that on {dd-mm-YYYY}, we (Media Center Network) have just made a payment to you via (Bank/paypal):
 
                         <p></p>Information:
                         <br/>{info}
                         <br/>Name: {full_name_info}
                         <br/>Gross Amount: {gross_amount_info}
                         <br/>Net Amount: {net_amount_info}
+                        <br/>Reason:
+                        <br/>{reason}
 
                         <p></p>This is your {mm-YYYY} income from dailymotion. Thanks for cooperation with you.
 

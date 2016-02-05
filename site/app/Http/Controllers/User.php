@@ -176,7 +176,7 @@ class User extends Controller
 
                 //Check existed account
                 $registration_system = config('constant.registration');
-                $user = $this->checkAccountSNS(['username' => $response_auth['username']], $registration_system['dailymotion']);
+                $user = $this->checkAccountSNS(['daily_channel_id' => $response['uid']], $registration_system['dailymotion']);
                 if (!$user) {
                     //insert
                     $match = new Libraries\Math();
@@ -192,6 +192,7 @@ class User extends Controller
 
                     $user = new \App\User;
                     $user->refer = $register['refer'];
+                    $user->daily_channel_id = $response['uid'];
                     $user->from_refer = !$message_refer ? $register['from_refer'] : '';
                     $user->username = $response_auth['username'];
                     $user->country = $response_auth['country'];
@@ -210,6 +211,12 @@ class User extends Controller
                     $user_stats->total = 0;
                     $user_stats->del_flg = $user->del_flg;
                     $user_stats->save();
+                } else {
+                    //checking user was changed from dailymotion -> update
+                    if ($response_auth['username'] != $user->username) {
+                        $user->username = $response_auth['username'];
+                        $user->save();
+                    }
                 }
 
                 //Set Session

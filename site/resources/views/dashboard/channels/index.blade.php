@@ -65,12 +65,12 @@
                                                         {{$channel->approved_at?'('.$channel->approved_at.')':''}}
                                                     </td>
                                                     <td>
-                                                        {{--@if($channel->status==1)--}}
-                                                        <button type="button" class="btn btn-google-plus btn-sm"
-                                                                onclick="window.location='{{url('/dashboard/channels/'.$channel->daily_channel_id.'/detail')}}'">
-                                                            Detail
-                                                        </button>
-                                                        {{--@endif--}}
+                                                        @if($channel->status!=4)
+                                                            <button type="button" class="btn btn-google-plus btn-sm"
+                                                                    onclick="window.location='{{url('/dashboard/channels/'.$channel->daily_channel_id.'/detail')}}'">
+                                                                Detail
+                                                            </button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

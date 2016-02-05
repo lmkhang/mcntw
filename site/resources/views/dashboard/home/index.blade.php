@@ -54,7 +54,6 @@
                                 <thead>
                                 <tr>
                                     <th class="col-lg-2">Amount</th>
-                                    <th class="col-lg-2">Type</th>
                                     <th class="col-lg-1">By</th>
                                     <th class="col-lg-3">Reason</th>
                                     <th class="col-lg-2">Date</th>
@@ -65,12 +64,11 @@
                                 @if($user_in_ex && $user_in_ex->count())
                                     @foreach($user_in_ex as $detail)
                                         <tr>
-                                            <td>{{$detail->amount}}$</td>
-                                            <td>{{$in_expen_status[$detail->type]}}</td>
+                                            <td>{{$in_expen_status[$detail->type]}}{{$detail->amount}} {{$detail->currency_string}}</td>
                                             <td>{{$in_exp_action[$detail->action]}}
                                             </td>
                                             <td>{{$detail->reason}}</td>
-                                            <td>{{$detail->date}}</td>
+                                            <td>{{date('F Y', strtotime($detail->date))}}</td>
                                             <td>{{$detail->created_at}}</td>
                                         </tr>
                                     @endforeach

@@ -21,8 +21,10 @@
                                 <thead>
                                 <tr>
                                     <th class="col-lg-3">Username</th>
+                                    {{--<th class="col-lg-2">Gross Amount</th>--}}
+                                    {{--<th class="col-lg-2">Net Amount</th>--}}
                                     <th class="col-lg-2">Amount</th>
-                                    <th class="col-lg-1">Type</th>
+
                                     <th class="col-lg-1">By</th>
                                     <th class="col-lg-2">Date</th>
                                 </tr>
@@ -32,8 +34,9 @@
                                     @foreach($channel_in_ex as $detail)
                                         <tr>
                                             <td>{{$detail->daily_channel_username}}</td>
-                                            <td>{{$detail->amount}}$</td>
-                                            <td>{{$in_expen_status[$detail->type]}}</td>
+                                            {{--<td>{{$in_expen_status[$detail->type]}}{{$detail->original_amount}}$</td>--}}
+                                            {{--<td>{{$in_expen_status[$detail->type]}}{{$detail->amount}}$</td>--}}
+                                            <td>{{$in_expen_status[$detail->type]}}{{$detail->amount}}$</td>
                                             <td>{{$in_exp_action[$detail->action]}}
                                                 @if($detail->action==2)
                                                     <span data-container="body" data-toggle="popover"

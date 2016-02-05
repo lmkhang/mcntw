@@ -112,6 +112,7 @@ class Stats extends AdminController
         }
 
         $income = [];
+        $channel_objects = [];
         foreach ($csvArray as $k => $row) {
 
             if ($checkDate && isset($row['date']) && ($year . '-' . $month) != date('Y-m', strtotime($row['date']))) {
@@ -122,9 +123,14 @@ class Stats extends AdminController
                 continue;
             }
             //get user id by channel id
-            $channel_get = new \App\Channels;
-            $_channel = $channel_get->getChannelForImport($row['channel_id'], 4, $row['date']);
+            if (!isset($channel_objects[$row['channel_id']])) {
+                $channel_get = new \App\Channels;
+                $channel_objects[$row['channel_id']] = $channel_get->getChannelForImport($row['channel_id'], $row['date']);
+            }
+            $_channel = $channel_objects[$row['channel_id']];
+
             if ($_channel) {
+                $_date = date('Y-m', strtotime($row['date']));
                 try {
                     //New Payment
                     $earningDate = new \App\EarningDate;
@@ -137,15 +143,16 @@ class Stats extends AdminController
                     $earningDate->save();
 
                     $money = $earningDate->estimated_earnings;
-                    if (!isset($income[$earningDate->daily_channel_id]['info'])) {
-                        $income[$earningDate->daily_channel_id]['info'] = [
+                    if (!isset($income[$earningDate->daily_channel_id][$_date]['info'])) {
+                        $income[$earningDate->daily_channel_id][$_date]['info'] = [
                             'user_id' => $_channel->user_id,
                             'type' => 1,
                             'date' => date('Y-m-d', strtotime($earningDate->earning_date)),
                         ];
-                        $income[$earningDate->daily_channel_id]['income'] = $money;
+                        $income[$earningDate->daily_channel_id][$_date]['income'] = $money;
+                        $income[$earningDate->daily_channel_id][$_date]['status'] = $_channel->status;
                     } else {
-                        $income[$earningDate->daily_channel_id]['income'] = $income[$earningDate->daily_channel_id]['income'] + $money;
+                        $income[$earningDate->daily_channel_id][$_date]['income'] = $income[$earningDate->daily_channel_id][$_date]['income'] + $money;
                     }
 
 
@@ -156,34 +163,61 @@ class Stats extends AdminController
         }
 
         $user_income = [];
+        $income_valid = 1;
         //Insert Income
         if ($income && count($income) > 0) {
-            foreach ($income as $channel_id => $in) {
-                try {
-                    $in_expen = new \App\ChannelIncome;
-                    $in_expen->user_id = $in['info']['user_id'];
-                    $in_expen->daily_channel_id = $channel_id;
-                    $in_expen->amount = $in['income'];
-                    $in_expen->type = $in['info']['type'];
-                    $in_expen->date = $in['info']['date'];
-                    $in_expen->save();
+            foreach ($income as $channel_id => $dates) {
+                foreach ($dates as $_date_ => $in) {
+                    try {
+                        $income_valid = 1;//valid
+                        if ($in['status'] == 4) {
+                            //blocked
+                            $income_valid = 2;//invalid
+                        }
+                        $channel_income = new \App\ChannelIncome;
+                        $channel_income->user_id = $in['info']['user_id'];
+                        $channel_income->daily_channel_id = $channel_id;
 
-                    //update income
-                    if (!isset($user_income[$in_expen->user_id])) {
-                        $user_income[$in_expen->user_id] = 0;
+                        $_amount = $this->net_amount($in['income']);
+//                    $channel_income->amount = $in['income'];
+                        $channel_income->amount = $_amount['amount'];
+                        $channel_income->original_amount = $_amount['original_amount'];
+                        $channel_income->commission = $_amount['commission'];
+                        $channel_income->tax_from_daily = $_amount['tax_from_daily'];
+
+                        $channel_income->status = $in['status'];
+                        $channel_income->type = $in['info']['type'];
+                        $channel_income->date = $_date_ . '-01';
+                        $channel_income->save();
+
+                        //update income
+                        if (!isset($user_income[$channel_income->user_id][$_date_][$income_valid])) {
+                            $user_income[$channel_income->user_id][$_date_][$income_valid]['income'] = 0;
+                            $user_income[$channel_income->user_id][$_date_][$income_valid]['date'] = $_date_;
+                            $user_income[$channel_income->user_id][$_date_][$income_valid]['type'] = $income_valid;
+                        }
+                        $user_income[$channel_income->user_id][$_date_][$income_valid]['income'] += $in['income'];
+
+                    } catch (\Exception $ex) {
+
                     }
-                    $user_income[$in_expen->user_id] += $in['income'];
-
-                } catch (\Exception $ex) {
-
                 }
             }
         }
 
         //Update $ for user
-        foreach ($user_income as $user_id => $income) {
-            if ($income > 0) {
-                $this->historyInExp($user_id, $income, '', 1, 1, ['is_import' => 1]);
+        //1: valid, 2: invalid
+        foreach ($user_income as $user_id => $date) {
+            foreach ($date as $_date_ => $income_valid) {
+                foreach ($income_valid as $_type => $r) {
+                    if ($r['income'] > 0) {
+                        try {
+                            $this->historyInExp($user_id, $r['income'], 'Processed by System', 1, 1, ['is_import' => 1, 'date' => $r['date']], $r['type']);
+                        } catch (\Exception $ex) {
+
+                        }
+                    }
+                }
             }
         }
 
@@ -193,5 +227,74 @@ class Stats extends AdminController
         //set Flash Message
         $this->setFlash('message', 'Imported data');
         return redirect()->back()->with('message', 'Imported data');
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-05-02
+     * Update all Amount: Gross, Net, Blocked, Hold
+     */
+    public function update()
+    {
+        //Get Amount
+        $user_stats_get = new \App\UserStats;
+        #Gross Amount
+
+        #Net Amount
+        $net_amount = $user_stats_get->getAmountAllAccount([], 'total');
+
+        #Pay Amount
+        $pay_amount = $user_stats_get->getPayAmount();
+
+        #Blocked Amount
+        $blocked_amount = $user_stats_get->getAmountAllAccount([], 'loss_total');
+
+        #Hold Amount
+        $hold_amount = $user_stats_get->getHoldAmount();
+
+        //Update Amount
+        $home_get = new \App\Home;
+        #Gross Amount
+
+        #Net Amount
+        $net_amount_get = $home_get->getKey([
+            'prefix' => 'stats',
+            'name' => 'net_mount',
+            'del_flg' => 1,
+        ]);
+        $net_amount_get->value = $net_amount;
+        $net_amount_get->save();
+
+        #Pay Amount
+        $pay_amount_get = $home_get->getKey([
+            'prefix' => 'stats',
+            'name' => 'pay_amount',
+            'del_flg' => 1,
+        ]);
+        $pay_amount_get->value = $pay_amount;
+        $pay_amount_get->save();
+
+        #Blocked Amount
+        $blocked_amount_get = $home_get->getKey([
+            'prefix' => 'stats',
+            'name' => 'blocked_mount',
+            'del_flg' => 1,
+        ]);
+        $blocked_amount_get->value = $blocked_amount;
+        $blocked_amount_get->save();
+
+        #Hold Amount
+        $hold_amount_get = $home_get->getKey([
+            'prefix' => 'stats',
+            'name' => 'hold_amount',
+            'del_flg' => 1,
+        ]);
+        $hold_amount_get->value = $hold_amount;
+        $hold_amount_get->save();
+
+
+        //set Flash Message
+        $this->setFlash('message', 'Updated successfully!');
+        return redirect()->back()->with('message', 'Updated successfully!');
     }
 }

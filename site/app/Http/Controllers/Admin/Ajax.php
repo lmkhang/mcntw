@@ -26,7 +26,7 @@ class Ajax extends AdminController
                 'error' => true,
             ];
 
-            if ($post['user_id'] && $post['amount'] && $post['amount'] > 0 && $post['reason'] && $post['type']) {
+            if ($post['user_id'] && $post['amount'] && $post['amount'] > 0 && $post['type']) {
                 //process data
                 $rs['error'] = $this->historyInExp($post['user_id'], $post['amount'], $post['reason'], $post['type'], 2, $post) ? false : true;
 

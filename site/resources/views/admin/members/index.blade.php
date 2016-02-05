@@ -15,5 +15,9 @@
 @stop
 
 @section('content_script')
+    <script>
+        var tax_pay_bank = '{{$tax_pay_bank}}';
+        var currency = '{{$currency}}';
+    </script>
     <script src="/assets/admin/js/members.js"></script>
 @stop

@@ -11,17 +11,17 @@
                 <div class="col-lg-12">
                     {{--<button type="button" class="btn btn-danger navbar-btn btn_feed_back">Feed back</button>--}}
                     <div class="panel panel-body">
-                        <div class="panel-heading">Income and Expenditure details of <span class="text-uppercase text-dribbble">{{$name}}</span></div>
+                        <div class="panel-heading">Income and Expenditure details of <span
+                                    class="text-uppercase text-dribbble">{{$name}}</span></div>
                         <div class="panel-body">
                             {!! $user_in_ex->render() !!}
                             <table class="table table-hover table-striped">
                                 <thead>
                                 <tr>
                                     <th class="col-lg-2">Amount</th>
-                                    <th class="col-lg-2">Type</th>
                                     <th class="col-lg-1">By</th>
-                                    <th class="col-lg-3">Reason</th>
-                                    <th class="col-lg-2">Date</th>
+                                    <th class="col-lg-2">Reason</th>
+                                    <th class="col-lg-1">Date</th>
                                     <th class="col-lg-2">Create Date</th>
                                 </tr>
                                 </thead>
@@ -29,18 +29,17 @@
                                 @if($user_in_ex && $user_in_ex->count())
                                     @foreach($user_in_ex as $detail)
                                         <tr>
-                                            <td>{{$detail->amount}}$</td>
-                                            <td>{{$in_expen_status[$detail->type]}}</td>
+                                            <td>{{$in_expen_status[$detail->type]}}{{$detail->amount}} {{$detail->currency_string}}</td>
                                             <td>{{$in_exp_action[$detail->action]}}
                                                 {{--@if($detail->action==2)--}}
-                                                    {{--<span data-container="body" data-toggle="popover"--}}
-                                                          {{--data-placement="left" data-content="{{$detail->reason}}"--}}
-                                                          {{--data-original-title="Reason" title=""><i--}}
-                                                                {{--class="fa fa-question-circle"></i></span>--}}
+                                                {{--<span data-container="body" data-toggle="popover"--}}
+                                                {{--data-placement="left" data-content="{{$detail->reason}}"--}}
+                                                {{--data-original-title="Reason" title=""><i--}}
+                                                {{--class="fa fa-question-circle"></i></span>--}}
                                                 {{--@endif--}}
                                             </td>
                                             <td>{{$detail->reason}}</td>
-                                            <td>{{$detail->date}}</td>
+                                            <td>{{date('F Y', strtotime($detail->date))}}</td>
                                             <td>{{$detail->created_at}}</td>
                                         </tr>
                                     @endforeach
@@ -60,5 +59,5 @@
 @stop
 
 @section('content_script')
-    
+
 @stop

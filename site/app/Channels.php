@@ -35,10 +35,10 @@ class Channels extends Model
      * @date: 2016-01-24
      * Get account by channel id
      */
-    public function getChannelForImport($channel_id = '', $exclude_status = 4, $date_record)
+    public function getChannelForImport($channel_id = '', $date_record)
     {
         $date_record = date('Y-m-d H:i:s', strtotime($date_record));
-        return \App\Channels::whereRaw('status <> ? AND del_flg = ? AND approved_at <= ? AND daily_channel_id = ?', [$exclude_status, 1, $date_record, $channel_id])->first();
+        return \App\Channels::whereRaw('del_flg = ? AND approved_at <= ? AND daily_channel_id = ?', [1, $date_record, $channel_id])->first();
     }
 
     /**

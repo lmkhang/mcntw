@@ -220,6 +220,10 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'stats_import', 'uses' => 'Stats@import'
         ]);
 
+        Route::get('/update', [
+            'as' => 'stats_update', 'uses' => 'Stats@update'
+        ]);
+
     });
 
     //Member

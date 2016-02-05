@@ -45,7 +45,8 @@ class Home extends Controller
         $user_in_ex_get = new \App\UserIncomeExpenditure;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
         $user_in_ex = $user_in_ex_get->getAllPaging([
-            'user_income_expenditure.user_id' => $this->_user_id
+            'user_income_expenditure.user_id' => $this->_user_id,
+            'user_income_expenditure.status' => 1,
         ], $number_pagination);
 
         //get money

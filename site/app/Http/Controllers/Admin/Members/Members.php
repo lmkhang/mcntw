@@ -37,6 +37,10 @@ class Members extends AdminController
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
         $user_in_ex = $user_get->getAllPaging([], $number_pagination);
 
+        //get info payment
+        $currency = \App\Config::where(['prefix' => 'payment', 'name' => 'currency', 'del_flg' => 1])->get()[0]['value'];
+        $tax_pay_bank = \App\Config::where(['prefix' => 'payment', 'name' => 'tax_pay_bank', 'del_flg' => 1])->get()[0]['value'];
+
         return view('admin.members.index', [
             'admin' => $this->_admin,
             'name' => $this->getName(),
@@ -44,6 +48,8 @@ class Members extends AdminController
             'active' => $this->_active,
             'user_in_ex' => $user_in_ex,
             'in_expen_status' => config('constant.in_expen_status'),
+            'currency' => $currency,
+            'tax_pay_bank' => $tax_pay_bank,
         ]);
     }
 
@@ -72,7 +78,8 @@ class Members extends AdminController
         $user_in_ex_get = new \App\UserIncomeExpenditure;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
         $user_in_ex = $user_in_ex_get->getAllPaging([
-            'user_income_expenditure.user_id' => $user_id
+            'user_income_expenditure.user_id' => $user_id,
+            'user_income_expenditure.status' => 1,
         ], $number_pagination);
 
         return view('admin.members.detail', [

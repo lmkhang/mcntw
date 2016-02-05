@@ -24,9 +24,37 @@ class UserStats extends Model
      * @date: 2016-01-10
      * Get all account by User_id
      */
-    public function getIncomeAllAccount()
+    public function getAmountAllAccount($where = [], $column)
     {
-        return \App\UserStats::whereRaw('status = ? AND del_flg = ?', [1, 1])->sum('total');
+        $where['status'] = 1;
+        $where['del_flg'] = 1;
+
+        return \App\UserStats::where($where)->sum($column);
     }
 
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-05
+     * Get all amount of all user < min pay
+     */
+    public function getHoldAmount()
+    {
+        //min PAY
+        $minpay = \App\Config::where(['prefix' => 'payment', 'name' => 'minpay', 'del_flg' => 1])->get()[0]['value'];
+
+        return \App\UserStats::whereRaw('status = ? AND del_flg = ? AND total < ? ', [1, 1, $minpay])->sum('total');
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-05
+     * Get all amount of all user >= min pay
+     */
+    public function getPayAmount()
+    {
+        //min PAY
+        $minpay = \App\Config::where(['prefix' => 'payment', 'name' => 'minpay', 'del_flg' => 1])->get()[0]['value'];
+
+        return \App\UserStats::whereRaw('status = ? AND del_flg = ? AND total >= ? ', [1, 1, $minpay])->sum('total');
+    }
 }

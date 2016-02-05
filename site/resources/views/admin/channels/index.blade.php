@@ -66,7 +66,7 @@
                                                             {{$channel_status[$channel->status]}}
                                                         </span>
                                                         <br/>
-                                                        {{$channel->approved_at?'('.$channel->approved_at.')':''}}
+                                                        {{$channel->status==1?'('.$channel->approved_at.')':''}}
                                                     </td>
                                                     <td>
                                                         <div class="input-group-btn">

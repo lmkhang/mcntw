@@ -2,7 +2,7 @@ $(document).ready(function () {
     //Datetime picker
     $('.datetime').datetimepicker({
         viewMode: 'days',
-        format: 'DD/MM/YYYY',
+        format: 'MM/DD/YYYY',
         icons: {
             date: "fa fa-calendar",
             up: "fa fa-arrow-up",
@@ -22,7 +22,10 @@ function perform(that) {
             var type = $('.type_' + user_id + ' option:selected').val() ? $('.type_' + user_id + ' option:selected').val() : 2;
             var amount = $('.amount_' + user_id).val();
             var date = $('.date_' + user_id).val();
-            var reason = $('.reason_' + user_id).val() ? $('.reason_' + user_id).val() : 'Pay for user';
+
+            var _reason_temp = is_payment == 1 ? 'Payment for {mm-YYYY} (Dailymotion)' : '';
+
+            var reason = $('.reason_' + user_id).val() ? $('.reason_' + user_id).val() : _reason_temp;
 
             //send to Server
             var request = $.ajax({
@@ -55,6 +58,7 @@ function perform(that) {
                     //Clear
                     $('.amount_' + user_id).val('');
                     $('.reason_' + user_id).val('');
+                    $('.new_amount_' + user_id).html('');
                     $('.tr_' + user_id).animate({
                         backgroundColor: "#F5F5F5",
                         color: "#B0C8F5"
@@ -84,5 +88,20 @@ function isPayment(that) {
         $('.type_' + user_id).prop('disabled', false);
         $('.amount_' + user_id).val('');
         $('.reason_' + user_id).prop('readonly', false);
+    }
+}
+
+function changeAmount(that, user_id, payment_method) {
+    if (payment_method == 1 && $('.is_payment_' + user_id + ' option:selected').val() == 1) {
+        //Bank ( VietNam )
+        if ($(that).val() > 0) {
+            new_amount = (($(that).val() * currency) - tax_pay_bank);
+        } else {
+            new_amount = 0;
+        }
+        new_amount = new_amount.toLocaleString() + ' VND';
+        $('.new_amount_' + user_id).html(new_amount);
+    } else {
+        $('.new_amount_' + user_id).html('');
     }
 }

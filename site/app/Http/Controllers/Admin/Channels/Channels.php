@@ -82,9 +82,10 @@ class Channels extends AdminController
         if ($status == 1) {
             $date = $date ? $date : date('Y-m-d');
             $channel->approved_at = $date;
-        } else {
-            $channel->approved_at = null;
         }
+        /*else {
+            $channel->approved_at = null;
+        }*/
         $channel->save();
 
         //set Flash Message
