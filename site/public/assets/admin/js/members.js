@@ -99,7 +99,15 @@ function changeAmount(that, user_id, payment_method) {
         } else {
             new_amount = 0;
         }
-        new_amount = new_amount.toLocaleString() + ' VND';
+        new_amount = new_amount.toLocaleString();
+        //split
+        new_amount = new_amount.split(".");
+        //get
+        new_amount = new_amount[0];
+        //replace
+        new_amount = new_amount.replace(",", ".") + ' VND';
+
+
         $('.new_amount_' + user_id).html(new_amount);
     } else {
         $('.new_amount_' + user_id).html('');

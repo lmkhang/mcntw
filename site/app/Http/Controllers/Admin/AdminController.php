@@ -355,7 +355,7 @@ class AdminController extends BaseController
 
             //if choose payment
             if (count($post) > 0 && isset($post['is_payment']) && $post['is_payment'] == 1 && $type == 2) {
-                $this->sendmailPayment($user_id, $process_amount['string_amount'], $process_amount['string_original_amount'], $date, $reason);
+                $this->sendmailPayment($user_id, $process_amount['string_amount'], $process_amount['string_original_amount'], $process_amount['net_amount_word_info'], $date, $reason);
             }
         }
 
@@ -369,7 +369,7 @@ class AdminController extends BaseController
      * @date: 2016-02-02
      * Send mail after paying
      */
-    protected function sendmailPayment($user_id, $amount, $original_amount, $date, $reason)
+    protected function sendmailPayment($user_id, $amount, $original_amount, $net_amount_word_info, $date, $reason)
     {
         //get User
         $user_get = new \App\User;
@@ -386,7 +386,7 @@ class AdminController extends BaseController
         $from_name = $sender_info['name'];
         $subject = str_replace(array('{mm-YYYY}'), array(date('F Y', strtotime($date))), $sender_info['subject']);
         $reason = str_replace(array('{mm-YYYY}'), array(date('F Y', strtotime($date))), $reason);
-        $content = str_replace(array('{full_name}', '{dd-mm-YYYY}', '{info}', '{full_name_info}', '{gross_amount_info}', '{net_amount_info}', '{reason}', '{mm-YYYY}'), array($to_name, date('jS \of F Y', time()), $info['info'], $info['full_name_info'], $original_amount, $amount, $reason, date('F Y', strtotime($date))), $sender_info['content']);
+        $content = str_replace(array('{full_name}', '{dd-mm-YYYY}', '{info}', '{full_name_info}', '{gross_amount_info}', '{net_amount_word_info}', '{net_amount_info}', '{reason}', '{mm-YYYY}'), array($to_name, date('jS \of F Y', time()), $info['info'], $info['full_name_info'], $original_amount, $net_amount_word_info, $amount, $reason, date('F Y', strtotime($date))), $sender_info['content']);
 
         try {
             Mail::send('emails.contact', array(
@@ -525,7 +525,8 @@ class AdminController extends BaseController
             'currency_string' => '$',
             'payment_method' => $payment_method,
             'string_original_amount' => $original_amount . '$',
-            'string_amount' => $payment_method == 1 ? number_format($amount) . 'VND' : number_format($amount, 2, ',', '.') . '$',
+            'string_amount' => $payment_method == 1 ? number_format($amount, 0, ',', '.') . ' VND' : number_format($amount, 2, ',', '.') . ' $',
+            'net_amount_word_info' => $payment_method == 1 ? convert_number_to_words(str_replace(array(','), array(''), number_format($amount, 0)), 'vn') . ' Việt Nam Đồng' : convert_number_to_words(str_replace(array(','), array(''), number_format($amount, 2)), 'en') . ' dollars PAYPAL',
         ];
     }
 }

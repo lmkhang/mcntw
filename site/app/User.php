@@ -72,7 +72,7 @@ class User extends Model
         $user_in_ex = \App\User::select($this->table . '.*', 'user_stats.total', 'user_stats.updated_at')
             ->join('user_stats', function ($join) {
                 $join->on('user_stats.user_id', '=', $this->table . '.user_id');
-            })->where($where)->orderBy('user_stats.total', 'desc');
+            })->where($where)->orderBy('user_stats.user_id', 'desc');
 
         if ($number_pagination) {
             $user_in_ex = $user_in_ex->paginate($number_pagination);

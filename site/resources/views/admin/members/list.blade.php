@@ -4,10 +4,12 @@
         <div class="panel panel-body">
             <div class="panel-heading">User list</div>
             <div class="panel-body">
+                @include('extend.pagination_results', ['pagination'=>$user_in_ex])
                 {!! $user_in_ex->render() !!}
                 <table class="table table-hover table-striped">
                     <thead>
                     <tr>
+                        <th class="">ID</th>
                         <th class="col-lg-2">Full Name</th>
                         <th class="col-lg-4">Payment Information</th>
                         <th class="col-lg-1">Amount</th>
@@ -20,6 +22,7 @@
                     @if($user_in_ex && $user_in_ex->count())
                         @foreach($user_in_ex as $detail)
                             <tr class="tr_{{$detail->user_id}}">
+                                <td>{{$detail->user_id}}</td>
                                 <td>{{$detail->first_name ? $detail->first_name. ' '.$detail->last_name : $detail->full_name}}</td>
                                 <td>
                                     <?php $info = $admincontroller->createPaymentInfo($detail); ?>

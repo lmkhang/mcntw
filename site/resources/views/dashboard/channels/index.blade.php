@@ -29,6 +29,7 @@
                                 <div class="panel-heading">Channels of <span
                                             class="text-uppercase text-dribbble">{{$name}}</span></div>
                                 <div class="panel-body">
+                                    @include('extend.pagination_results', ['pagination'=>$channels_paging])
                                     {!! $channels_paging->render() !!}
                                     <table class="table table-hover table-striped">
                                         <thead>

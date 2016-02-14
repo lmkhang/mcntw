@@ -28,7 +28,8 @@ class Members extends AdminController
      */
     public function index()
     {
-
+        /*echo convert_number_to_words(str_replace(array(','), array(''), number_format(222220, 0)), 'vn');
+        die;*/
         //set Title for PAGE
         $this->_page_title = 'Members';
 

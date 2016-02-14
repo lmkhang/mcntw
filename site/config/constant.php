@@ -74,6 +74,7 @@ return [
                         <br/>Name: {full_name_info}
                         <br/>Gross Amount: {gross_amount_info}
                         <br/>Net Amount: {net_amount_info}
+                        <br/>{net_amount_word_info}
                         <br/>Reason:
                         <br/>{reason}
 

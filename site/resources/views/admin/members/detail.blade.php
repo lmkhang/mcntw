@@ -14,6 +14,7 @@
                         <div class="panel-heading">Income and Expenditure details of <span
                                     class="text-uppercase text-dribbble">{{$name}}</span></div>
                         <div class="panel-body">
+                            @include('extend.pagination_results', ['pagination'=>$user_in_ex])
                             {!! $user_in_ex->render() !!}
                             <table class="table table-hover table-striped">
                                 <thead>

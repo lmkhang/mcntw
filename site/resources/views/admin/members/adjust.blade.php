@@ -14,9 +14,9 @@
            placeholder="Amount" value="{{$total}}"
            onchange="changeAmount(this, '{{$user_id}}', '{{$payment_method}}'); return false;"/>
     {{--Bank ( VietNam )--}}
-    @if($payment_method==1)
+    @if($payment_method==1 && $total>0)
         <span class="input-group-addon new_amount_{{$user_id}}">
-            {{ number_format(($total*$currency-$tax_pay_bank), 2).' VND'  }}
+            {{ number_format(($total*$currency-$tax_pay_bank), 0, ',', '.').' VND'  }}
         </span>
     @endif
 </div>

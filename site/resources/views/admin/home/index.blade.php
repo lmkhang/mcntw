@@ -35,7 +35,7 @@
                             </h4>
 
                             <p class="description">
-                                Net Amount detail</p>
+                                Net Total Amount</p>
                         </div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
                             </h4>
 
                             <p class="description">
-                                Pay Amount detail</p>
+                                Going to pay</p>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                             </h4>
 
                             <p class="description">
-                                Hold Amount detail</p>
+                                Hold</p>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                             </h4>
 
                             <p class="description">
-                                Blocked Amount detail</p>
+                                Blocked amount</p>
                         </div>
                     </div>
                 </div>
