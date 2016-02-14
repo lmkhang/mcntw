@@ -16,7 +16,11 @@
                     <div class="panel panel-body">
                         <div class="panel-heading">Income and Expenditure details of <span class="text-uppercase text-dribbble">{{$daily_channel_name}}</span></div>
                         <div class="panel-body">
+                            <div class="clearfix"></div>
+                            <hr/>
                             @include('extend.pagination_results', ['pagination'=>$channel_in_ex])
+                            <div class="clearfix"></div>
+                            <hr/>
                             {!! $channel_in_ex->render() !!}
                             <table class="table table-hover table-striped">
                                 <thead>

@@ -30,7 +30,52 @@
                             <div class="panel panel-body">
                                 <div class="panel-heading">All Channels @yield('of_someone')</div>
                                 <div class="panel-body">
+                                    {!! Form::open(['url'=>'/adminntw/channels',
+                                    'method'=>'get',
+                                    'name'=>'channel-filter',
+                                    'enctype'=>'multipart/form-data',
+                                    'id'=>'channel-filter-form', 'novalidate'=>'novalidate',
+                                    'class'=>'']) !!}
+                                    <div class="col-md-2">
+                                        <div class="form-group">User
+                                            <select class="form-control" id="filter_user_id"
+                                                    name="filter[user_id]">
+                                                <option value="">All</option>
+                                                @foreach($users as $u)
+                                                    <option value="{{$u->user_id}}"
+                                                            {{isset($filter['user_id']) && $filter['user_id']==$u->user_id?'selected':''}}>
+                                                        [ID: {{$u->user_id}}
+                                                        ] {{$u->first_name ? $u->first_name. ' '.$u->last_name : $u->full_name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">Status
+                                            <select class="form-control" id="filter_status"
+                                                    name="filter[status]">
+                                                <option value="">All</option>
+                                                @foreach($channel_status as $k=>$v)
+                                                    <option value="{{$k}}"
+                                                            {{isset($filter['status']) && $filter['status']==$k?'selected':''}}
+                                                            >{{$channel_status[$k]}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <div class="form-group">&nbsp;
+                                            <button type="submit" class="btn btn-primary btn_filter form-control">
+                                                Filter
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {!! Form::close() !!}
+                                    <div class="clearfix"></div>
+                                    <hr/>
                                     @include('extend.pagination_results', ['pagination'=>$channels_paging])
+                                    <div class="clearfix"></div>
+                                    <hr/>
                                     {!! $channels_paging->render() !!}
                                     <table class="table table-hover table-striped">
                                         <thead>
@@ -84,11 +129,11 @@
                                                                            data-action="{{ $k!=$channel->status?true:false}}">{{$c_status}}</a>
                                                                     </li>
                                                                 @endforeach
-                                                                    <li>
-                                                                        <a href="#"
-                                                                           onclick="decline(this); return false;"
-                                                                           data-channel-id="{{$channel->channel_id}}">Decline</a>
-                                                                    </li>
+                                                                <li>
+                                                                    <a href="#"
+                                                                       onclick="decline(this); return false;"
+                                                                       data-channel-id="{{$channel->channel_id}}">Decline</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </td>

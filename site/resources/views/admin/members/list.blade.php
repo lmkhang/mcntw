@@ -4,7 +4,11 @@
         <div class="panel panel-body">
             <div class="panel-heading">User list</div>
             <div class="panel-body">
+                <div class="clearfix"></div>
+                <hr/>
                 @include('extend.pagination_results', ['pagination'=>$user_in_ex])
+                <div class="clearfix"></div>
+                <hr/>
                 {!! $user_in_ex->render() !!}
                 <table class="table table-hover table-striped">
                     <thead>
@@ -23,7 +27,11 @@
                         @foreach($user_in_ex as $detail)
                             <tr class="tr_{{$detail->user_id}}">
                                 <td>{{$detail->user_id}}</td>
-                                <td>{{$detail->first_name ? $detail->first_name. ' '.$detail->last_name : $detail->full_name}}</td>
+                                <td>
+                                    <a href="{{url('adminntw/channels?filter[user_id]='.$detail->user_id)}}">
+                                        {{$detail->first_name ? $detail->first_name. ' '.$detail->last_name : $detail->full_name}}
+                                    </a>
+                                </td>
                                 <td>
                                     <?php $info = $admincontroller->createPaymentInfo($detail); ?>
                                     {!! nl2br($info['info']) !!}

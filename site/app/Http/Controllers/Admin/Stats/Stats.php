@@ -252,6 +252,9 @@ class Stats extends AdminController
         #Hold Amount
         $hold_amount = $user_stats_get->getHoldAmount();
 
+        #Paid Amount
+        $paid_amount = $user_stats_get->getPaidAmount();
+
         //Update Amount
         $home_get = new \App\Home;
         #Gross Amount
@@ -291,6 +294,15 @@ class Stats extends AdminController
         ]);
         $hold_amount_get->value = $hold_amount;
         $hold_amount_get->save();
+
+        #Paid Amount
+        $paid_amount_get = $home_get->getKey([
+            'prefix' => 'stats',
+            'name' => 'paid_amount',
+            'del_flg' => 1,
+        ]);
+        $paid_amount_get->value = $paid_amount;
+        $paid_amount_get->save();
 
 
         //set Flash Message

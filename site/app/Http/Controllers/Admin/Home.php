@@ -69,6 +69,11 @@ class Home extends AdminController
             'name' => 'hold_amount',
             'del_flg' => 1,
         ])->value;
+        $paid_amount = $home_get->getKey([
+            'prefix' => 'stats',
+            'name' => 'paid_amount',
+            'del_flg' => 1,
+        ])->value;
 
         $home = [
             'gross_amount' => $gross_amount,
@@ -76,6 +81,7 @@ class Home extends AdminController
             'pay_amount' => $pay_amount,
             'blocked_mount' => $blocked_mount,
             'hold_amount' => $hold_amount,
+            'paid_amount' => $paid_amount,
         ];
 
         return view('admin.home.index', [

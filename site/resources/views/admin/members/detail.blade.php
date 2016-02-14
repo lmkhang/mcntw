@@ -12,9 +12,13 @@
                     {{--<button type="button" class="btn btn-danger navbar-btn btn_feed_back">Feed back</button>--}}
                     <div class="panel panel-body">
                         <div class="panel-heading">Income and Expenditure details of <span
-                                    class="text-uppercase text-dribbble">{{$name}}</span></div>
+                                    class="text-uppercase text-dribbble"><a href="{{url('adminntw/channels?filter[user_id]='.$user->user_id)}}">{{$name}}</a></span></div>
                         <div class="panel-body">
+                            <div class="clearfix"></div>
+                            <hr/>
                             @include('extend.pagination_results', ['pagination'=>$user_in_ex])
+                            <div class="clearfix"></div>
+                            <hr/>
                             {!! $user_in_ex->render() !!}
                             <table class="table table-hover table-striped">
                                 <thead>

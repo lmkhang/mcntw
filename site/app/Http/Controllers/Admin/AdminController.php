@@ -335,7 +335,7 @@ class AdminController extends BaseController
         $user_history->type = $type;
         $user_history->date = $date;
         $user_history->action = $action;
-        $user_history->reason = $reason;
+        $user_history->reason = str_replace(array('{mm-YYYY}'), array(date('F Y', strtotime($date))), $reason);
 
         if ($type == 1) {
             //increase
@@ -355,9 +355,11 @@ class AdminController extends BaseController
 
             //if choose payment
             if (count($post) > 0 && isset($post['is_payment']) && $post['is_payment'] == 1 && $type == 2) {
+                $user_history->is_payment = 1;
                 $this->sendmailPayment($user_id, $process_amount['string_amount'], $process_amount['string_original_amount'], $process_amount['net_amount_word_info'], $date, $reason);
             }
         }
+
 
         $user_history->save();
         $user_stats->save();
@@ -526,7 +528,7 @@ class AdminController extends BaseController
             'payment_method' => $payment_method,
             'string_original_amount' => $original_amount . '$',
             'string_amount' => $payment_method == 1 ? number_format($amount, 0, ',', '.') . ' VND' : number_format($amount, 2, ',', '.') . ' $',
-            'net_amount_word_info' => $payment_method == 1 ? convert_number_to_words(str_replace(array(','), array(''), number_format($amount, 0)), 'vn') . ' Việt Nam Đồng' : convert_number_to_words(str_replace(array(','), array(''), number_format($amount, 2)), 'en') . ' dollars PAYPAL',
+            'net_amount_word_info' => $payment_method == 1 ? convert_number_to_words(str_replace(array(','), array(''), number_format($amount, 0)), 'vn') . ' Việt Nam Đồng' : convert_number_to_words(str_replace(array(','), array(''), number_format($amount, 2)), 'en') . ' PAYPAL dollars',
         ];
     }
 }

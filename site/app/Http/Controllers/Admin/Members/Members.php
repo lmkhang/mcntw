@@ -89,6 +89,7 @@ class Members extends AdminController
             'page_title' => $this->_page_title,
             'active' => $this->_active,
             'number_pagination' => $number_pagination,
+            'user' => $user,
             'user_in_ex' => $user_in_ex,
             'in_expen_status' => config('constant.in_expen_status'),
             'in_exp_action' => config('constant.in_exp_action'),

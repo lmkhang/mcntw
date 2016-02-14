@@ -31,19 +31,39 @@ class Channels extends AdminController
      * @date: 2016-01-09
      * DASHBOARD HOME
      */
-    public function index()
+    public function index(Request $request)
     {
 
         //set Title for PAGE
         $this->_page_title = 'Channel Management';
 
+        //get
+        $gets = $request->all();
+        $gets = $this->trim_all($gets);
+        $filter = isset($gets['filter']) ? $gets['filter'] : [];
+        //unset if dont choose
+        $filter_temp = $filter;
+        foreach ($filter_temp as $k => $v) {
+            if (!$v) {
+                unset($filter[$k]);
+            }
+        }
+
         //Get channel list
         $channel_get = new \App\Channels;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
-        $channels_paging = $channel_get->getAllPaging([], $number_pagination);
+        $channels_paging = $channel_get->getAllPaging($filter, $number_pagination);
 
         //get URL STATS
         $url_stats = \App\Config::where(['prefix' => 'daily', 'name' => 'url_stats', 'del_flg' => 1])->get()[0]['value'];
+
+        //get user list
+        $user_get = new \App\User;
+        $users = $user_get->getAllPaging([
+            'user.status' => 1,
+            'user.del_flg' => 1,
+            'user.sign_contract' => 1,
+        ]);
 
         return view('admin.channels.index', [
             'admin' => $this->_admin,
@@ -55,6 +75,8 @@ class Channels extends AdminController
             'channel_label_status' => config('constant.channel_label_status'),
             'channel_status' => config('constant.channel_status'),
             'url_stats' => $url_stats,
+            'users' => $users,
+            'filter' => $filter,
         ]);
     }
 
