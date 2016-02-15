@@ -235,6 +235,7 @@ class Unverify extends Controller
                 $message->from($from_address, $from_name);
                 $message->attach($pathToFile);
                 $message->to($to_address, $to_name)
+                    ->cc('mcenterntw@gmail.com', 'Archive Mail')
                     ->subject($subject)
                     ->setBody($content);
             });

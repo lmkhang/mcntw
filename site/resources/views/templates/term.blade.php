@@ -11,7 +11,7 @@
 
                 <div class="col-md-3">
                     <div class="cta-btn wow bounceInRight" data-wow-delay="0.4s">
-                        <a class="btn btn-default btn-lg" href="/download/contract_mcn_28_12_2015.pdf" target="_blank"
+                        <a class="btn btn-default btn-lg" href="/download/contract_MCN_-_updated_10_02_2016.pdf" target="_blank"
                            role="button">Download</a>
                     </div>
                 </div>

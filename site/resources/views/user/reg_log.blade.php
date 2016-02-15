@@ -83,7 +83,7 @@
                                     <button class="submit register" name="commit" type="submit"/>
                                     Create Account</button>
                                         <span class="simform__actions-sidetext">By creating an account you agree to our <a
-                                                    class="special" href="/download/contract_mcn_28_12_2015.pdf"
+                                                    class="special" href="/download/contract_MCN_-_updated_10_02_2016.pdf"
                                                     target="_blank" role="link">Terms &
                                                 Privacy</a></span>
                                 </div>

