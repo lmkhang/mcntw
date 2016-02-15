@@ -5,7 +5,7 @@
 </select>
 
 <select class="input-small form-control form-inline type_{{$user_id}}" disabled>
-    @foreach($in_expen_status as $k=>$v)
+    @foreach($in_expen_type as $k=>$v)
         <option value="{{$k}}">{{$v}}</option>
     @endforeach
 </select>

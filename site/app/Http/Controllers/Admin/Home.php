@@ -90,7 +90,7 @@ class Home extends AdminController
             'page_title' => $this->_page_title,
             'active' => $this->_active,
             'user_in_ex' => $user_in_ex,
-            'in_expen_status' => config('constant.in_expen_status'),
+            'in_expen_type' => config('constant.in_expen_type'),
             'currency' => $currency,
             'tax_pay_bank' => $tax_pay_bank,
             'home' => $home,

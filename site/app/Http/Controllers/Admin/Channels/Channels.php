@@ -155,7 +155,7 @@ class Channels extends AdminController
             'number_pagination' => $number_pagination,
             'daily_channel_name' => $_channel['daily_channel_name'],
             'channel_in_ex' => $channel_in_ex,
-            'in_expen_status' => config('constant.in_expen_status'),
+            'in_expen_type' => config('constant.in_expen_type'),
             'in_exp_action' => config('constant.in_exp_action'),
         ]);
     }

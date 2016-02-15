@@ -41,7 +41,7 @@
                                             <td>{{$detail->daily_channel_username}}</td>
                                             {{--<td>{{$in_expen_status[$detail->type]}}{{$detail->original_amount}}$</td>--}}
                                             {{--<td>{{$in_expen_status[$detail->type]}}{{$detail->amount}}$</td>--}}
-                                            <td>{{$in_expen_status[$detail->type]}}{{$detail->amount}}$</td>
+                                            <td>{{$in_expen_type[$detail->type]}}{{$detail->amount}}$</td>
                                             <td>{{$in_exp_action[$detail->action]}}
                                                 @if($detail->action==2)
                                                     <span data-container="body" data-toggle="popover"

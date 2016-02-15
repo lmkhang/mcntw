@@ -34,7 +34,7 @@
                                 @if($user_in_ex && $user_in_ex->count())
                                     @foreach($user_in_ex as $detail)
                                         <tr>
-                                            <td>{{$in_expen_status[$detail->type]}}{{$detail->amount}} {{$detail->currency_string}}</td>
+                                            <td>{{$in_expen_type[$detail->type]}}{{$detail->amount}} {{$detail->currency_string}}</td>
                                             <td>{{$in_exp_action[$detail->action]}}
                                                 {{--@if($detail->action==2)--}}
                                                 {{--<span data-container="body" data-toggle="popover"--}}

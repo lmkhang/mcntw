@@ -64,7 +64,7 @@ class Home extends Controller
             'user_stats' => $user_stats,
             'number_pagination' => $number_pagination,
             'user_in_ex' => $user_in_ex,
-            'in_expen_status' => config('constant.in_expen_status'),
+            'in_expen_type' => config('constant.in_expen_type'),
             'in_exp_action' => config('constant.in_exp_action'),
             'minpay' => $minpay,
         ]);

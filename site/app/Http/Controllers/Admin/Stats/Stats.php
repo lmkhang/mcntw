@@ -52,6 +52,57 @@ class Stats extends AdminController
 
     /**
      * @author: lmkhang - skype
+     * @date: 2016-02-15
+     *
+     */
+    public function detail(Request $request)
+    {
+        //set Title for PAGE
+        $this->_page_title = 'Receipts and Expenses';
+
+        //get
+        $gets = $request->all();
+        $gets = $this->trim_all($gets);
+        $filter = isset($gets['filter']) ? $gets['filter'] : [];
+        //unset if dont choose
+        $filter_temp = $filter;
+        foreach ($filter_temp as $k => $v) {
+            if (!$v) {
+                unset($filter[$k]);
+            }
+        }
+
+        //get user list
+        $user_get = new \App\User;
+        $users = $user_get->getAllPaging([
+            'user.status' => 1,
+            'user.del_flg' => 1,
+            'user.sign_contract' => 1,
+        ]);
+
+        //get all receipts and expenses
+        $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
+        $receipt_expense_get = new \App\UserIncomeExpenditure;
+        $receipt_expense = $receipt_expense_get->getAllPaging($filter, $number_pagination);
+
+
+        return view('admin.stats.detail', [
+            'admin' => $this->_admin,
+            'name' => $this->getName(),
+            'page_title' => $this->_page_title,
+            'active' => $this->_active,
+            'users' => $users,
+            'filter' => $filter,
+            'number_pagination' => $number_pagination,
+            'receipt_expense' => $receipt_expense,
+            'in_expen_type' => config('constant.in_expen_type'),
+            'in_expen_status' => config('constant.in_expen_status'),
+            'in_exp_action' => config('constant.in_exp_action'),
+        ]);
+    }
+
+    /**
+     * @author: lmkhang - skype
      * @date: 2016-01-18
      * Import data from CSV
      */

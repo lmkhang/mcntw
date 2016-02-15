@@ -9,8 +9,8 @@
     <div class="page-content">
         <div id="tab-general">
             <div id="sum_box" class="row mbl">
-                <div class="col-sm-6 col-md-4">
-                    <div class="panel paid_amount db mbm">
+                <div class="col-sm-6 col-md-4" style="cursor: pointer;">
+                    <div class="panel paid_amount db mbm" onclick="window.location='{{url('adminntw/stats/detail?filter[type]=2&filter[status]=1&filter[is_payment]=1')}}'">
                         <div class="panel-body">
                             <p class="icon">
                                 <i class="icon fa fa-money"></i>

@@ -43,7 +43,9 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-google-plus btn-sm"
-                                            onclick="window.location='{{url('/adminntw/members/'.$detail->user_id.'/detail')}}'">
+{{--                                            onclick="window.location='{{url('/adminntw/members/'.$detail->user_id.'/detail')}}'"--}}
+                                            onclick="window.location='{{url('adminntw/stats/detail?filter[user_id]='.$detail->user_id)}}'"
+                                            >
                                         Detail
                                     </button>
                                 </td>

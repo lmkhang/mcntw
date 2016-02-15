@@ -6,7 +6,7 @@
 $(document).ready(function () {
     //Initial Selected Multiple
     createSelected('#filter_user_id');
-    createSelected('#filter_channel_id');
+    //createSelected('#filter_channel_id');
     createSelected('#filter_status');
 });
 

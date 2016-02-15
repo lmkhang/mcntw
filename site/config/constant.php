@@ -1,6 +1,10 @@
 <?php
 return [
     'in_expen_status' => [
+        1 => 'Valid',
+        2 => 'Invalid'
+    ],
+    'in_expen_type' => [
         2 => '-',
         1 => '+'
     ],

@@ -224,6 +224,10 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'stats_update', 'uses' => 'Stats@update'
         ]);
 
+        Route::get('/detail', [
+            'as' => 'stats_detail', 'uses' => 'Stats@detail'
+        ]);
+
     });
 
     //Member
