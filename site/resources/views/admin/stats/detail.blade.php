@@ -34,6 +34,21 @@
                                     'id'=>'detail-stats-filter-form', 'novalidate'=>'novalidate',
                                     'class'=>'']) !!}
                                     <div class="col-md-2">
+                                        <div class="form-group">Month/Year
+                                            <div class="input-icon right">
+                                                <div class='input-group date' id='filter_month'>
+                                                    <input type='text' class="form-control" name="filter[month]"
+                                                           placeholder="Expected month"
+                                                           value="{{isset($filter['month'])?$filter['month']:''}}"/>
+                                                        <span class="input-group-addon">
+                                                            <span class="fa fa-calendar">
+                                                            </span>
+                                                        </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
                                         <div class="form-group">User
                                             <select class="form-control" id="filter_user_id"
                                                     name="filter[user_id]">

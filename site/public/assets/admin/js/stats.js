@@ -4,6 +4,17 @@ $(document).ready(function () {
     createSelected('#filter_type');
     createSelected('#filter_status');
     createSelected('#filter_is_payment');
+
+    //Datetime picker
+    $('#filter_month').datetimepicker({
+        viewMode: 'years',
+        format: 'MM/YYYY',
+        icons: {
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        }
+    });
 });
 
 function createSelected(id) {
