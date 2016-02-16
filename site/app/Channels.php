@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 
 class Channels extends Model
 {
@@ -57,7 +58,12 @@ class Channels extends Model
         $channels = \App\Channels::where($where);
 
         if ($number_pagination) {
+
             $channels = $channels->paginate($number_pagination);
+            foreach (Input::except('page') as $input => $value)
+            {
+                $channels->appends($input, $value);
+            }
         } else {
             $channels = $channels->get();
         }

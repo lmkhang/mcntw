@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 
 class User extends Model
 {
@@ -76,6 +77,10 @@ class User extends Model
 
         if ($number_pagination) {
             $user_in_ex = $user_in_ex->paginate($number_pagination);
+            foreach (Input::except('page') as $input => $value)
+            {
+                $user_in_ex->appends($input, $value);
+            }
         } else {
             $user_in_ex = $user_in_ex->get();
         }

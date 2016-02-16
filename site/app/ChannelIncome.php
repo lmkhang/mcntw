@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Input;
 
 class ChannelIncome extends Model
 {
@@ -19,6 +20,10 @@ class ChannelIncome extends Model
 
         if ($number_pagination) {
             $channel_in_ex = $channel_in_ex->paginate($number_pagination);
+            foreach (Input::except('page') as $input => $value)
+            {
+                $channel_in_ex->appends($input, $value);
+            }
         } else {
             $channel_in_ex = $channel_in_ex->get();
         }
@@ -34,6 +39,10 @@ class ChannelIncome extends Model
 
         if ($number_pagination) {
             $channel_in_ex = $channel_in_ex->paginate($number_pagination);
+            foreach (Input::except('page') as $input => $value)
+            {
+                $channel_in_ex->appends($input, $value);
+            }
         } else {
             $channel_in_ex = $channel_in_ex->get();
         }
