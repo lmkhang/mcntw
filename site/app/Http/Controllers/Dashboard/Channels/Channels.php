@@ -168,9 +168,19 @@ class Channels extends Controller
                     $this->setFlash('message', 'Add New Channel Successfully!');
                     return Redirect::intended($this->_page_url)->with('message', 'Add New Channel Successfully!');
                 } else if ($channel && $channel->user_id == $this->_user_id) {
-                    //set Flash Message
-                    $this->setFlash('message', 'This channel had been added by you!. This channel is ' . $status[$channel->status]);
-                    return Redirect::intended($this->_page_url)->with('message', 'This channel had been added by you!. This channel is ' . $status[$channel->status]);
+                    //checking user was changed from dailymotion -> update
+                    if ($response_auth['username'] != $channel->daily_channel_username) {
+                        $old_username = $channel->daily_channel_username;
+                        $channel->daily_channel_username = $response_auth['username'];
+                        $channel->save();
+                        //set Flash Message
+                        $this->setFlash('message', 'The system updated username for your channel from: ' . $old_username . ' to: ' . $response_auth['username']);
+                        return Redirect::intended($this->_page_url)->with('message', 'We updated username for your channel: ' . $response_auth['username']);
+                    } else {
+                        //set Flash Message
+                        $this->setFlash('message', 'This channel had been added by you!. This channel is ' . $status[$channel->status]);
+                        return Redirect::intended($this->_page_url)->with('message', 'This channel had been added by you!. This channel is ' . $status[$channel->status]);
+                    }
                 } else if ($channel && $channel->user_id != $this->_user_id) {
                     //set Flash Message
                     $this->setFlash('message', 'This channel had been added by other person!');

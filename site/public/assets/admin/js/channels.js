@@ -1,13 +1,48 @@
-(function ($, W, D) {
-
-
-})(jQuery, window, document);
-
 $(document).ready(function () {
     //Initial Selected Multiple
     createSelected('#filter_user_id');
     //createSelected('#filter_channel_id');
     createSelected('#filter_status');
+
+    //Channel List
+    //check uncheck ALL
+    $("#checkAll").click(function () {
+        //$('input:checkbox').not(this).prop('checked', this.checked);
+        //$('input:checkbox').find('span').addClass('checked');
+        if ($(this).data("status") == 'uncheck') {
+            //change to CHECK
+            $(this).data("status", 'check');
+            $(this).html('Uncheck');
+            $('.check_child').parent().addClass('checked');
+            $('.check_child').prop('checked', true);
+        } else {
+            //change to UNCHECK
+            $(this).html('Check');
+            $(this).data("status", 'uncheck');
+            $('.check_child').parent().removeClass('checked');
+            $('.check_child').prop('checked', false);
+        }
+    });
+
+    //Decline multi
+    $('.btn_decline_multi').click(function () {
+        BootstrapDialog.confirm({
+            title: 'WARNING',
+            message: 'Are you sure you want to do that?',
+            type: BootstrapDialog.TYPE_WARNING, // <-- Default value is BootstrapDialog.TYPE_PRIMARY
+            closable: true, // <-- Default value is false
+            draggable: true, // <-- Default value is false
+            btnCancelLabel: 'Cancel!', // <-- Default value is 'Cancel',
+            btnOKLabel: 'Yes!', // <-- Default value is 'OK',
+            btnOKClass: 'btn-warning', // <-- If you didn't specify it, dialog type will be used,
+            callback: function (result) {
+                // result will be true if button was click, while it will be false if users close the dialog directly.
+                if (result) {
+                    $('#channel-change_multi-form').submit();
+                }
+            }
+        });
+    });
 });
 
 function createSelected(id) {

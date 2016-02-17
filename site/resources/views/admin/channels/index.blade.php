@@ -77,9 +77,21 @@
                                     <div class="clearfix"></div>
                                     <hr/>
                                     {!! $channels_paging->render() !!}
+
+                                    {!! Form::open(['url'=>'/adminntw/channels/change_multi',
+                                    'method'=>'post',
+                                    'name'=>'channel-change_multi',
+                                    'enctype'=>'multipart/form-data',
+                                    'id'=>'channel-change_multi-form', 'novalidate'=>'novalidate',
+                                    'class'=>'']) !!}
+                                    <button type="button" class="btn btn-red btn_decline_multi">Decline</button>
                                     <table class="table table-hover table-striped">
                                         <thead>
                                         <tr>
+                                            {{--<th class=""><input type="checkbox" id="checkAll" class="checkAll"/></th>--}}
+                                            <th class="">
+                                                <a id="checkAll" data-status="uncheck" href="#">Check</a>
+                                            </th>
                                             <th class="col-lg-2">Username</th>
                                             <th class="col-lg-2">Screen Name</th>
                                             <th class="col-lg-3">Email</th>
@@ -93,6 +105,9 @@
                                         @if($channels_paging && $channels_paging->count())
                                             @foreach($channels_paging as $channel)
                                                 <tr title="{{$channel->status==4?'All payment for this channel wil not be updated due violating dailymotion rules.':''}}">
+                                                    <td>
+                                                        <input name="channel_ids[]" type="checkbox" value="{{$channel->channel_id}}" class="check_child" />
+                                                    </td>
                                                     <td>
                                                         <a href="{{str_replace(array('{channel_name}'), array($channel->daily_channel_username), $url_stats)}}"
                                                            target="_blank">
@@ -152,6 +167,7 @@
                                         @endif
                                         </tbody>
                                     </table>
+                                    {!! Form::close() !!}
                                 </div>
                             </div>
                         </div>

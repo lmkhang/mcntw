@@ -197,6 +197,11 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
             'as' => 'channel_change_status', 'uses' => 'Channels@change_status'
         ]);
 
+        //Decline status of channel
+        Route::post('/change_multi', [
+            'as' => 'channel_change_multi', 'uses' => 'Channels@change_multi'
+        ]);
+
         //Detail
         Route::get('/{daily_channel_id}/detail', [
             'as' => 'channel_detail', 'uses' => 'Channels@detail'

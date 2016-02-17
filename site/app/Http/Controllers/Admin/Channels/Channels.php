@@ -154,6 +154,7 @@ class Channels extends AdminController
             'active' => $this->_active,
             'number_pagination' => $number_pagination,
             'daily_channel_name' => $_channel['daily_channel_name'],
+            'owner_user_id' => $_channel['user_id'],
             'channel_in_ex' => $channel_in_ex,
             'in_expen_type' => config('constant.in_expen_type'),
             'in_exp_action' => config('constant.in_exp_action'),
@@ -182,5 +183,38 @@ class Channels extends AdminController
         //set Flash Message
         $this->setFlash('message', $channel->daily_channel_name . ' channel is removed');
         return redirect()->back()->with('message', $channel->daily_channel_name . ' channel is removed');
+    }
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-02-17
+     * Change status - Multiple
+     */
+
+    public function change_multi(Request $request)
+    {
+
+        //post
+        $post = $this->trim_all($request->all());
+        $channel_ids = isset($post['channel_ids']) ? $post['channel_ids'] : [];
+
+        $msg = 'Please choose at least ONE channel';
+        $channel_get = new \App\Channels;
+        foreach ($channel_ids as $k => $ch) {
+            //check existed
+            $channel_get = \App\Channels::find($ch);
+            if (!$channel_get) {
+                continue;
+            }
+
+            //delete
+            $channel_get->delete();
+
+            $msg = 'Decline successfully';
+        }
+
+        //set Flash Message
+        $this->setFlash('message', $msg);
+        return redirect()->back()->with('message', $msg);
     }
 }

@@ -24,7 +24,12 @@
                 <div class="col-lg-12">
                     <div class="row">
                         <div class="col-lg-12">
-                            <button type="button" class="btn btn-danger navbar-btn btn_new_channel">New Channel</button>
+                            <button type="button" class="btn btn-green navbar-btn btn_new_channel">New Channel</button>
+                            <div class="clearfix"></div>
+                            Only click <span class="text-red">Update Username</span> and Login to Account that changed username. We will update automatically.
+                            <button type="button" class="btn btn-red navbar-btn btn_new_channel">
+                                Update Username
+                            </button>
                             <div class="panel panel-body">
                                 <div class="panel-heading">Channels of <span
                                             class="text-uppercase text-dribbble">{{$name}}</span></div>
