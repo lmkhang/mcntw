@@ -36,7 +36,10 @@ class Home extends AdminController
         //Get income-expenditure list
         $user_get = new \App\User;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
-        $user_in_ex = $user_get->getAllPaging([], $number_pagination);
+        $user_in_ex = $user_get->getAllPaging([
+            'del_flg' => 1,
+            'status' => 1
+        ], $number_pagination);
 
         //get info payment
         $currency = \App\Config::where(['prefix' => 'payment', 'name' => 'currency', 'del_flg' => 1])->get()[0]['value'];

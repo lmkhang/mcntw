@@ -542,7 +542,7 @@ class User extends Controller
         $validator = Validator::make(
             $register,
             [
-                'username' => 'required|min:5|max:50',
+                'username' => array('required', 'regex: /^\w{5,50}$/'),
                 'pin_code' => 'required|min:6|max:6|digits:6',
                 'email' => 'required|email|min:5|max:100',
                 'password' => 'required|min:5|max:50',

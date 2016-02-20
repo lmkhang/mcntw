@@ -70,6 +70,13 @@ class User extends Model
 
     public function getAllPaging($where = [], $number_pagination = '')
     {
+
+        $where_temp = $where;
+        foreach ($where_temp as $k => $v) {
+            unset($where[$k]);
+            $where[$this->table . '.' . $k] = $v;
+        }
+
         $user_in_ex = \App\User::select($this->table . '.*', 'user_stats.total', 'user_stats.updated_at')
             ->join('user_stats', function ($join) {
                 $join->on('user_stats.user_id', '=', $this->table . '.user_id');

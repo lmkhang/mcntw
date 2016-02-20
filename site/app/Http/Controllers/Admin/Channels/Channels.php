@@ -60,9 +60,9 @@ class Channels extends AdminController
         //get user list
         $user_get = new \App\User;
         $users = $user_get->getAllPaging([
-            'user.status' => 1,
-            'user.del_flg' => 1,
-            'user.sign_contract' => 1,
+            'status' => 1,
+            'del_flg' => 1,
+            'sign_contract' => 1,
         ]);
 
         return view('admin.channels.index', [
