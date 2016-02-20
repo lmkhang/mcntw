@@ -180,6 +180,10 @@ Route::group(array('prefix' => 'adminntw', 'namespace' => 'Admin', 'as' => 'admi
         'as' => 'setting_change', 'uses' => 'Setting@change'
     ]);
 
+    Route::post('/setting/change_stats', [
+        'as' => 'setting_change_stats', 'uses' => 'Setting@change_stats'
+    ]);
+
     //Channel
     Route::group(array('prefix' => 'channels', 'namespace' => 'Channels', 'as' => 'channels'), function () {
         //Home

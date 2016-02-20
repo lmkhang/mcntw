@@ -18,4 +18,13 @@ class Home extends Model
         return $home;
     }
 
+    public function getAll($where = [])
+    {
+        $home_get = \App\Home::where($where);
+
+        $home = $home_get->get();
+
+        return $home;
+    }
+
 }

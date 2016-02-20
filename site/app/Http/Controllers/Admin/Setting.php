@@ -44,12 +44,23 @@ class Setting extends AdminController
             ]
         );
 
+        //DATA
+        $home_get = new \App\Home;
+        $stats_show = $home_get->getAll(
+            [
+                'prefix' => 'stats_show',
+                'del_flg' => 1
+            ]
+        );
+
+
         return view('admin.setting.index', [
             'admin' => $this->_admin,
             'name' => $this->getName(),
             'page_title' => $this->_page_title,
             'active' => $this->_active,
             'setting' => $setting,
+            'stats_show' => $stats_show,
         ]);
     }
 
@@ -72,6 +83,34 @@ class Setting extends AdminController
             $setting_get = \App\Config::find($id);
             $setting_get->value = $setting['setting_' . $id];
             $setting_get->save();
+        }
+
+        //set Flash Message
+        $this->setFlash('message', 'Save successfully!');
+        return redirect()->back()->with('message', 'Save successfully!');
+
+    }
+
+
+    /**
+     * @author: lmkhang - skype
+     * @date: 2016-01-12
+     * Save Change
+     */
+    public function change_stats(Request $request)
+    {
+
+        //Post
+        $post = $request->all();
+
+        //Trim
+        $home = $this->trim_all($post);
+
+        foreach ($home['id'] as $id) {
+//            echo $id. ' - '.$setting['setting_'.$id].'<br/>';
+            $home_get = \App\Home::find($id);
+            $home_get->value = $home['home_' . $id];
+            $home_get->save();
         }
 
         //set Flash Message

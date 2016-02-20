@@ -14,14 +14,16 @@
 
 
     <!-- Begin cta -->
-    @include('templates.term')
+{{--    @include('templates.term')--}}
     <!-- End cta -->
 
+    <!-- Begin Services -->
+    @include('templates.stats')
+    <!-- End Services -->
 
     <!-- Begin Services -->
     @include('templates.services')
     <!-- End Services -->
-
 
     <!-- Begin testimonials -->
     {{--@include('templates.reviewtous')--}}
@@ -57,6 +59,9 @@
     @include('templates.socialntw', ['socialntw' => $socialntw])
     <!-- End social section -->
 
+    <!-- Begin Faq -->
+    @include('templates.faq')
+    <!-- End Faq -->
 
     <!-- Begin contact section -->
     @include('templates.contact', ['socialntw' => $socialntw])

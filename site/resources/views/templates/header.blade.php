@@ -19,9 +19,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a class="page-scroll" href="body">Home</a></li>
+                    <li><a class="page-scroll" href="#header">Home</a></li>
                     <li><a class="page-scroll" href="#about-section">About</a></li>
                     <li><a class="page-scroll" href="#services-section">Services</a></li>
+                    <li><a class="page-scroll" href="#social-section">Social Network</a></li>
+                    <li><a class="page-scroll" href="#faq-section">FAQ</a></li>
                     <li><a class="page-scroll" href="#contact-section">Contact</a></li>
                     @if($joinus['logged']==false)
                         <li><a class="joinus" href="#">Login</a></li>

@@ -32,6 +32,22 @@ class HomeController extends Controller
             $this->setFlash('refer', 'no_refer');
         }
 
+        //get FAQ list
+        $faq_get = new \App\Faq;
+        $faq = $faq_get->getAll(
+            [
+                'del_flg' => 1
+            ]
+        );
+
+        //Stats
+        $home_get = new \App\Home;
+        $stats_show = $home_get->getAll(
+            [
+                'prefix' => 'stats_show',
+                'del_flg' => 1
+            ]
+        );
 
         //Preparing link for JOINING US
         $joinus = [
@@ -134,6 +150,8 @@ class HomeController extends Controller
 
         return view('home.index')->with(
             [
+                'faq' => $faq,
+                'stats_show' => $stats_show,
                 'joinus' => $joinus,
                 'site' => $site,
                 'socialntw' => $socialntw,

@@ -51,6 +51,9 @@ class User extends Controller
         $payment_get = new \App\Payment;
         $payment = $payment_get->getPaymentInfomation($this->_user_id);
 
+        //Get STATE of PAYMENT
+        $payment_state = \App\Config::where(['prefix' => 'payment', 'name' => 'lock', 'del_flg' => 1])->get()[0]['value'];
+
         return view('dashboard.profile.index', [
             'user' => $this->_user,
             'name' => $this->getName(),
@@ -61,6 +64,7 @@ class User extends Controller
             'banks' => $banks,
             'payment_notice' => $payment_notice,
             'payment' => $payment,
+            'payment_state' => $payment_state,
         ]);
     }
 
@@ -186,6 +190,15 @@ class User extends Controller
         //Check Status
         if ($this->_stop) {
             return Redirect::intended(url($this->_redirectTo));
+        }
+
+        //Get STATE of PAYMENT
+        $payment_state = \App\Config::where(['prefix' => 'payment', 'name' => 'lock', 'del_flg' => 1])->get()[0]['value'];
+
+        if($payment_state==1){
+            //Locked
+            $this->setFlash('message', 'Cannot edit your payment while paying. This feature is locked temporarily.');
+            return redirect()->back();
         }
 
         //Post

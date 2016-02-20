@@ -55,21 +55,21 @@
                                         </tr>
                                         @if($user['from_refer'])
                                             {{--<tr>--}}
-                                                {{--<td>From Refer ID</td>--}}
-                                                {{--<td>--}}
-                                                    {{--{{$user['from_refer']}}<br/>--}}
-                                                {{--</td>--}}
+                                            {{--<td>From Refer ID</td>--}}
+                                            {{--<td>--}}
+                                            {{--{{$user['from_refer']}}<br/>--}}
+                                            {{--</td>--}}
                                             {{--</tr>--}}
                                         @endif
                                         {{--<tr>--}}
-                                            {{--<td>Refer ID</td>--}}
-                                            {{--<td>--}}
-                                                {{--{{$user['refer']}}<br/>--}}
-                                                {{--<button type="button" class="copy_refer btn btn-green"--}}
-                                                        {{--onclick="copy_refer('{{url('').'/?refer='.$user['refer']}}'); return false;">--}}
-                                                    {{--Copy Refer Link--}}
-                                                {{--</button>--}}
-                                            {{--</td>--}}
+                                        {{--<td>Refer ID</td>--}}
+                                        {{--<td>--}}
+                                        {{--{{$user['refer']}}<br/>--}}
+                                        {{--<button type="button" class="copy_refer btn btn-green"--}}
+                                        {{--onclick="copy_refer('{{url('').'/?refer='.$user['refer']}}'); return false;">--}}
+                                        {{--Copy Refer Link--}}
+                                        {{--</button>--}}
+                                        {{--</td>--}}
                                         {{--</tr>--}}
                                         <tr>
                                             <td>Member Since</td>
@@ -225,254 +225,262 @@
                                         </div>
                                         <div id="tab-bank" class="tab-pane fade in">
                                             <div id="tab-edit" class="tab-pane fade in active">
-                                                {!! Form::open(['url'=>'/dashboard/payment/change', 'method'=>'post',
-                                                'name'=>'payment-change',
-                                                'id'=>'payment-change-form', 'novalidate'=>'novalidate',
-                                                'class'=>'form-horizontal']) !!}
-                                                <h2>Payment Detail (<span class="text-danger">{{$payment_notice}}</span>)
-                                                </h2>
-                                                @if($controller->hasFlash('errors'))
-                                                    @foreach($controller->getFlash('errors') as $att)
-                                                        @foreach($att as $err)
-                                                            <div class="text-warning common_message">
-                                                                {{$err}}
-                                                            </div>
+                                                @if($payment_state==0)
+                                                    {!! Form::open(['url'=>'/dashboard/payment/change',
+                                                    'method'=>'post',
+                                                    'name'=>'payment-change',
+                                                    'id'=>'payment-change-form', 'novalidate'=>'novalidate',
+                                                    'class'=>'form-horizontal']) !!}
+                                                    <h2>Payment Detail (<span
+                                                                class="text-danger">{{$payment_notice}}</span>)
+                                                    </h2>
+                                                    @if($controller->hasFlash('errors'))
+                                                        @foreach($controller->getFlash('errors') as $att)
+                                                            @foreach($att as $err)
+                                                                <div class="text-warning common_message">
+                                                                    {{$err}}
+                                                                </div>
+                                                            @endforeach
                                                         @endforeach
-                                                    @endforeach
-                                                @endif
+                                                    @endif
 
-                                                <div class="row">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Payment Method</label>
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Payment Method</label>
 
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <select class="selectpicker payment_method"
-                                                                    name="payment[method]">
-                                                                    @foreach($payment_method as $k=>$pm)
-                                                                        <option value="{{$k}}" {{isset($payment['payment_method']) && $payment['payment_method']==$k?'selected':''}}>{{$pm}}</option>
-                                                                        @endforeach
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <select class="selectpicker payment_method"
+                                                                                name="payment[method]">
+                                                                            @foreach($payment_method as $k=>$pm)
+                                                                                <option value="{{$k}}" {{isset($payment['payment_method']) && $payment['payment_method']==$k?'selected':''}}>{{$pm}}</option>
+                                                                            @endforeach
                                                                         </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                {{--Bank Info--}}
-                                                <div class="row bank_method">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Bank</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <select class="form-control select_bank"
-                                                                            name="payment[bank]">
-                                                                        @foreach($banks as $b)
-                                                                            <option value="{{$b['bank_id']}}"  {{isset($payment['bank_id']) && $payment['bank_id']==$b['bank_id']?'selected':''}}>{{$b['bank_name']}}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">ID Number (Bank)</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['id_number_bank'])?$payment['id_number_bank']:''}}"
-                                                                           name="payment[number_bank]"
-                                                                           id="payment-number-bank"
-                                                                           placeholder="ID Number"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">First
-                                                            Name</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['first_name'])?$payment['first_name']:''}}"
-                                                                           name="payment[first_name]"
-                                                                           id="payment-first-name"
-                                                                           placeholder="First name"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group"><label class="col-sm-3 control-label">Middle
-                                                            Name</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['mid_name'])?$payment['mid_name']:''}}"
-                                                                           name="payment[mid_name]"
-                                                                           id="payment-mid_name"
-                                                                           placeholder="Middle name"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Last Name</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['last_name'])?$payment['last_name']:''}}"
-                                                                           name="payment[last_name]"
-                                                                           id="payment-last-name"
-                                                                           placeholder="Last name"
-                                                                           class="form-control"/>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Address</label>
+                                                    {{--Bank Info--}}
+                                                    <div class="row bank_method">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Bank</label>
 
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['address'])?$payment['address']:''}}"
-                                                                           name="payment[address]"
-                                                                           id="payment-address"
-                                                                           placeholder="Address"
-                                                                           class="form-control"/>
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <select class="form-control select_bank"
+                                                                                name="payment[bank]">
+                                                                            @foreach($banks as $b)
+                                                                                <option value="{{$b['bank_id']}}"  {{isset($payment['bank_id']) && $payment['bank_id']==$b['bank_id']?'selected':''}}>{{$b['bank_name']}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">ID Number
+                                                                (Bank)</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['id_number_bank'])?$payment['id_number_bank']:''}}"
+                                                                               name="payment[number_bank]"
+                                                                               id="payment-number-bank"
+                                                                               placeholder="ID Number"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">First
+                                                                Name</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['first_name'])?$payment['first_name']:''}}"
+                                                                               name="payment[first_name]"
+                                                                               id="payment-first-name"
+                                                                               placeholder="First name"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group"><label class="col-sm-3 control-label">Middle
+                                                                Name</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['mid_name'])?$payment['mid_name']:''}}"
+                                                                               name="payment[mid_name]"
+                                                                               id="payment-mid_name"
+                                                                               placeholder="Middle name"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Last Name</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['last_name'])?$payment['last_name']:''}}"
+                                                                               name="payment[last_name]"
+                                                                               id="payment-last-name"
+                                                                               placeholder="Last name"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Address</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['address'])?$payment['address']:''}}"
+                                                                               name="payment[address]"
+                                                                               id="payment-address"
+                                                                               placeholder="Address"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Ward</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['ward'])?$payment['ward']:''}}"
+                                                                               name="payment[ward]"
+                                                                               id="payment-ward"
+                                                                               placeholder="Ward"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">District</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['district'])?$payment['district']:''}}"
+                                                                               name="payment[district]"
+                                                                               id="payment-district"
+                                                                               placeholder="District"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">City/Province</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="text"
+                                                                               value="{{isset($payment['city'])?$payment['city']:''}}"
+                                                                               name="payment[city]"
+                                                                               id="payment-city"
+                                                                               placeholder="City"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Phone</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="tel"
+                                                                               value="{{isset($payment['phone'])?$payment['phone']:''}}"
+                                                                               name="payment[phone]"
+                                                                               id="payment-phone"
+                                                                               placeholder="Phone"
+                                                                               class="form-control"/>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Email</label>
+
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="email"
+                                                                               value="{{isset($payment['contact_email'])?$payment['contact_email']:''}}"
+                                                                               name="payment[contact_email]"
+                                                                               id="payment-contact-email"
+                                                                               placeholder="Email"
+                                                                               class="form-control"/>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {{--End Bank Info--}}
 
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Ward</label>
+                                                    {{--Paypal Info--}}
+                                                    <div class="row paypal_method">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-3 control-label">Email</label>
 
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['ward'])?$payment['ward']:''}}"
-                                                                           name="payment[ward]"
-                                                                           id="payment-ward"
-                                                                           placeholder="Ward"
-                                                                           class="form-control"/>
+                                                            <div class="col-sm-9 controls">
+                                                                <div class="row">
+                                                                    <div class="col-xs-4">
+                                                                        <input type="email"
+                                                                               value="{{isset($payment['paypal_email'])?$payment['paypal_email']:''}}"
+                                                                               name="payment[paypal_email]"
+                                                                               id="payment-paypal-email"
+                                                                               placeholder="Email"
+                                                                               class="form-control"/>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">District</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['district'])?$payment['district']:''}}"
-                                                                           name="payment[district]"
-                                                                           id="payment-district"
-                                                                           placeholder="District"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">City/Province</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="text"
-                                                                           value="{{isset($payment['city'])?$payment['city']:''}}"
-                                                                           name="payment[city]"
-                                                                           id="payment-city"
-                                                                           placeholder="City"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Phone</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="tel"
-                                                                           value="{{isset($payment['phone'])?$payment['phone']:''}}"
-                                                                           name="payment[phone]"
-                                                                           id="payment-phone"
-                                                                           placeholder="Phone"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Email</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="email"
-                                                                           value="{{isset($payment['contact_email'])?$payment['contact_email']:''}}"
-                                                                           name="payment[contact_email]"
-                                                                           id="payment-contact-email"
-                                                                           placeholder="Email"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {{--End Bank Info--}}
-
-                                                {{--Paypal Info--}}
-                                                <div class="row paypal_method">
-                                                    <div class="form-group">
-                                                        <label class="col-sm-3 control-label">Email</label>
-
-                                                        <div class="col-sm-9 controls">
-                                                            <div class="row">
-                                                                <div class="col-xs-4">
-                                                                    <input type="email"
-                                                                           value="{{isset($payment['paypal_email'])?$payment['paypal_email']:''}}"
-                                                                           name="payment[paypal_email]"
-                                                                           id="payment-paypal-email"
-                                                                           placeholder="Email"
-                                                                           class="form-control"/>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {{--End Paypal Info--}}
-                                                <hr/>
-                                                <button type="button" name="commit"
-                                                        class="btn btn-green btn_send_payment">Send payment information
-                                                </button>
-                                                {!! Form::close() !!}
+                                                    {{--End Paypal Info--}}
+                                                    <hr/>
+                                                    <button type="button" name="commit"
+                                                            class="btn btn-green btn_send_payment">Send payment
+                                                        information
+                                                    </button>
+                                                    {!! Form::close() !!}
+                                                @else
+                                                        Cannot edit your payment while paying. This feature is locked temporarily.
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
