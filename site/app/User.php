@@ -70,22 +70,54 @@ class User extends Model
 
     public function getAllPaging($where = [], $number_pagination = '')
     {
-
-        $where_temp = $where;
+        /*$where_temp = $where;
         foreach ($where_temp as $k => $v) {
             unset($where[$k]);
             $where[$this->table . '.' . $k] = $v;
+        }*/
+
+        $amount = 0;
+        if (isset($where['amount'])) {
+            $amount = $where['amount'];
         }
 
         $user_in_ex = \App\User::select($this->table . '.*', 'user_stats.total', 'user_stats.updated_at')
-            ->join('user_stats', function ($join) {
-                $join->on('user_stats.user_id', '=', $this->table . '.user_id');
-            })->where($where)->orderBy('user_stats.user_id', 'desc');
+            ->join('user_stats', function ($join) use ($amount) {
+                $join->on('user_stats.user_id', '=', $this->table . '.user_id')
+                    ->where('user_stats.total', '>=', number_format($amount, 0));
+            });
+
+        //where
+        #del_flg + status
+        if (isset($where['del_flg'])) {
+            $user_in_ex = $user_in_ex->where($this->table . '.del_flg', '=', $where['del_flg']);
+        }
+        if (isset($where['status'])) {
+            $user_in_ex = $user_in_ex->where($this->table . '.status', '=', $where['status']);
+        }
+
+        #user_id
+        if (isset($where['user_id'])) {
+            $user_in_ex = $user_in_ex->where($this->table .'.user_id', '=', $where['user_id']);
+        }
+
+        #full name
+        if (isset($where['full_name'])) {
+            $user_in_ex = $user_in_ex->whereRaw('full_name LIKE "%' . $where['full_name'] . '%"')
+                ->orWhereRaw('CONCAT(first_name, " ", last_name) LIKE "%' . $where['full_name'] . '%"');
+        }
+
+        #amount
+        /*if (isset($where['amount'])) {
+            $user_in_ex = $user_in_ex->having('user_stats.total', '>=', number_format($where['amount'], 2));
+        }*/
+
+        //order by
+        $user_in_ex = $user_in_ex->orderBy('user_stats.user_id', 'desc');
 
         if ($number_pagination) {
             $user_in_ex = $user_in_ex->paginate($number_pagination);
-            foreach (Input::except('page') as $input => $value)
-            {
+            foreach (Input::except('page') as $input => $value) {
                 $user_in_ex->appends($input, $value);
             }
         } else {

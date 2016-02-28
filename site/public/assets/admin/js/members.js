@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    //Initial Selected Multiple
+    createSelected('#filter_user_id');
+
     //Datetime picker
     $('.datetime').datetimepicker({
         viewMode: 'days',
@@ -10,6 +13,17 @@ $(document).ready(function () {
         }
     });
 });
+
+function createSelected(id) {
+    $(id).multiselect({
+        maxHeight: 400,
+        inheritClass: true,
+        buttonContainer: '<div class="btn-group" />',
+        buttonWidth: '250px',
+        disableIfEmpty: true,
+        nonSelectedText: 'All!'
+    });
+}
 
 function perform(that) {
     BootstrapDialog.confirm('Do you want to adjust?', function (result) {

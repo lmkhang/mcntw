@@ -27,19 +27,30 @@ class Home extends AdminController
      * @date: 2016-01-15
      * DASHBOARD HOME
      */
-    public function index()
+    public function index(Request $request)
     {
 
         //set Title for PAGE
         $this->_page_title = 'Home';
 
+        //get
+        $gets = $request->all();
+        $gets = $this->trim_all($gets);
+        $filter = isset($gets['filter']) ? $gets['filter'] : [];
+        //unset if dont choose
+        $filter_temp = $filter;
+        foreach ($filter_temp as $k => $v) {
+            if (!$v) {
+                unset($filter[$k]);
+            }
+        }
+        $filter['del_flg'] = 1;
+        $filter['status'] = 1;
+
         //Get income-expenditure list
         $user_get = new \App\User;
         $number_pagination = \App\Config::where(['prefix' => 'site', 'name' => 'pagination', 'del_flg' => 1])->get()[0]['value'];
-        $user_in_ex = $user_get->getAllPaging([
-            'del_flg' => 1,
-            'status' => 1
-        ], $number_pagination);
+        $user_in_ex = $user_get->getAllPaging($filter, $number_pagination);
 
         //get info payment
         $currency = \App\Config::where(['prefix' => 'payment', 'name' => 'currency', 'del_flg' => 1])->get()[0]['value'];
@@ -87,6 +98,12 @@ class Home extends AdminController
             'paid_amount' => $paid_amount,
         ];
 
+        //get user list
+        $users = $user_get->getAllPaging([
+            'status' => 1,
+            'del_flg' => 1,
+        ]);
+
         return view('admin.home.index', [
             'admin' => $this->_admin,
             'name' => $this->getName(),
@@ -97,6 +114,7 @@ class Home extends AdminController
             'currency' => $currency,
             'tax_pay_bank' => $tax_pay_bank,
             'home' => $home,
+            'users' => $users,
         ]);
     }
 }

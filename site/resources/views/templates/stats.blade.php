@@ -6,10 +6,11 @@
                     <div class="col-md-3">
                         <div class="cta-btn wow bounceInRight" data-wow-delay="0.4s">
                             <div class="rotate-box-info">
-                                <h4>{{$stat['title']}}</h4>
+                                <h1>{{$stat['title']}}</h1>
 
                                 <p>
-                                    {{number_format($stat['value'])}}
+
+                                <h3><i>{{$stat['value']}}</i></h3>
                                 </p>
                             </div>
                         </div>

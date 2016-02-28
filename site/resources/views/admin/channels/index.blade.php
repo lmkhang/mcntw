@@ -37,6 +37,14 @@
                                     'id'=>'channel-filter-form', 'novalidate'=>'novalidate',
                                     'class'=>'']) !!}
                                     <div class="col-md-2">
+                                        <div class="form-group">Channel's Username
+                                            <input name="filter[daily_channel_username]" id="daily_channel_username"
+                                                   class="form-control" type="text"
+                                                   value=" {{isset($filter['daily_channel_username']) ?$filter['daily_channel_username']:''}}"/>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="col-md-2">
                                         <div class="form-group">User
                                             <select class="form-control" id="filter_user_id"
                                                     name="filter[user_id]">
@@ -92,13 +100,14 @@
                                             <th class="">
                                                 <a id="checkAll" data-status="uncheck" href="#">Check</a>
                                             </th>
+                                            <th class="col-lg-1">DB ID</th>
                                             <th class="col-lg-2">Username</th>
                                             <th class="col-lg-2">Screen Name</th>
                                             <th class="col-lg-3">Email</th>
                                             <th class="col-lg-2">Create Date</th>
                                             <th class="col-lg-2">Status</th>
                                             <th class="col-lg-1">Action</th>
-                                            <th class="col-lg-1"></th>
+                                            <th class=""></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -106,10 +115,16 @@
                                             @foreach($channels_paging as $channel)
                                                 <tr title="{{$channel->status==4?'All payment for this channel wil not be updated due violating dailymotion rules.':''}}">
                                                     <td>
-                                                        <input name="channel_ids[]" type="checkbox" value="{{$channel->channel_id}}" class="check_child" />
+                                                        <input name="channel_ids[]" type="checkbox"
+                                                               value="{{$channel->channel_id}}" class="check_child"/>
                                                     </td>
                                                     <td>
-                                                        <a href="{{str_replace(array('{channel_name}'), array($channel->daily_channel_username), $url_stats)}}"
+                                                        <a href="{{url('adminntw/members?filter[user_id]='.$channel->user_id)}}">
+                                                            {{$channel->user_id}}
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{str_replace(array('{channel_name}'), array($channel->daily_channel_username), $channel_link)}}"
                                                            target="_blank">
                                                             {{$channel->daily_channel_username}}
                                                         </a>

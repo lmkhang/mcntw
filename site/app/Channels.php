@@ -55,13 +55,28 @@ class Channels extends Model
     public function getAllPaging($where = [], $number_pagination = '')
     {
         $where['del_flg'] = 1;
-        $channels = \App\Channels::where($where);
+
+        $channels = null;
+
+        //Split username of channel
+        $where_temp = $where;
+        foreach ($where_temp as $k => $v) {
+            //username
+            if (isset($where_temp['daily_channel_username']) && $where_temp['daily_channel_username']) {
+                $channels = \App\Channels::where('daily_channel_username', 'LIKE', '%' . $v . '%');
+                break;
+            }
+        }
+
+        if ($channels == null) {
+            $channels = \App\Channels::where($where);
+        }
+
 
         if ($number_pagination) {
 
             $channels = $channels->paginate($number_pagination);
-            foreach (Input::except('page') as $input => $value)
-            {
+            foreach (Input::except('page') as $input => $value) {
                 $channels->appends($input, $value);
             }
         } else {

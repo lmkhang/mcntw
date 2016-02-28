@@ -57,6 +57,9 @@ class Channels extends AdminController
         //get URL STATS
         $url_stats = \App\Config::where(['prefix' => 'daily', 'name' => 'url_stats', 'del_flg' => 1])->get()[0]['value'];
 
+        //channel link
+        $channel_link = \App\Config::where(['prefix' => 'daily', 'name' => 'channel_link', 'del_flg' => 1])->get()[0]['value'];
+
         //get user list
         $user_get = new \App\User;
         $users = $user_get->getAllPaging([
@@ -75,6 +78,7 @@ class Channels extends AdminController
             'channel_label_status' => config('constant.channel_label_status'),
             'channel_status' => config('constant.channel_status'),
             'url_stats' => $url_stats,
+            'channel_link' => $channel_link,
             'users' => $users,
             'filter' => $filter,
         ]);
